@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private int idArena;
     [SerializeField] private GameObject canvaArenaChoice;
     [SerializeField] private GameObject canvaMainMenu;
+    [SerializeField] private GameObject canvaOptions;
     public void ArenaChoice(Button button)
     {
         if (button.name == "Arena1")
@@ -43,5 +44,18 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         SceneManager.LoadSceneAsync(idArena);
+    }
+
+    public void GameOptions()
+    {
+        canvaOptions.SetActive(true);
+        canvaMainMenu.SetActive(false);
+    }
+
+    public void ReturnToMenu()
+    {
+        canvaMainMenu.SetActive(true);
+        canvaOptions.SetActive(false);
+        canvaArenaChoice.SetActive(false);
     }
 }
