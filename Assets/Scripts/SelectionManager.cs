@@ -2,17 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectionManager : MonoBehaviour
+public class SelectionManager 
 {
-    // Start is called before the first frame update
-    void Start()
+    private static SelectionManager _instance;
+
+    public static SelectionManager Instance
     {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new SelectionManager();
+            }
+            return _instance;
+        }
         
+        private set
+        {
+            _instance = value;
+        }
+
+    }
+    public HashSet<SelectableUnit> SelectedUnits = new HashSet<SelectableUnit>();
+    public List<SelectableUnit> AvailableUnits = new List<SelectableUnit>();
+
+    private SelectionManager() { }
+
+    public void Select(SelectableUnit unit)
+    {
+        SelectedUnits.Add(unit);
+        unit.OnSelected();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Deselect(SelectableUnit unit)
     {
-        
+        SelectedUnits.Remove(unit);
+        unit.OnDeselected();
+    }
+
+    public void DeselectAll()
+    {
+        foreach(SelectableUnit unit in SelectedUnits)
+        {
+            unit.OnDeselected();
+        }
+        SelectedUnits.Clear();
+    }
+
+    public bool isSelected(SelectableUnit unit)
+    {
+        return SelectedUnits.Contains(unit);
     }
 }

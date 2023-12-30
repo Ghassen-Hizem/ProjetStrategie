@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private NavMeshAgent Agent;
+    [SerializeField] private SpriteRenderer SelectionSprite;
+
+    private void Awake()
     {
-        
+        SelectionManager.Instance.AvailableUnits.Add(this);
+        Agent = GetComponent<NavMeshAgent>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MoveTo(Vector3 Position)
     {
-        
+        Agent.SetDestination(Position);
+    }
+
+    public void OnSelected()
+    {
+        SelectionSprite.gameObject.SetActive(true);
+    }
+
+    public void OnDeselected()
+    {
+        SelectionSprite.gameObject.SetActive(false);
     }
 }
