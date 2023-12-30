@@ -241,7 +241,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 72794665}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 359183852}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ArenaChoice
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 72794664}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &72794665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,7 +714,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 310283742}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 359183852}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ArenaChoice
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 310283741}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &310283742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2197,7 +2221,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 857616817}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 359183852}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ArenaChoice
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 857616816}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &857616817
 MonoBehaviour:
   m_ObjectHideFlags: 0

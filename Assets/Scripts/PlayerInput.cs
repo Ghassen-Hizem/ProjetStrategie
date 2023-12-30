@@ -29,6 +29,18 @@ public class PlayerInput : MonoBehaviour
                 foreach(SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                 {
                     unit.MoveTo(Hit.point);
+                    print("moving");
+                }
+            }
+            
+            else if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitEnemy, unitLayers) && HitEnemy.collider.CompareTag("Enemy"))
+            {
+                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+                {
+                    //Attack();
+                    // the fct depends on the unit, le rayon de l'attaque, on peut s'arreter au rayon des q'on a l'ennemi visé dans notre sphere(collider)
+                    unit.MoveTo(HitEnemy.point);
+                    print("Attack");
                 }
             }
         }
