@@ -34,17 +34,18 @@ public class PlayerInput : MonoBehaviour
         {
             if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitEnemy, unitLayers) && HitEnemy.collider.CompareTag("Enemy"))
             {
+                print("enemy selectionné");
                 //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas
                 foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                 {
                     //quand j'appuie sur un ennemy, mon player marche qd meme vers l'ennemi (la fct HandleMovementInputs s'execute), mais il faut que le player marche vers l'emmeni meme si il bouge 
                     unit.MoveTo(HitEnemy.collider.transform.position);
                     
-                    if (unit.name == "PlayerMagicien")
+                    if (unit.CompareTag("Magicien"))
                     {
                         controlledMagicien.Attack();
                     }
-                    else if (unit.name == "PlayerCavalier")
+                    else if (unit.CompareTag("Cavalier"))
                     {
                         controlledCavalier.Attack();
                     }
