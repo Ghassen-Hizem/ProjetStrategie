@@ -9,6 +9,10 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask unitLayers;
     [SerializeField] private LayerMask floorLayers;
 
+    public ControlledUnit controlledMagicien;
+    public ControlledUnit controlledCavalier;
+    //public ControlledUnit controlledSoignant;
+
     private float DragDelay = 0.1f;
 
     private float MouseDownTime;
@@ -18,8 +22,37 @@ public class PlayerInput : MonoBehaviour
     {
         HandleSelectionInputs();
         HandleMovementInputs();
+        HandleAttackInputs();
+
+        //qd on va instancier les player, il faut les renommer: PlayerMagicien et PlayerCavalier
     }
 
+
+    private void HandleAttackInputs()
+    {
+        if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
+        {
+            if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitEnemy, unitLayers) && HitEnemy.collider.CompareTag("Enemy"))
+            {
+                //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas
+                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+                {
+                    //quand j'appuie sur un ennemy, mon player marche qd meme vers l'ennemi (la fct HandleMovementInputs s'execute), mais il faut que le player marche vers l'emmeni meme si il bouge 
+                    unit.MoveTo(HitEnemy.collider.transform.position);
+                    
+                    if (unit.name == "PlayerMagicien")
+                    {
+                        controlledMagicien.Attack();
+                    }
+                    else if (unit.name == "PlayerCavalier")
+                    {
+                        controlledCavalier.Attack();
+                    }
+                    
+                }
+            }
+        }
+    }
     private void HandleMovementInputs()
     {
         if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
@@ -33,16 +66,7 @@ public class PlayerInput : MonoBehaviour
                 }
             }
             
-            else if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitEnemy, unitLayers) && HitEnemy.collider.CompareTag("Enemy"))
-            {
-                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
-                {
-                    //Attack();
-                    // the fct depends on the unit, le rayon de l'attaque, on peut s'arreter au rayon des q'on a l'ennemi visé dans notre sphere(collider)
-                    unit.MoveTo(HitEnemy.point);
-                    print("Attack");
-                }
-            }
+            
         }
     }
     private void HandleSelectionInputs()
