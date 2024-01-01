@@ -12,7 +12,9 @@ public abstract class ControlledUnit : ScriptableObject
     public int capacityPeriod;
 
 
-    public abstract void Attack();
+    public abstract void Attack(SelectableUnit unit);
 
     public abstract void UseCapacity();
+
+    public abstract void TakeDamage(int degats);
 }

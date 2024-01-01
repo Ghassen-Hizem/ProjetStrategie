@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cavalierPlayer
   m_EditorClassIdentifier: 
   Unitname: Cavalier
-  speed: 6
+  speed: 7
   lifePoints: 50
   nbArmors: 1
   attackPeriod: 3

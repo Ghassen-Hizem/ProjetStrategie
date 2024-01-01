@@ -25,33 +25,21 @@ public class PlayerInput : MonoBehaviour
         HandleAttackInputs();
 
         //qd on va instancier les player, il faut les renommer: PlayerMagicien et PlayerCavalier
+        //tout les ennemis doivent appartenir à layer "Units" et doivent avoir le tag "Enemy" (ou alors changer mon code pour trouver les ennemis avec leurs scripts) , ils doivent etre des navmesh agents de type "player"
     }
 
 
     private void HandleAttackInputs()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
+        if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
         {
-            if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitEnemy, unitLayers) && HitEnemy.collider.CompareTag("Enemy"))
+
+            foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
             {
-                print("enemy selectionné");
-                //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas
-                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
-                {
-                    //quand j'appuie sur un ennemy, mon player marche qd meme vers l'ennemi (la fct HandleMovementInputs s'execute), mais il faut que le player marche vers l'emmeni meme si il bouge 
-                    unit.MoveTo(HitEnemy.collider.transform.position);
-                    
-                    if (unit.CompareTag("Magicien"))
-                    {
-                        controlledMagicien.Attack();
-                    }
-                    else if (unit.CompareTag("Cavalier"))
-                    {
-                        controlledCavalier.Attack();
-                    }
-                    
-                }
+                unit.Attack();
+                //print("attacking");
             }
+            
         }
     }
     private void HandleMovementInputs()
@@ -63,7 +51,7 @@ public class PlayerInput : MonoBehaviour
                 foreach(SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                 {
                     unit.MoveTo(Hit.point);
-                    print("moving");
+                    //print("moving");
                 }
             }
             
