@@ -18,6 +18,5 @@ MonoBehaviour:
   nbArmors: 1
   attackPeriod: 3
   capacityPeriod: 10
-  floorLayers:
-    serializedVersion: 2
-    m_Bits: 256
+  degatAttack: 3
+  laserParticles: {fileID: 0}

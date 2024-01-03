@@ -12,8 +12,12 @@ public class ControlledMagicien : ControlledUnit
     private int stopRadius = 10;
     private int attackRadius = 3;
     private int unitDistance;
-    
+    public ParticleSystem laserParticles;
 
+    private void Awake()
+    {
+        laserParticles = FindObjectOfType<ParticleSystem>();
+    }
 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
@@ -29,14 +33,14 @@ public class ControlledMagicien : ControlledUnit
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit) )
         {
-            
+
+            Debug.Log("magicien attack");
             unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
             unit.Agent.stoppingDistance = stopRadius;
             if (unitDistance > stopRadius )
             {
                 unit.Agent.speed = speed;
                 unit.Agent.SetDestination(Hit.point);
-                
             }
 
             if (unitDistance <= stopRadius)
@@ -51,20 +55,21 @@ public class ControlledMagicien : ControlledUnit
                         //AIController.TakeDamage(degatAttack)
                         Debug.Log("enemy damaged");
                     }
-                }
-                
-                 
-                //animation d'attaque
-                //rayon laser de particules
+                    //animation d'attaque
+                    //rayon laser de particules
+                    
+                    if (laserParticles.name == "LaserParticles")
+                    {
+                        Debug.Log("name" + laserParticles.name);
+                        laserParticles.transform.position = Hit.point;
+                        laserParticles.Play();
+                    }
+                        
+                }         
 
             }
 
-            //voir les ennemis dans le rayon et leurs faire des degats
             //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas toujours
-            //il doit s'arreter lorsque il arrive a un rayon précis (rayon d'arret) different du rayon de l'attaque
-            //le bouton d'attaque et de mvt est le meme ???
-            //unit.Agent.stoppingDistance
-            Debug.Log("magicien attack");
         }
         
     }

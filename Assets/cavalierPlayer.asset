@@ -18,3 +18,4 @@ MonoBehaviour:
   nbArmors: 1
   attackPeriod: 3
   capacityPeriod: 10
+  degatAttack: 11
