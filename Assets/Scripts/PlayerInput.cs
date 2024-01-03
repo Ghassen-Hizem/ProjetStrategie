@@ -41,6 +41,7 @@ public class PlayerInput : MonoBehaviour
             }
             
         }
+        
     }
     private void HandleMovementInputs()
     {

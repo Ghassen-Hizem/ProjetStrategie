@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
 {
-    public NavMeshAgent Agent;
+    [HideInInspector] public NavMeshAgent Agent;
     [SerializeField] private SpriteRenderer SelectionSprite;
 
     public ControlledUnit controlledMagicien;
@@ -18,20 +18,19 @@ public class SelectableUnit : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
 
     }
-
+     //j'aurais pu definir la fct MoveTo dans les scriptableObjects mais c'est inutile, e
     public void MoveTo(Vector3 Position)
     {
+        //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
         if (Agent.CompareTag("Magicien"))
         {
-            
-            Agent.speed = controlledMagicien.speed;
+            controlledMagicien.MoveTo(this, Position);
         }
         else if (Agent.CompareTag("Cavalier"))
         {
-            Agent.speed = controlledCavalier.speed;
+            controlledCavalier.MoveTo(this, Position);
         }
-        //print("Agent speed = " + Agent.speed);
-        Agent.SetDestination(Position);
+        
     }
 
     public void Attack()

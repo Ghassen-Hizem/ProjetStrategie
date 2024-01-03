@@ -1,30 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(menuName = "Players/Magicien")]
 public class ControlledMagicien : ControlledUnit
 {
 
-    public int stopRadius = 10;
+    private int stopRadius = 10;
+    private int attackRadius = 3;
     private int unitDistance;
-    [SerializeField] private LayerMask floorLayers;
-
     
+
+
+    public override void MoveTo(SelectableUnit unit, Vector3 position)
+    {
+        unit.Agent.stoppingDistance = 1;
+        unit.Agent.speed = speed;
+        unit.Agent.SetDestination(position);
+    }
+
     public override void Attack(SelectableUnit unit)
     {
         // the fct depends on the unit, le rayon de l'attaque, on peut s'arreter au rayon des q'on a l'ennemi visé dans notre sphere(collider)
         
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit, floorLayers ) )
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit) )
         {
+            
             unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
             unit.Agent.stoppingDistance = stopRadius;
             if (unitDistance > stopRadius )
             {
-                unit.MoveTo(Hit.point);
+                unit.Agent.speed = speed;
+                unit.Agent.SetDestination(Hit.point);
                 
+            }
+
+            if (unitDistance <= stopRadius)
+            {
+                Collider[] colliders = Physics.OverlapSphere(Hit.point, attackRadius);
+                foreach (Collider collider in colliders)
+                {
+                    //ou alors voir si il a un script AIController
+                    if (collider.CompareTag("Enemy"))
+                    {
+                        //GetComponent le script AIController ou autre  :  AIController = collider.GetComponent
+                        //AIController.TakeDamage(degatAttack)
+                        Debug.Log("enemy damaged");
+                    }
+                }
+                
+                 
+                //animation d'attaque
+                //rayon laser de particules
+
             }
 
             //voir les ennemis dans le rayon et leurs faire des degats
