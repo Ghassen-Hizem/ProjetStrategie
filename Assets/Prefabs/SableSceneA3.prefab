@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5649052309853037611}
   - component: {fileID: 3534397948450414640}
   - component: {fileID: 2411725716580450682}
+  - component: {fileID: 2519785281453721068}
   m_Layer: 0
   m_Name: SableSceneA3
-  m_TagString: Untagged
+  m_TagString: sable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,3 +106,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2519785281453721068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489506555562861782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f22042597347ff88202261d576df06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
