@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Magicien
   - Cavalier
+  - sable
   layers:
   - Default
   - TransparentFX
