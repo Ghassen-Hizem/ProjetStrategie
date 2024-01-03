@@ -5,12 +5,20 @@ using UnityEngine.AI;
 
 public class PLayerMouvement : MonoBehaviour
 {
+    public float Speed;
     public Camera cam;
     public NavMeshAgent agent;
     private string WALK_ANIMATION = "IsRunning";
     private Animator anim;
+
+    private Rigidbody playerBody;
+
+    private GameObject player;
     private void Awake() {
         anim = GetComponent<Animator>();
+        player = GameObject.FindWithTag("Player");
+        playerBody = player.GetComponent<Rigidbody>();
+        agent = player.GetComponent<NavMeshAgent>();
     }
     void Update()
     {
@@ -23,7 +31,8 @@ public class PLayerMouvement : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) {
                 // move the Agent
                 agent.SetDestination(hit.point);
-
+                agent.speed = Speed;
+                
             }
         }
     }
