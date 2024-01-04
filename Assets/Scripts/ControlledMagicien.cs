@@ -12,11 +12,15 @@ public class ControlledMagicien : ControlledUnit
     private int stopRadius = 10;
     private int attackRadius = 3;
     private int unitDistance;
-    public ParticleSystem laserParticles;
+    private GameObject laserParticles;
+    private ParticleSystem particules;
+
 
     private void Awake()
     {
-        laserParticles = FindObjectOfType<ParticleSystem>();
+        laserParticles = GameObject.Find("LaserParticles");
+        particules = laserParticles.GetComponent<ParticleSystem>();
+        //laserParticles = FindObjectOfType<ParticleSystem>();
     }
 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
@@ -34,16 +38,15 @@ public class ControlledMagicien : ControlledUnit
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit) )
         {
 
-            Debug.Log("magicien attack");
+            //Debug.Log("magicien attack");
             unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
             unit.Agent.stoppingDistance = stopRadius;
             if (unitDistance > stopRadius )
             {
                 unit.Agent.speed = speed;
-                unit.Agent.SetDestination(Hit.point);
+                unit.Agent.SetDestination(Hit.point);                
             }
-
-            if (unitDistance <= stopRadius)
+            else
             {
                 Collider[] colliders = Physics.OverlapSphere(Hit.point, attackRadius);
                 foreach (Collider collider in colliders)
@@ -57,24 +60,20 @@ public class ControlledMagicien : ControlledUnit
                     }
                     //animation d'attaque
                     //rayon laser de particules
-                    
                     if (laserParticles.name == "LaserParticles")
                     {
-                        Debug.Log("name" + laserParticles.name);
-                        laserParticles.transform.position = Hit.point;
-                        laserParticles.Play();
+                        particules.transform.position = Hit.point;
+                        particules.Play();
                     }
-                        
                 }         
-
             }
-
             //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas toujours
         }
         
     }
 
     public override void UseCapacity()
+
     {
         Debug.Log("magicien capacity");
     }
