@@ -11,15 +11,31 @@ public class SelectableUnit : MonoBehaviour
 
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
-    
+    public bool attack = false;
 
+    public float elapsedtime = 0;
+
+    private void Update()
+    {
+        if (attack)
+        {
+            elapsedtime = 0;
+        }
+        else
+        {
+            elapsedtime += Time.deltaTime;
+        }
+        
+    }
     private void Awake()
     {
         SelectionManager.Instance.AvailableUnits.Add(this);
         Agent = GetComponent<NavMeshAgent>();
 
     }
-     //j'aurais pu definir la fct MoveTo dans les scriptableObjects mais c'est inutile, e
+
+    
+
     public void MoveTo(Vector3 Position)
     {
         //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
@@ -36,13 +52,28 @@ public class SelectableUnit : MonoBehaviour
 
     public void Attack()
     {
+        
         if (Agent.CompareTag("Magicien"))
         {
-            controlledMagicien.Attack(this);
+            /*
+            while (elapsedtime < controlledMagicien.attackPeriod)
+            {
+                elapsedtime += Time.deltaTime;
+                print(elapsedtime);
+            }*/
+            
+            if (elapsedtime >= controlledMagicien.attackPeriod)
+            {
+                controlledMagicien.Attack(this);
+                elapsedtime = 0;
+                attack = false;
+            }
+            
         }
         else if (Agent.CompareTag("Cavalier"))
         {
             controlledCavalier.Attack(this);
+            attack = false;
         }
     }
 
