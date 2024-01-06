@@ -12,27 +12,27 @@ public class ControlledCavalier : ControlledUnit
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
-    public override bool Attack(SelectableUnit unit)
+    public override void Attack(SelectableUnit unit)
     {
-        // the fct depends on the unit, le rayon de l'attaque, on peut s'arreter au rayon des q'on a l'ennemi visé dans notre sphere(collider)
+        
         Debug.Log("cavalier attack");
 
-        return true;
     }
 
-    public override void UseCapacity()
+    public override void UseCapacity(SelectableUnit unit)
     {
         Debug.Log("cavalier capacity");
     }
 
-    public override void TakeDamage(int degats)
+    public override void TakeDamage(SelectableUnit unit, int degats)
     {
-        lifePoints -= degats - nbArmors;
-    }
+        unit.CavalierlifePoints = unit.CavalierlifePoints - degats + nbArmors;
 
-    public override void AttackPeriodTimer()
-    {
+        if (unit.CavalierlifePoints <= 0)
+        {
+            Destroy(unit.gameObject);
+        }
+    }
 
     
-    }
 }

@@ -16,14 +16,9 @@ public class ControlledMagicien : ControlledUnit
     //private GameObject particules;
     //private ParticleSystem laserParticles;
     private ParticleSystem particules;
-    //float elapsedtime = 0;
-    //private int attackDecount;
+    public int degatCapacity;
 
-    /*
-    private void Awake()
-    {
-        attackDecount = attackPeriod;
-    }*/
+
     /*
     private void Awake()
     {
@@ -39,11 +34,9 @@ public class ControlledMagicien : ControlledUnit
         unit.Agent.SetDestination(position);
     }
 
-    public override bool Attack(SelectableUnit unit)
+    public override void Attack(SelectableUnit unit)
     {
-        // the fct depends on the unit, le rayon de l'attaque, on peut s'arreter au rayon des q'on a l'ennemi visé dans notre sphere(collider)
-        
-        
+            
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit) )
         {
 
@@ -82,53 +75,37 @@ public class ControlledMagicien : ControlledUnit
                         //particules.transform.localPosition = particules.transform.position;
                         particules.Play();
                     }
-                    //cette fct initialise instantanément attackperiod à 0 alors qu'elle doit etre egale à 3 pour fonctionner ??
-                    //attackPeriod = 0;
-                    //AttackPeriodTimer();
-
+                    
                     //animation d'attaque
                 }
             }
             //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas toujours
         }
-
-        return true;
         
     }
 
-    public override void UseCapacity()
-
+    public override void UseCapacity(SelectableUnit unit)
     {
+        //instantiate a piege from a prefab in the raycast point 
+        //if an enemy triggers the piege's collider, enemy.take damage then destroy the piege
+        
         Debug.Log("magicien capacity");
+        unit.capacity = true;
+
+        //GetComponent le script AIController ou autre  :  AIController = collider.GetComponent
+        //AIController.TakeDamage(degatCapacity)
     }
 
-    public override void TakeDamage(int degats)
+    public override void TakeDamage(SelectableUnit unit, int degats)
     {
-        lifePoints -= degats - nbArmors;
+        unit.MagicienlifePoints = unit.MagicienlifePoints - degats + nbArmors;
+
+        if (unit.MagicienlifePoints <= 0)
+        {
+            Destroy(unit.gameObject);
+        }
     }
 
     
-    public override void AttackPeriodTimer()
-    {
-        /*
-        while (attackPeriod != 3)
-        {
-            elapsedtime += Time.deltaTime;
-            int seconds = ((int)MathF.Floor(elapsedtime % 60));
-            attackPeriod += seconds;
-            Debug.Log("attackPeriod " + attackPeriod);
-            
-        }
-
-
-        //cette partie bloque le jeu
-        if (attackPeriod == 0)
-        {
-            Debug.Log("value " + attackPeriod);
-            attackPeriod = 3;
-            elapsedtime = 0;
-        }
-    */
-
-    }
+    
 }

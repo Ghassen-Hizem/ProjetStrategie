@@ -16,13 +16,13 @@ public abstract class ControlledUnit : ScriptableObject
     //par contre le magicien, le cavalier et le soignant attaquent seulement qd on leur dit
 
     public abstract void MoveTo(SelectableUnit unit, Vector3 position);
-    public abstract bool Attack(SelectableUnit unit);
+    public abstract void Attack(SelectableUnit unit);
 
-    public abstract void UseCapacity();
+    public abstract void UseCapacity(SelectableUnit unit);
 
-    public abstract void TakeDamage(int degats);
+    public abstract void TakeDamage(SelectableUnit unit, int degats);
 
 
-    public abstract void AttackPeriodTimer();
+    
  
  }

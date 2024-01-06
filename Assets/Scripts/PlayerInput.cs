@@ -23,14 +23,67 @@ public class PlayerInput : MonoBehaviour
         HandleSelectionInputs();
         HandleMovementInputs();
         HandleAttackInputs();
+        //HandleCapacityInputs();
 
         //qd on va instancier les player, il faut les renommer: PlayerMagicien et PlayerCavalier
         //tout les ennemis doivent appartenir à layer "Units" et doivent avoir le tag "Enemy" (ou alors changer mon code pour trouver les ennemis avec leurs scripts) , ils doivent etre des navmesh agents de type "player"
     }
 
+    /*
+    private void HandleCapacityInputs()
+    {
+        //click with M2 while holding C 
+        if (Input.GetKey(KeyCode.C))
+        {
+            if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
+            {
+
+                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+                {
+                    unit.UseCapacity();
+                    print("using capacity");
+                }
+
+            }
+        }
+        
+
+    }*/
+
 
     private void HandleAttackInputs()
     {
+        //click with M2 after selecting some players
+
+
+        if (Input.GetKey(KeyCode.C) && Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
+        {
+
+            foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+            {
+                unit.UseCapacity();
+                //print("using capacity");
+            }
+
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
+        {
+            foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+            {
+                unit.Attack();
+                //print("attacking");
+            }
+        }
+
+    }
+
+
+    /*
+    private void HandleAttackInputs()
+    {
+        //click with M2 after selecting some players
+
+        
         if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
         {
 
@@ -42,9 +95,10 @@ public class PlayerInput : MonoBehaviour
             
         }
         
-    }
+    }*/
     private void HandleMovementInputs()
     {
+        //click with M1 after selecting some players
         if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
         {
             if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit, floorLayers))
@@ -61,6 +115,11 @@ public class PlayerInput : MonoBehaviour
     }
     private void HandleSelectionInputs()
     {
+        //click with M0 to select one
+        //hold M0 and drag the mouse to select many
+        //hold shift and click with M0 to add or remove from selection
+        //click with M0 to deselect all
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             selectionBox.sizeDelta = Vector2.zero;
