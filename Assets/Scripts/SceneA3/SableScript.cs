@@ -16,7 +16,7 @@ public class SableScript : MonoBehaviour
         
     }
 
-    // SOLVED , REMOVED KINEMATIC BODY
+    
     private void OnTriggerEnter(Collider other) {
        
         if(other.CompareTag("Player")) {
