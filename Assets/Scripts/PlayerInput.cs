@@ -23,79 +23,34 @@ public class PlayerInput : MonoBehaviour
         HandleSelectionInputs();
         HandleMovementInputs();
         HandleAttackInputs();
-        //HandleCapacityInputs();
 
-        //qd on va instancier les player, il faut les renommer: PlayerMagicien et PlayerCavalier
         //tout les ennemis doivent appartenir à layer "Units" et doivent avoir le tag "Enemy" (ou alors changer mon code pour trouver les ennemis avec leurs scripts) , ils doivent etre des navmesh agents de type "player"
     }
-
-    /*
-    private void HandleCapacityInputs()
-    {
-        //click with M2 while holding C 
-        if (Input.GetKey(KeyCode.C))
-        {
-            if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
-            {
-
-                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
-                {
-                    unit.UseCapacity();
-                    print("using capacity");
-                }
-
-            }
-        }
-        
-
-    }*/
 
 
     private void HandleAttackInputs()
     {
-        //click with M2 after selecting some players
-
+        //Attack: click with M2 after selecting some players
+        //UseCapacity: hold C and click with M2
 
         if (Input.GetKey(KeyCode.C) && Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
-        {
-
+        { 
             foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
             {
                 unit.UseCapacity();
-                //print("using capacity");
             }
-
         }
         else if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
         {
             foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
             {
                 unit.Attack();
-                //print("attacking");
             }
         }
 
     }
 
 
-    /*
-    private void HandleAttackInputs()
-    {
-        //click with M2 after selecting some players
-
-        
-        if (Input.GetKeyUp(KeyCode.Mouse2) && SelectionManager.Instance.SelectedUnits.Count > 0)
-        {
-
-            foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
-            {
-                unit.Attack();
-                //print("attacking");
-            }
-            
-        }
-        
-    }*/
     private void HandleMovementInputs()
     {
         //click with M1 after selecting some players

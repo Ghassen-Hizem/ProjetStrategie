@@ -11,6 +11,7 @@ public abstract class ControlledUnit : ScriptableObject
     public int attackPeriod;
     public int capacityPeriod;
     public int degatAttack;
+    
 
     //pour le soldat, il attaque l'enemi selectionné tant que l'ennemi a encore de la vie
     //par contre le magicien, le cavalier et le soignant attaquent seulement qd on leur dit

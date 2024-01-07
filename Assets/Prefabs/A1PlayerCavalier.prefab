@@ -75,6 +75,13 @@ MonoBehaviour:
   SelectionSprite: {fileID: 5393598774606881119}
   controlledMagicien: {fileID: 11400000, guid: 73aea5a1ab7a9774780d94bb10e9db67, type: 2}
   controlledCavalier: {fileID: 11400000, guid: 03badd413c0139c48a89b7b06c415909, type: 2}
+  attackElapsedtime: 0
+  capacityElapsedtime: 0
+  MagicienlifePoints: 0
+  CavalierlifePoints: 0
+  KingModeActive: 0
+  Flag: {fileID: 2903655828075584247, guid: fabc285f2082b6f48803b488f6edaa3f, type: 3}
+  KingParticles: {fileID: 1552098304413248141, guid: 8b75fdd0921bfc64888653f6f8226e8f, type: 3}
 --- !u!54 &6295165279440740611
 Rigidbody:
   m_ObjectHideFlags: 0
