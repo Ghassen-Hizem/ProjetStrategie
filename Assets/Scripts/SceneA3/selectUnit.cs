@@ -8,6 +8,10 @@ public class selectUnit : MonoBehaviour
     [SerializeField]
     private SpriteRenderer SelectionSprite;
 
+public bool KingModeActive = false;
+
+    public GameObject Flag;
+    public GameObject KingParticles;
         private string WALK_ANIMATION = "IsRunning";
 
             private Animator anim;
@@ -45,5 +49,22 @@ public class selectUnit : MonoBehaviour
     public void OnDeselected()
     {
         SelectionSprite.gameObject.SetActive(false);
+    }
+
+     public void KingMode()
+    {
+        
+
+        KingModeActive = true;
+        print("KingMode");
+
+        Vector3 positionFlag = transform.position;
+        positionFlag.y = 4;
+        var flag = Instantiate(Flag, positionFlag, Flag.transform.rotation, gameObject.transform);
+        flag.SetActive(true);
+
+        var kingParticles = Instantiate(KingParticles, transform.position, KingParticles.transform.rotation, gameObject.transform);
+        kingParticles.SetActive(true);
+
     }
 }
