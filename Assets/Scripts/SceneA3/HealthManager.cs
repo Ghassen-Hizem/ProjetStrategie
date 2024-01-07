@@ -20,6 +20,8 @@ public class HealthManager : MonoBehaviour
             TakeDamage(20);
         }
 
+        
+
       
     }
 
