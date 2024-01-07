@@ -11,16 +11,20 @@ public class SelectableUnit : MonoBehaviour
 
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
-    [HideInInspector] public bool attack = false;
-    [HideInInspector] public bool capacity = false;
+    
 
-    private float attackElapsedtime = 0;
-    private float capacityElapsedtime = 0;
+    public float attackElapsedtime = 0;
+    public float capacityElapsedtime = 0;
 
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
     //jai utilisé plusieurs variables de lifepoints pour tout les types d'unité car je dois les initialiser dans le start (donc il faut qu'elles soient differentes)
     [HideInInspector] public int MagicienlifePoints;
     [HideInInspector] public int CavalierlifePoints;
+
+    public bool KingModeActive = false;
+
+    public GameObject Flag;
+    public GameObject KingParticles;
 
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
@@ -38,27 +42,9 @@ public class SelectableUnit : MonoBehaviour
 
     private void Update()
     {
-        if (attack)
-        {
-            attackElapsedtime = 0;
-        }
-        else
-        {
-            attackElapsedtime += Time.deltaTime;
-        }
-
-        if (capacity)
-        {
-            capacityElapsedtime = 0;
-        }
-        else
-        {
-            capacityElapsedtime += Time.deltaTime;
-        }
-
+        attackElapsedtime += Time.deltaTime;
+        capacityElapsedtime += Time.deltaTime;
     }
-    
-
     
 
     public void MoveTo(Vector3 Position)
@@ -77,21 +63,22 @@ public class SelectableUnit : MonoBehaviour
 
     public void Attack()
     {
-        
-        if (Agent.CompareTag("Magicien"))
-        {           
-            if (attackElapsedtime >= controlledMagicien.attackPeriod)
-            {
-                controlledMagicien.Attack(this);
-                attackElapsedtime = 0;
-                attack = false;
-            }
-            
-        }
-        else if (Agent.CompareTag("Cavalier"))
+
+        if (KingModeActive == false)
         {
-            controlledCavalier.Attack(this);
-            attack = false;
+            if (Agent.CompareTag("Magicien"))
+            {
+                if (attackElapsedtime >= controlledMagicien.attackPeriod)
+                {
+                    controlledMagicien.Attack(this);
+
+                }
+
+            }
+            else if (Agent.CompareTag("Cavalier"))
+            {
+                controlledCavalier.Attack(this);
+            }
         }
     }
 
@@ -103,26 +90,27 @@ public class SelectableUnit : MonoBehaviour
     public void OnDeselected()
     {
         SelectionSprite.gameObject.SetActive(false);
-    }
+    }   
 
     public void UseCapacity()
     {
 
-        if (Agent.CompareTag("Magicien"))
+        if (KingModeActive == false)
         {
-            if (capacityElapsedtime >= controlledMagicien.capacityPeriod)
+            if (Agent.CompareTag("Magicien"))
             {
-                controlledMagicien.UseCapacity(this);
-                capacityElapsedtime = 0;
-                capacity = false;
-            }
+                if (capacityElapsedtime >= controlledMagicien.capacityPeriod)
+                {
+                    controlledMagicien.UseCapacity(this);
+                }
 
+            }
+            else if (Agent.CompareTag("Cavalier"))
+            {
+                controlledCavalier.UseCapacity(this);
+            }
         }
-        else if (Agent.CompareTag("Cavalier"))
-        {
-            controlledCavalier.UseCapacity(this);
-            capacity = false;
-        }
+        
     }
     public void TakeDamage(int degats)
     {
@@ -134,5 +122,22 @@ public class SelectableUnit : MonoBehaviour
         {
             controlledCavalier.TakeDamage(this, degats) ;
         }
+    }
+
+    public void KingMode()
+    {
+        
+
+        KingModeActive = true;
+        print("KingMode");
+
+        Vector3 positionFlag = transform.position;
+        positionFlag.y = 4;
+        var flag = Instantiate(Flag, positionFlag, Flag.transform.rotation, gameObject.transform);
+        flag.SetActive(true);
+
+        var kingParticles = Instantiate(KingParticles, transform.position, KingParticles.transform.rotation, gameObject.transform);
+        kingParticles.SetActive(true);
+
     }
 }

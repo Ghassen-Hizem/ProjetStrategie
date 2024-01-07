@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
@@ -10,22 +11,13 @@ using UnityEngine.UIElements;
 public class ControlledMagicien : ControlledUnit
 {
 
-    private int stopRadius = 10;
+    private int attackPossibleRadius = 15;
     private int attackRadius = 3;
     private int unitDistance;
-    //private GameObject particules;
-    //private ParticleSystem laserParticles;
-    private ParticleSystem particules;
-    public int degatCapacity;
+    public GameObject LaserParticules;
+    public GameObject Piege;
 
-
-    /*
-    private void Awake()
-    {
-        particules = GameObject.FindWithTag("Laser");
-        laserParticles = particules.GetComponent<ParticleSystem>();
-
-    }*/
+    
 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
@@ -33,17 +25,19 @@ public class ControlledMagicien : ControlledUnit
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
-
+    
     public override void Attack(SelectableUnit unit)
     {
-            
+
+        //mon navmesh correspond aux agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas toujours
+
+        //si on attaque loin, le magicien va marcher et s'arreter a une stopping distance de 10 mais n'attaque pas. par contre, cela consomme une periode d'attaque
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit) )
         {
-
-            //Debug.Log("magicien attack");
+            //faire sortir le moveTo de l'attaque pour ne pas qu'elle consomme une periode d'attaque. (c'est compliqué) 
             unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
-            unit.Agent.stoppingDistance = stopRadius;
-            if (unitDistance > stopRadius )
+            unit.Agent.stoppingDistance = attackPossibleRadius;
+            if (unitDistance > attackPossibleRadius )
             {
                 unit.Agent.speed = speed;
                 unit.Agent.SetDestination(Hit.point);
@@ -51,8 +45,6 @@ public class ControlledMagicien : ControlledUnit
             }
             else
             {
-                unit.attack = true;
-
                 Collider[] colliders = Physics.OverlapSphere(Hit.point, attackRadius);
                 foreach (Collider collider in colliders)
                 {
@@ -63,49 +55,60 @@ public class ControlledMagicien : ControlledUnit
                         //AIController.TakeDamage(degatAttack)
                         Debug.Log("enemy damaged");
                     }
-                    
-                    particules = unit.GetComponentInChildren<ParticleSystem>();
-                    //particules.gameObject.WorldPositionStays(true);
-                    //si on definit un particuleSystem dans la scene et qu'on fait le getComponent dans le awake, il n'y a plus de probleme de laser qui suit le magicien
-                    //mais il faut un particulesystem pour chaque magicien (c'est compliqué). sinon on peut fixer la position du particulesystem au real world ou le detacher du local 
-                    
-                    if (particules.name == "LaserParticles")
-                    {
-                        particules.transform.position = Hit.point;
-                        //particules.transform.localPosition = particules.transform.position;
-                        particules.Play();
-                    }
-                    
-                    //animation d'attaque
                 }
+
+                var particules = Instantiate(LaserParticules, Hit.transform.position, LaserParticules.transform.rotation);
+                particules.SetActive(true);
+
+                //animation d'attaque
+
+                unit.attackElapsedtime = 0;
             }
-            //le navmesh s'effectue avec les agents "player". si les ennemis sont des agents de type "player" comme les players, ce raycast ne marche pas toujours
+            
         }
         
     }
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        //instantiate a piege from a prefab in the raycast point 
-        //if an enemy triggers the piege's collider, enemy.take damage then destroy the piege
-        
-        Debug.Log("magicien capacity");
-        unit.capacity = true;
 
-        //GetComponent le script AIController ou autre  :  AIController = collider.GetComponent
-        //AIController.TakeDamage(degatCapacity)
+        //si on appuie loin, on peut pas utiliser la capacité
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit))
+        {
+            unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
+            if (unitDistance <= attackPossibleRadius)
+            {
+                Debug.Log("magicien capacity");
+
+                Vector3 positionPiege = Hit.transform.position;
+                positionPiege.y = 2.5f;
+                var piege = Instantiate(Piege, positionPiege, Hit.transform.rotation);
+                piege.SetActive(true);
+                unit.capacityElapsedtime = 0;
+            }
+        }
     }
 
     public override void TakeDamage(SelectableUnit unit, int degats)
     {
+        
         unit.MagicienlifePoints = unit.MagicienlifePoints - degats + nbArmors;
 
         if (unit.MagicienlifePoints <= 0)
         {
-            Destroy(unit.gameObject);
+            if (unit.KingModeActive)
+            {
+                //GameManager.GameOver
+                Debug.Log("gameOver");
+            }
+            else
+            {
+                Destroy(unit.gameObject);
+            }
+            
+            
         }
     }
 
-    
     
 }
