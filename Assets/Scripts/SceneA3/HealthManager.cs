@@ -18,14 +18,13 @@ public class HealthManager : MonoBehaviour
     void Update()
     {
        if(healthAmount <=0) {
-            Debug.Log("player is dead");
             anim.SetBool("IsDead",true);
        }
     }
 
     public void TakeDamage(float damage) {
         healthAmount -= damage;
-        healthBar.fillAmount = healthAmount / 100f; 
+        healthBar.fillAmount = healthAmount / 100f;     
     }
 
     

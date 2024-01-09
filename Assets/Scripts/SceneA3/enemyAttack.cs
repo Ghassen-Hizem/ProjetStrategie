@@ -12,9 +12,10 @@ public class enemyAttack : MonoBehaviour
     private string Run_Animation = "IsRunning";
     private string Attack_Animation = "IsAttacking";
     private Animator anim;
+    private bool enemyReached = false;
     void Start()
     {
-        Unit = GameObject.Find("SwordWarrior");
+        Unit = GameObject.Find("SoldatUnitA3");
         UnitPosition = Unit.transform;
         Agent = gameObject.GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
@@ -31,10 +32,14 @@ public class enemyAttack : MonoBehaviour
     }
 
     void Attack() {
+        if(enemyReached == false) {
          Agent.SetDestination(UnitPosition.position);
+        }
 
            if(distance < 1) {
-           
+            Agent.ResetPath();
+            enemyReached = true;
+            Agent.speed = 0f;
             Debug.Log("enemy attacking");
             anim.SetBool(Attack_Animation,true);
             StartCoroutine("giveDamage");
@@ -44,6 +49,8 @@ public class enemyAttack : MonoBehaviour
         
     }
     else {
+        enemyReached = false;
+        Agent.speed = 5f;
         anim.SetBool(Attack_Animation,false);
         StopCoroutine("giveDamage");
     }
@@ -52,7 +59,6 @@ public class enemyAttack : MonoBehaviour
 
 IEnumerator giveDamage() {
     yield return new WaitForSeconds(2f);
-    
     Unit.GetComponent<HealthManager>().TakeDamage(10);
 }
     
