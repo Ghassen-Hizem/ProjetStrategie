@@ -13,22 +13,36 @@ public class enemyAttack : MonoBehaviour
     private string Attack_Animation = "IsAttacking";
     private Animator anim;
     private bool enemyReached = false;
+
+    private GameObject EnemyRadius;
+
+    private bool IsFighting = false;
     void Start()
     {
-        Unit = GameObject.Find("SoldatUnitA3");
-        UnitPosition = Unit.transform;
         Agent = gameObject.GetComponent<NavMeshAgent>();
         anim = gameObject.GetComponent<Animator>();
+        EnemyRadius = gameObject.transform.GetChild(0).gameObject;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(gameObject.transform.position,UnitPosition.position);
-        if(distance < 10) {
+        
+        IsFighting = EnemyRadius.GetComponent<EnemyRadius>().haveTarget;
+        if(IsFighting) {
+            Unit = EnemyRadius.GetComponent<EnemyRadius>().target;
+            UnitPosition = Unit.transform;
+            distance = Vector3.Distance(gameObject.transform.position,UnitPosition.position);
             Attack();
         }
+        if(EnemyRadius.GetComponent<EnemyRadius>().haveTarget == false) {
+            
+            Agent.ResetPath();
+             anim.SetBool(Attack_Animation,false);
+        }
+            
+        
     }
 
     void Attack() {
@@ -43,6 +57,7 @@ public class enemyAttack : MonoBehaviour
             Debug.Log("enemy attacking");
             anim.SetBool(Attack_Animation,true);
             StartCoroutine("giveDamage");
+
             
             
 

@@ -383,6 +383,8 @@ GameObject:
   - component: {fileID: 1591207915695933285}
   - component: {fileID: 4281030005290399307}
   - component: {fileID: 4005114422958881569}
+  - component: {fileID: 6976253126811045377}
+  - component: {fileID: 5558861290801648553}
   m_Layer: 7
   m_Name: SoldatUnitA3
   m_TagString: Player
@@ -464,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7cc2d77b3c70cb3a91310aca81689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 2058310041182781836}
   healthAmount: 100
 --- !u!114 &4005114422958881569
 MonoBehaviour:
@@ -478,10 +480,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4affd8db82d9747a98e118b2f7abe541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionSprite: {fileID: 0}
+  SelectionSprite: {fileID: 74281428335060293}
   KingModeActive: 0
   Flag: {fileID: 0}
-  KingParticles: {fileID: 0}
+  KingParticles: {fileID: 1552098304413248141, guid: 8b75fdd0921bfc64888653f6f8226e8f, type: 3}
+--- !u!54 &6976253126811045377
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2537457815717523095}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &5558861290801648553
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2537457815717523095}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2537457815717523105
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,6 +2690,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be97b6f6cd7d0c536b4a70b57b0fa644, type: 3}
+--- !u!114 &2058310041182781836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8552495574460264292, guid: be97b6f6cd7d0c536b4a70b57b0fa644, type: 3}
+  m_PrefabInstance: {fileID: 7647120391208185576}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7417664676788246943 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 923468562590414711, guid: be97b6f6cd7d0c536b4a70b57b0fa644, type: 3}
