@@ -7,9 +7,11 @@ public class HealthManager : MonoBehaviour
 {
     public Image healthBar;
     public float healthAmount = 100f;
+
+    private Animator anim;
     void Start()
     {
-        
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -17,6 +19,7 @@ public class HealthManager : MonoBehaviour
     {
        if(healthAmount <=0) {
             Debug.Log("player is dead");
+            anim.SetBool("IsDead",true);
        }
     }
 

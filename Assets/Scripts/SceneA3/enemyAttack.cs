@@ -32,21 +32,28 @@ public class enemyAttack : MonoBehaviour
 
     void Attack() {
          Agent.SetDestination(UnitPosition.position);
-         anim.SetBool(Run_Animation,true);
+
            if(distance < 1) {
            
             Debug.Log("enemy attacking");
-            anim.SetBool(Run_Animation,false);
             anim.SetBool(Attack_Animation,true);
-            Unit.GetComponent<HealthManager>().TakeDamage(10);
+            StartCoroutine("giveDamage");
+            
+            
 
         
     }
     else {
         anim.SetBool(Attack_Animation,false);
-        anim.SetBool(Run_Animation,true);
+        StopCoroutine("giveDamage");
     }
     
+}
+
+IEnumerator giveDamage() {
+    yield return new WaitForSeconds(2f);
+    
+    Unit.GetComponent<HealthManager>().TakeDamage(10);
 }
     
 }   
