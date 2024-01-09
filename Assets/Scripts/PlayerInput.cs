@@ -9,6 +9,9 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask unitLayers;
     [SerializeField] private LayerMask floorLayers;
 
+    private int Layerunit;
+    private int Layerfloor;
+
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
     //public ControlledUnit controlledSoignant;
@@ -18,16 +21,57 @@ public class PlayerInput : MonoBehaviour
     private float MouseDownTime;
     private Vector2 startMousePosition;
 
+    /*
+    private void Start()
+    {
+        Layerunit = LayerMask.GetMask("Units");
+        Layerfloor = LayerMask.GetMask("Floor");
+    }*/
     private void Update()
     {
         HandleSelectionInputs();
         HandleMovementInputs();
         HandleAttackInputs();
+        //HandleOrderInputs();
 
         //tout les ennemis doivent appartenir à layer "Units" et doivent avoir le tag "Enemy" (ou alors changer mon code pour trouver les ennemis avec leurs scripts) , ils doivent etre des navmesh agents de type "player"
     }
+    
+    //Ce qu'il faut faire:
+    //Quand on clique sur une position avec M1, on se deplace, sinon si on clique sur un enemy, on l'attaque. si il meurt, on attaque le plus proche dans notre zone d'attaque.si il n'y a aucun, ne rien faire
+    //toutes les attaques doivent cibler un enemy
+    
 
+    /*
+    private void HandleOrderInputs()
+    {
+        if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
+        {
+            if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit, Layerfloor))
+            {
+                
+                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+                {
+                    unit.MoveTo(Hit.point);
+                    print("moving");
+                }
+            }
+            else if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit HitUnit, Layerunit) && HitUnit.collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy Enemyunit))
+            {
+                print("enemy selected");
+                
+                foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
+                {
+                    unit.Attack(Enemyunit);
+                    print("attacking");
+                }
+            }
+        }
+    }
+    */
 
+    
+    
     private void HandleAttackInputs()
     {
         //Attack: click with M2 after selecting some players
@@ -50,7 +94,7 @@ public class PlayerInput : MonoBehaviour
 
     }
 
-
+    
     private void HandleMovementInputs()
     {
         //click with M1 after selecting some players
@@ -68,6 +112,8 @@ public class PlayerInput : MonoBehaviour
             
         }
     }
+    
+
     private void HandleSelectionInputs()
     {
         //click with M0 to select one

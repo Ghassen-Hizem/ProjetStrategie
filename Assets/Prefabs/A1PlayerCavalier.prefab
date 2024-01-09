@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4008566077535327672}
   - component: {fileID: 5393598774606881119}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Selection sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

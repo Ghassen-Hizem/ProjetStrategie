@@ -11,10 +11,10 @@ public class SelectableUnit : MonoBehaviour
 
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
-    
 
-    public float attackElapsedtime = 0;
-    public float capacityElapsedtime = 0;
+
+    [HideInInspector] public float attackElapsedtime = 0;
+    [HideInInspector] public float capacityElapsedtime = 0;
 
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
     //jai utilisé plusieurs variables de lifepoints pour tout les types d'unité car je dois les initialiser dans le start (donc il faut qu'elles soient differentes)
@@ -61,9 +61,12 @@ public class SelectableUnit : MonoBehaviour
         
     }
 
+
+    //public void Attack(scriptTestEnemy enemyUnit)
     public void Attack()
     {
 
+        
         if (KingModeActive == false)
         {
             if (Agent.CompareTag("Magicien"))
@@ -77,7 +80,10 @@ public class SelectableUnit : MonoBehaviour
             }
             else if (Agent.CompareTag("Cavalier"))
             {
-                controlledCavalier.Attack(this);
+                if (attackElapsedtime >= controlledCavalier.attackPeriod)
+                {
+                    controlledCavalier.Attack(this);
+                }
             }
         }
     }
@@ -107,7 +113,10 @@ public class SelectableUnit : MonoBehaviour
             }
             else if (Agent.CompareTag("Cavalier"))
             {
-                controlledCavalier.UseCapacity(this);
+                if (capacityElapsedtime >= controlledCavalier.capacityPeriod)
+                {
+                    controlledCavalier.UseCapacity(this);
+                }
             }
         }
         
