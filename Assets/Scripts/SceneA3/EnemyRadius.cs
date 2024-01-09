@@ -8,13 +8,13 @@ public class EnemyRadius : MonoBehaviour
     public bool haveTarget = false;
     [HideInInspector]
     public GameObject target;
-    // Start is called before the first frame update
+  
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
         
@@ -23,9 +23,12 @@ public class EnemyRadius : MonoBehaviour
     public void OnTriggerEnter(Collider other) {
         Debug.Log("target on sight");
         if(haveTarget == false) {
-            Debug.Log("target on sight");
-            haveTarget = true;
-            target = other.gameObject;
+            Debug.Log("target confirmed");
+            if(other.gameObject.CompareTag("Player")) {
+                    haveTarget = true;
+                   target = other.gameObject;
+            }
+          
         }
         if(other.gameObject.GetComponent<HealthManager>().healthAmount<=0) {
             haveTarget = false;

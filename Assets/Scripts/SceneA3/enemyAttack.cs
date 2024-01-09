@@ -9,7 +9,6 @@ public class enemyAttack : MonoBehaviour
     private Transform UnitPosition;
     private float distance;
     private NavMeshAgent Agent;
-    private string Run_Animation = "IsRunning";
     private string Attack_Animation = "IsAttacking";
     private Animator anim;
     private bool enemyReached = false;
@@ -25,7 +24,7 @@ public class enemyAttack : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         

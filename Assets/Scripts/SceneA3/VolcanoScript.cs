@@ -5,13 +5,13 @@ using UnityEngine;
 public class VolcanoScript : MonoBehaviour
 {
     public GameObject health;
-    // Start is called before the first frame update
+   
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         

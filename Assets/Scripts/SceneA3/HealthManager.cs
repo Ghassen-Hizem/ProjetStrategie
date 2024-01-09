@@ -14,7 +14,7 @@ public class HealthManager : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
        if(healthAmount <=0) {
