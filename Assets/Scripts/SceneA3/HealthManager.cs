@@ -15,14 +15,9 @@ public class HealthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            TakeDamage(20);
-        }
-
-        
-
-      
+       if(healthAmount <=0) {
+            Debug.Log("player is dead");
+       }
     }
 
     public void TakeDamage(float damage) {

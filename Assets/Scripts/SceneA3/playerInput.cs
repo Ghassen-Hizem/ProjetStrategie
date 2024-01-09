@@ -15,10 +15,14 @@ public class playerInput : MonoBehaviour
     private float DragDelay = 0.1f;
 
     private float MouseDownTime;
+    private string Run_Animation = "IsRunning";
+    private string Attack_Animation = "IsAttacking";
     private Vector2 StartMousePosition;
 
+    private float distance;
+
     
-    private string WALK_ANIMATION = "IsRunning";
+
     private Animator anim;
 
 
@@ -42,8 +46,8 @@ public class playerInput : MonoBehaviour
                 foreach (selectUnit unit in Selection.Instance.SelectedUnits)
                 {
                     unit.MoveTo(Hit.point);
-                    anim = unit.gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>();
-                    anim.SetBool(WALK_ANIMATION,true);
+                    anim = unit.gameObject.GetComponent<Animator>();
+                    anim.SetBool(Run_Animation,true);
                     
                 }
 

@@ -7,12 +7,13 @@ public class selectUnit : MonoBehaviour
     private NavMeshAgent Agent;
     [SerializeField]
     private SpriteRenderer SelectionSprite;
+     
 
 public bool KingModeActive = false;
 
     public GameObject Flag;
     public GameObject KingParticles;
-        private string WALK_ANIMATION = "IsRunning";
+
 
             private Animator anim;
 
@@ -23,18 +24,20 @@ public bool KingModeActive = false;
     }
 
     private void Update() {
-    if (!Agent.pathPending)
-{
-    if (Agent.remainingDistance <= Agent.stoppingDistance)
-    {
-        if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
-        {
-           anim = Agent.gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>();
-            anim.SetBool(WALK_ANIMATION,false);
-        }
-    }
+
+    //Destination atteinte algorithme
+   // if (!Agent.pathPending)
+//{
+   // if (Agent.remainingDistance <= Agent.stoppingDistance)
+   // {
+    //    if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
+     //   {
+           //anim = Agent.gameObject.GetComponent<Animator>();
+            //anim.SetBool(WALK_ANIMATION,false);
+     //   }
+   // }
 }
-    }
+    
 
     public void MoveTo(Vector3 Position)
     {
@@ -67,4 +70,5 @@ public bool KingModeActive = false;
         kingParticles.SetActive(true);
 
     }
+
 }
