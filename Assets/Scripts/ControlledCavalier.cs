@@ -13,7 +13,7 @@ public class ControlledCavalier : ControlledUnit
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
-    public override void Attack(SelectableUnit unit)
+    public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
         /*
         //repousse les unit à 1 uu de speed/2

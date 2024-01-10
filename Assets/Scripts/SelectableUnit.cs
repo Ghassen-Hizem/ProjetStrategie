@@ -49,6 +49,9 @@ public class SelectableUnit : MonoBehaviour
 
     public void MoveTo(Vector3 Position)
     {
+
+        
+
         //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
         if (Agent.CompareTag("Magicien"))
         {
@@ -62,8 +65,8 @@ public class SelectableUnit : MonoBehaviour
     }
 
 
-    //public void Attack(scriptTestEnemy enemyUnit)
-    public void Attack()
+    
+    public void Attack(scriptTestEnemy enemyUnit)
     {
 
         
@@ -73,7 +76,7 @@ public class SelectableUnit : MonoBehaviour
             {
                 if (attackElapsedtime >= controlledMagicien.attackPeriod)
                 {
-                    controlledMagicien.Attack(this);
+                    controlledMagicien.Attack(this, enemyUnit);
 
                 }
 
@@ -82,7 +85,7 @@ public class SelectableUnit : MonoBehaviour
             {
                 if (attackElapsedtime >= controlledCavalier.attackPeriod)
                 {
-                    controlledCavalier.Attack(this);
+                    controlledCavalier.Attack(this, enemyUnit);
                 }
             }
         }
