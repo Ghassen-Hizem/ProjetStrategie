@@ -13,6 +13,11 @@ public class ControlledCavalier : ControlledUnit
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
+
+    public override void MoveToAttack(SelectableUnit unit, Vector3 position)
+    {
+        MoveTo(unit, position);
+    }
     public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
         /*

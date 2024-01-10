@@ -17,6 +17,9 @@ public abstract class ControlledUnit : ScriptableObject
     //par contre le magicien, le cavalier et le soignant attaquent seulement qd on leur dit
 
     public abstract void MoveTo(SelectableUnit unit, Vector3 position);
+
+    public abstract void MoveToAttack(SelectableUnit unit, Vector3 position);
+
     public abstract void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit);
 
     public abstract void UseCapacity(SelectableUnit unit);

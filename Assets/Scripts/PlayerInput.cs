@@ -59,24 +59,28 @@ public class PlayerInput : MonoBehaviour
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                     {
                         //si on est loin, on move avec stoppingDistance grande. sinon on attaque
-                        unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unit.transform.position);
+                        //unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unit.unitPosition);
 
-
+                        unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unit.unitPosition);
 
                         attack = unitDistance <= attackPossibleRadius;
-
+                        
 
                         if (! attack)
                         {
                             
-                            unit.MoveTo(enemyUnit.transform.position);
+                            unit.MoveToAttack(enemyUnit.transform.position);
                             // attack ne passe jamais à true ici
-                            
 
-                                //yield return new WaitForSeconds(5);
-                            yield return new WaitUntil(() => attack == true ) ;
+                            //attack = unit.attack;
+
+                            //yield return new WaitForSeconds(5);
+                            yield return new WaitUntil(() => unit.attack == true ) ;
                             unit.Attack(enemyUnit);
 
+
+                            //cette coroutine arrete le temps pour toutes les unités. peut on arreter 
+                            //si on implemente la coroutine dans le script selectable unit, ça pause que cettz unit ou tout le jeu ?
                         }
                         else
                         {
@@ -94,7 +98,7 @@ public class PlayerInput : MonoBehaviour
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                     {
                         unit.MoveTo(hit.point);
-                        print("moving");
+                        //print("moving");
                     }
                 }
 

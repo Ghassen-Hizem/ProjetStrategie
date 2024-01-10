@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
@@ -26,6 +27,12 @@ public class SelectableUnit : MonoBehaviour
     public GameObject Flag;
     public GameObject KingParticles;
 
+    public Vector3 unitPosition;
+    //public Vector3 enemyPosition;
+    public Vector3 enemyPosition = new Vector3(0,0,0);
+    public int unitDistance;
+    public bool attack;
+    private int attackPossibleRadius = 15;
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
@@ -44,12 +51,19 @@ public class SelectableUnit : MonoBehaviour
     {
         attackElapsedtime += Time.deltaTime;
         capacityElapsedtime += Time.deltaTime;
+        unitPosition = Agent.transform.position;
+        if (enemyPosition != new Vector3(0,0,0))
+        {
+            unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
+            attack = unitDistance <= attackPossibleRadius;
+            print(attack);
+        }
+        
     }
     
 
     public void MoveTo(Vector3 Position)
     {
-
         
 
         //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
@@ -64,8 +78,27 @@ public class SelectableUnit : MonoBehaviour
         
     }
 
+    public void MoveToAttack(Vector3 Position)
+    {
+        //il faut faire ca que si on attaque et pas un simple moving
+        //on peut faire une moveToAttack avec plus grande stopping distance
+        enemyPosition = Position;
+        //unitDistance = (int)Vector3.Distance(Position, unitPosition);
 
-    
+        //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
+        if (Agent.CompareTag("Magicien"))
+        {
+            controlledMagicien.MoveToAttack(this, Position);
+        }
+        else if (Agent.CompareTag("Cavalier"))
+        {
+            controlledCavalier.MoveTo(this, Position);
+        }
+
+    }
+
+
+
     public void Attack(scriptTestEnemy enemyUnit)
     {
 

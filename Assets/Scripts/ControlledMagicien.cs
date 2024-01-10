@@ -26,11 +26,17 @@ public class ControlledMagicien : ControlledUnit
         unit.Agent.SetDestination(position);
     }
 
+    public override void MoveToAttack(SelectableUnit unit, Vector3 position)
+    {
+        unit.Agent.stoppingDistance = 10;
+        unit.Agent.speed = speed;
+        unit.Agent.SetDestination(position);
+    }
 
     public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
 
-        Debug.Log("magicien attack");
+        //Debug.Log("magicien attack");
 
               
         Collider[] colliders = Physics.OverlapSphere(enemyUnit.transform.position, attackRadius);
