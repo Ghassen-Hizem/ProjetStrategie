@@ -66,25 +66,6 @@ public class SelectableUnit : MonoBehaviour
             unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
             attack = unitDistance <= attackPossibleRadius;
         }
-
-        /*
-        Collider[] colliders = Physics.OverlapSphere(transform.position, attackPossibleRadius);
-        List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
-        foreach (Collider collider in colliders)
-        {
-            if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
-            {
-                enemies.Add(otherEnemy);
-            }
-        }
-
-        if (enemies.Count() == 0)
-        {
-            StopCoroutine("HandleAttack");
-        }*/
-
-
-
     }
     
 
@@ -120,6 +101,7 @@ public class SelectableUnit : MonoBehaviour
 
     public IEnumerator HandleAttack(scriptTestEnemy enemyUnit)
     {
+        print("attack coroutine");
         unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unitPosition);
         attack = unitDistance <= attackPossibleRadius;
         if (!attack)
@@ -148,7 +130,9 @@ public class SelectableUnit : MonoBehaviour
                 {
                     enemyUnit = sortedEnemies.FirstOrDefault();
                 }
+                
             }
+            yield break;
         }
         else
         {
@@ -172,6 +156,7 @@ public class SelectableUnit : MonoBehaviour
                     enemyUnit = sortedEnemies.FirstOrDefault();
                 }
             }
+            yield break;
         }
     }
 
