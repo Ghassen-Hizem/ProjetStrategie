@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using System.Linq;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
@@ -13,12 +14,10 @@ public class SelectableUnit : MonoBehaviour
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
 
-
     [HideInInspector] public float attackElapsedtime = 0;
     [HideInInspector] public float capacityElapsedtime = 0;
 
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
-    //jai utilisé plusieurs variables de lifepoints pour tout les types d'unité car je dois les initialiser dans le start (donc il faut qu'elles soient differentes)
     [HideInInspector] public int MagicienlifePoints;
     [HideInInspector] public int CavalierlifePoints;
 
@@ -28,14 +27,14 @@ public class SelectableUnit : MonoBehaviour
     public GameObject KingParticles;
 
     public Vector3 unitPosition;
-    //public Vector3 enemyPosition;
     public Vector3 enemyPosition = new Vector3(0,0,0);
     public int unitDistance;
     public bool attack;
-    private int attackPossibleRadius = 15;
+    private int attackPossibleRadius = 10;
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
+    //attackElapsedtime = controlledMagicien.attackPeriod;
 
     private void Awake()
     {
@@ -43,8 +42,6 @@ public class SelectableUnit : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         MagicienlifePoints = controlledMagicien.lifePoints;
         CavalierlifePoints = controlledCavalier.lifePoints;
-
-        //attackElapsedtime = controlledMagicien.attackPeriod;
     }
 
     private void Update()
@@ -56,16 +53,12 @@ public class SelectableUnit : MonoBehaviour
         {
             unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
             attack = unitDistance <= attackPossibleRadius;
-            print(attack);
         }
-        
     }
     
 
     public void MoveTo(Vector3 Position)
     {
-        
-
         //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
         if (Agent.CompareTag("Magicien"))
         {
@@ -75,17 +68,70 @@ public class SelectableUnit : MonoBehaviour
         {
             controlledCavalier.MoveTo(this, Position);
         }
-        
     }
+
+
+    public IEnumerator HandleAttack(scriptTestEnemy enemyUnit)
+    {
+        unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unitPosition);
+        attack = unitDistance <= attackPossibleRadius;
+        if (!attack)
+        {
+            MoveToAttack(enemyUnit.transform.position);
+            
+            yield return new WaitUntil(() => attack == true);
+
+            while (enemyUnit != null)
+            {
+                Attack(enemyUnit);
+                yield return null;
+
+                List<Collider> colliders = new List<Collider>( Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                foreach (Collider collider in colliders)
+                {
+                    if(collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+                    {
+                        enemies.Add(otherEnemy);
+                    }
+                }
+                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                if (sortedEnemies.Count() != 0)
+                {
+                    enemyUnit = sortedEnemies.FirstOrDefault();
+                }
+            }
+        }
+        else
+        {
+            while (enemyUnit != null)
+            {
+                Attack(enemyUnit);
+                yield return null;
+
+                List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+                    {
+                        enemies.Add(otherEnemy);
+                    }
+                }
+                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                if (sortedEnemies.Count() != 0)
+                {
+                    enemyUnit = sortedEnemies.FirstOrDefault();
+                }
+            }
+        }
+    }
+
 
     public void MoveToAttack(Vector3 Position)
     {
-        //il faut faire ca que si on attaque et pas un simple moving
-        //on peut faire une moveToAttack avec plus grande stopping distance
         enemyPosition = Position;
-        //unitDistance = (int)Vector3.Distance(Position, unitPosition);
-
-        //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
+        
         if (Agent.CompareTag("Magicien"))
         {
             controlledMagicien.MoveToAttack(this, Position);
@@ -94,15 +140,11 @@ public class SelectableUnit : MonoBehaviour
         {
             controlledCavalier.MoveTo(this, Position);
         }
-
     }
-
-
 
     public void Attack(scriptTestEnemy enemyUnit)
     {
 
-        
         if (KingModeActive == false)
         {
             if (Agent.CompareTag("Magicien"))
@@ -110,9 +152,7 @@ public class SelectableUnit : MonoBehaviour
                 if (attackElapsedtime >= controlledMagicien.attackPeriod)
                 {
                     controlledMagicien.Attack(this, enemyUnit);
-
                 }
-
             }
             else if (Agent.CompareTag("Cavalier"))
             {
@@ -145,7 +185,6 @@ public class SelectableUnit : MonoBehaviour
                 {
                     controlledMagicien.UseCapacity(this);
                 }
-
             }
             else if (Agent.CompareTag("Cavalier"))
             {
@@ -155,8 +194,8 @@ public class SelectableUnit : MonoBehaviour
                 }
             }
         }
-        
     }
+
     public void TakeDamage(int degats)
     {
         if (Agent.CompareTag("Magicien"))
@@ -171,8 +210,6 @@ public class SelectableUnit : MonoBehaviour
 
     public void KingMode()
     {
-        
-
         KingModeActive = true;
         print("KingMode");
 
@@ -183,6 +220,5 @@ public class SelectableUnit : MonoBehaviour
 
         var kingParticles = Instantiate(KingParticles, transform.position, KingParticles.transform.rotation, gameObject.transform);
         kingParticles.SetActive(true);
-
     }
 }
