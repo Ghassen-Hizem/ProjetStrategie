@@ -9,18 +9,17 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask unitLayers;
     [SerializeField] private LayerMask floorLayers;
 
-    private int Layerunit;
-    private int Layerfloor;
 
     private float DragDelay = 0.1f;
 
     private float MouseDownTime;
     private Vector2 startMousePosition;
 
-    private int attackPossibleRadius = 15;
-    private int unitDistance;
+    //private int attackPossibleRadius = 15;
+    //private int unitDistance;
+    
 
-    private bool attack = false;
+    //private bool attack = false;
 
     private void Update()
     {
@@ -53,6 +52,7 @@ public class PlayerInput : MonoBehaviour
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                     {
                         StartCoroutine(unit.HandleAttack(enemyUnit));
+                        //if there is no enemy around, we should stop the attack coroutine
                     }
                 }
                 else
@@ -69,7 +69,7 @@ public class PlayerInput : MonoBehaviour
 
 
         private void HandleSelectionInputs()
-    {
+        {
         //click with M0 to select one
         //hold M0 and drag the mouse to select many
         //hold shift and click with M0 to add or remove from selection

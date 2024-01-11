@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: magicienPlayer
   m_EditorClassIdentifier: 
   Unitname: Magicien
-  speed: 5
+  speed: 4
   lifePoints: 40
   nbArmors: 1
   attackPeriod: 3

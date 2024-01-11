@@ -75,13 +75,25 @@ MonoBehaviour:
   SelectionSprite: {fileID: 5393598774606881119}
   controlledMagicien: {fileID: 11400000, guid: 73aea5a1ab7a9774780d94bb10e9db67, type: 2}
   controlledCavalier: {fileID: 11400000, guid: 03badd413c0139c48a89b7b06c415909, type: 2}
+  controlledSoldat: {fileID: 11400000, guid: 52ca154462a2300478fbe7b71c97b7b7, type: 2}
+  controlledBouclier: {fileID: 11400000, guid: 224e92e389711e84d8feccc961417b99, type: 2}
+  controlledTirailleur: {fileID: 11400000, guid: 2320a65bcaa75a4478cd4f71e157f504, type: 2}
+  controlledSoignant: {fileID: 11400000, guid: 3d679d17e7468c94b81e4854b701f3a6, type: 2}
   attackElapsedtime: 0
   capacityElapsedtime: 0
   MagicienlifePoints: 0
   CavalierlifePoints: 0
+  SoldatlifePoints: 0
+  TirailleurlifePoints: 0
+  BouclierlifePoints: 0
+  SoignantlifePoints: 0
   KingModeActive: 0
   Flag: {fileID: 2903655828075584247, guid: fabc285f2082b6f48803b488f6edaa3f, type: 3}
   KingParticles: {fileID: 1552098304413248141, guid: 8b75fdd0921bfc64888653f6f8226e8f, type: 3}
+  unitPosition: {x: 0, y: 0, z: 0}
+  enemyPosition: {x: 0, y: 0, z: 0}
+  unitDistance: 0
+  attack: 0
 --- !u!54 &6295165279440740611
 Rigidbody:
   m_ObjectHideFlags: 0

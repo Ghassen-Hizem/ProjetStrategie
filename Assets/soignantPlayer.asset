@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bd1310c4961c14d9515e68d0610d53, type: 3}
+  m_Name: soignantPlayer
+  m_EditorClassIdentifier: 
+  Unitname: Soignant
+  speed: 3
+  lifePoints: 30
+  nbArmors: 1
+  attackPeriod: 2
+  capacityPeriod: 15
+  degatAttack: 1

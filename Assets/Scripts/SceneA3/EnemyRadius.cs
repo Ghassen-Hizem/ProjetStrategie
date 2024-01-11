@@ -22,12 +22,19 @@ public class EnemyRadius : MonoBehaviour
 
     public void OnTriggerEnter(Collider other) {
         
-        if(haveTarget == false) {  
+        if(haveTarget == false) {
+            
             if(other.gameObject.CompareTag("Player")) {
                     haveTarget = true;
                     target = other.gameObject;
             }
-          
+
+            if (other.TryGetComponent<SelectableUnit>(out SelectableUnit unit))
+            {
+                haveTarget = true;
+                target = other.gameObject;
+            }
+
         }
         if(other.gameObject.GetComponent<HealthManager>().healthAmount<=0) {
             Debug.Log("enemy is dead");

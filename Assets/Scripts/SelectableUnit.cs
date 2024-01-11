@@ -13,6 +13,10 @@ public class SelectableUnit : MonoBehaviour
 
     public ControlledUnit controlledMagicien;
     public ControlledUnit controlledCavalier;
+    public ControlledUnit controlledSoldat;
+    public ControlledUnit controlledBouclier;
+    public ControlledUnit controlledTirailleur;
+    public ControlledUnit controlledSoignant;
 
     [HideInInspector] public float attackElapsedtime = 0;
     [HideInInspector] public float capacityElapsedtime = 0;
@@ -20,16 +24,20 @@ public class SelectableUnit : MonoBehaviour
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
     [HideInInspector] public int MagicienlifePoints;
     [HideInInspector] public int CavalierlifePoints;
+    [HideInInspector] public int SoldatlifePoints;
+    [HideInInspector] public int TirailleurlifePoints;
+    [HideInInspector] public int BouclierlifePoints;
+    [HideInInspector] public int SoignantlifePoints;
 
-    public bool KingModeActive = false;
+    [HideInInspector] public bool KingModeActive = false;
 
     public GameObject Flag;
     public GameObject KingParticles;
 
-    public Vector3 unitPosition;
-    public Vector3 enemyPosition = new Vector3(0,0,0);
-    public int unitDistance;
-    public bool attack;
+    [HideInInspector] public Vector3 unitPosition;
+    [HideInInspector] public Vector3 enemyPosition = new Vector3(0,0,0);
+    [HideInInspector] public int unitDistance;
+    [HideInInspector] public bool attack;
     private int attackPossibleRadius = 10;
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
@@ -42,6 +50,10 @@ public class SelectableUnit : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         MagicienlifePoints = controlledMagicien.lifePoints;
         CavalierlifePoints = controlledCavalier.lifePoints;
+        SoldatlifePoints = controlledSoldat.lifePoints;
+        BouclierlifePoints = controlledBouclier.lifePoints;
+        TirailleurlifePoints = controlledTirailleur.lifePoints;
+        SoignantlifePoints = controlledSoignant.lifePoints;
     }
 
     private void Update()
@@ -67,6 +79,22 @@ public class SelectableUnit : MonoBehaviour
         else if (Agent.CompareTag("Cavalier"))
         {
             controlledCavalier.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Soldat"))
+        {
+            controlledSoldat.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Tirailleur"))
+        {
+            controlledTirailleur.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Bouclier"))
+        {
+            controlledBouclier.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Soignant"))
+        {
+            controlledSoignant.MoveTo(this, Position);
         }
     }
 
@@ -140,6 +168,22 @@ public class SelectableUnit : MonoBehaviour
         {
             controlledCavalier.MoveTo(this, Position);
         }
+        else if (Agent.CompareTag("Soldat"))
+        {
+            controlledSoldat.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Tirailleur"))
+        {
+            controlledTirailleur.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Bouclier"))
+        {
+            controlledBouclier.MoveTo(this, Position);
+        }
+        else if (Agent.CompareTag("Soignant"))
+        {
+            controlledSoignant.MoveTo(this, Position);
+        }
     }
 
     public void Attack(scriptTestEnemy enemyUnit)
@@ -159,6 +203,34 @@ public class SelectableUnit : MonoBehaviour
                 if (attackElapsedtime >= controlledCavalier.attackPeriod)
                 {
                     controlledCavalier.Attack(this, enemyUnit);
+                }
+            }
+            else if (Agent.CompareTag("Soldat"))
+            {
+                if (attackElapsedtime >= controlledSoldat.attackPeriod)
+                {
+                    controlledSoldat.Attack(this, enemyUnit);
+                }
+            }
+            else if (Agent.CompareTag("Tirailleur"))
+            {
+                if (attackElapsedtime >= controlledTirailleur.attackPeriod)
+                {
+                    controlledTirailleur.Attack(this, enemyUnit);
+                }
+            }
+            else if (Agent.CompareTag("Bouclier"))
+            {
+                if (attackElapsedtime >= controlledBouclier.attackPeriod)
+                {
+                    controlledBouclier.Attack(this, enemyUnit);
+                }
+            }
+            else if (Agent.CompareTag("Soignant"))
+            {
+                if (attackElapsedtime >= controlledSoignant.attackPeriod)
+                {
+                    controlledSoignant.Attack(this, enemyUnit);
                 }
             }
         }
@@ -193,6 +265,34 @@ public class SelectableUnit : MonoBehaviour
                     controlledCavalier.UseCapacity(this);
                 }
             }
+            else if (Agent.CompareTag("Soldat"))
+            {
+                if (capacityElapsedtime >= controlledSoldat.capacityPeriod)
+                {
+                    controlledSoldat.UseCapacity(this);
+                }
+            }
+            else if (Agent.CompareTag("Tirailleur"))
+            {
+                if (capacityElapsedtime >= controlledTirailleur.capacityPeriod)
+                {
+                    controlledTirailleur.UseCapacity(this);
+                }
+            }
+            else if (Agent.CompareTag("Bouclier"))
+            {
+                if (capacityElapsedtime >= controlledBouclier.capacityPeriod)
+                {
+                    controlledBouclier.UseCapacity(this);
+                }
+            }
+            else if (Agent.CompareTag("Soignant"))
+            {
+                if (capacityElapsedtime >= controlledSoignant.capacityPeriod)
+                {
+                    controlledSoignant.UseCapacity(this);
+                }
+            }
         }
     }
 
@@ -205,6 +305,22 @@ public class SelectableUnit : MonoBehaviour
         else if (Agent.CompareTag("Cavalier"))
         {
             controlledCavalier.TakeDamage(this, degats) ;
+        }
+        else if (Agent.CompareTag("Soldat"))
+        {
+            controlledSoldat.TakeDamage(this, degats);
+        }
+        else if (Agent.CompareTag("Tirailleur"))
+        {
+            controlledTirailleur.TakeDamage(this, degats);
+        }
+        else if (Agent.CompareTag("Bouclier"))
+        {
+            controlledBouclier.TakeDamage(this, degats);
+        }
+        else if (Agent.CompareTag("Soignant"))
+        {
+            controlledSoignant.TakeDamage(this, degats);
         }
     }
 

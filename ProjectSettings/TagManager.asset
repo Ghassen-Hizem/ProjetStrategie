@@ -9,6 +9,9 @@ TagManager:
   - Cavalier
   - sable
   - Laser
+  - Soldat
+  - Tirailleur
+  - Bouclier
   layers:
   - Default
   - TransparentFX
