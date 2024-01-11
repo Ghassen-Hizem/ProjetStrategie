@@ -21,16 +21,16 @@ public class EnemyRadius : MonoBehaviour
     }
 
     public void OnTriggerEnter(Collider other) {
-        Debug.Log("target on sight");
-        if(haveTarget == false) {
-            Debug.Log("target confirmed");
+        
+        if(haveTarget == false) {  
             if(other.gameObject.CompareTag("Player")) {
                     haveTarget = true;
-                   target = other.gameObject;
+                    target = other.gameObject;
             }
           
         }
         if(other.gameObject.GetComponent<HealthManager>().healthAmount<=0) {
+            Debug.Log("enemy is dead");
             haveTarget = false;
             Destroy(other.gameObject,5);
         }

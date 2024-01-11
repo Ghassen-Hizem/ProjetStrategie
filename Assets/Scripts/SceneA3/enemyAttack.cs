@@ -30,10 +30,18 @@ public class enemyAttack : MonoBehaviour
         
         IsFighting = EnemyRadius.GetComponent<EnemyRadius>().haveTarget;
         if(IsFighting) {
-            Unit = EnemyRadius.GetComponent<EnemyRadius>().target;
-            UnitPosition = Unit.transform;
-            distance = Vector3.Distance(gameObject.transform.position,UnitPosition.position);
+            if(EnemyRadius.GetComponent<EnemyRadius>().target) {
+                     Unit = EnemyRadius.GetComponent<EnemyRadius>().target;
+                    UnitPosition = Unit.transform;
+                                distance = Vector3.Distance(gameObject.transform.position,UnitPosition.position);
             Attack();
+
+            }
+            else {
+                EnemyRadius.GetComponent<EnemyRadius>().haveTarget = false;
+                
+            }
+           
         }
         if(EnemyRadius.GetComponent<EnemyRadius>().haveTarget == false) {
             
@@ -45,7 +53,8 @@ public class enemyAttack : MonoBehaviour
     }
 
     void Attack() {
-        if(enemyReached == false) {
+        if(Unit !=null) {
+if(enemyReached == false) {
          Agent.SetDestination(UnitPosition.position);
         }
 
@@ -55,12 +64,12 @@ public class enemyAttack : MonoBehaviour
             Agent.speed = 0f;
             Debug.Log("enemy attacking");
             anim.SetBool(Attack_Animation,true);
-            StartCoroutine("giveDamage");
-
-            
-            
+            StartCoroutine("giveDamage");       
 
         
+    }
+    else if (Unit == null) {
+                StopCoroutine("giveDamage");
     }
     else {
         enemyReached = false;
@@ -68,12 +77,17 @@ public class enemyAttack : MonoBehaviour
         anim.SetBool(Attack_Animation,false);
         StopCoroutine("giveDamage");
     }
+        }
+        
     
 }
 
 IEnumerator giveDamage() {
+    if(Unit !=null) {
     yield return new WaitForSeconds(2f);
     Unit.GetComponent<HealthManager>().TakeDamage(10);
+    }
+    
 }
     
 }   

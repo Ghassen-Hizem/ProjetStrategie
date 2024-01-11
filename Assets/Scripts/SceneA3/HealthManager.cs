@@ -19,6 +19,8 @@ public class HealthManager : MonoBehaviour
     {
        if(healthAmount <=0) {
             anim.SetBool("IsDead",true);
+            Destroy(gameObject,5);
+
        }
     }
 
