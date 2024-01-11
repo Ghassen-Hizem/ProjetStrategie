@@ -66,6 +66,25 @@ public class SelectableUnit : MonoBehaviour
             unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
             attack = unitDistance <= attackPossibleRadius;
         }
+
+        /*
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackPossibleRadius);
+        List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+        foreach (Collider collider in colliders)
+        {
+            if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+            {
+                enemies.Add(otherEnemy);
+            }
+        }
+
+        if (enemies.Count() == 0)
+        {
+            StopCoroutine("HandleAttack");
+        }*/
+
+
+
     }
     
 
@@ -109,12 +128,13 @@ public class SelectableUnit : MonoBehaviour
             
             yield return new WaitUntil(() => attack == true);
 
-            while (enemyUnit != null)
+            while (enemyUnit != null && attack)
             {
                 Attack(enemyUnit);
                 yield return null;
 
                 List<Collider> colliders = new List<Collider>( Physics.OverlapSphere(transform.position, attackPossibleRadius));
+
                 List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
                 foreach (Collider collider in colliders)
                 {
@@ -132,7 +152,7 @@ public class SelectableUnit : MonoBehaviour
         }
         else
         {
-            while (enemyUnit != null)
+            while (enemyUnit != null && attack)
             {
                 Attack(enemyUnit);
                 yield return null;

@@ -28,6 +28,9 @@ public class ControlledSoldat : ControlledUnit
         Debug.Log("soldat attack");
         // ghassen work //
 
+        
+        enemyUnit.TakeDamage(degatAttack);
+        Debug.Log("degat attack " + degatAttack);
 
 
 
