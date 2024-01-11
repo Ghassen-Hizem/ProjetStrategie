@@ -20,10 +20,11 @@ public class ControlledCavalier : ControlledUnit
     }
     public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
-        /*
+        
         //repousse les unit à 1 uu de speed/2
         degatAttack = 4 + speed;
-        //Debug.Log("cavalier attack");
+        Debug.Log("cavalier attack");
+        /*
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit))
         {
             unit.Agent.speed = speed;
@@ -75,10 +76,6 @@ public class ControlledCavalier : ControlledUnit
             {
                 Destroy(unit.gameObject);
             }
-
-
         }
     }
-
-    
 }

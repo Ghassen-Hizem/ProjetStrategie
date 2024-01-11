@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class scriptTestEnemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    private int lifePoints = 10;
+    public void TakeDamage(int degats)
     {
-        
-    }
+        lifePoints = lifePoints - degats ;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (lifePoints <= 0)
+        {
+            
+            Destroy(gameObject);
+            //or just deactivate the object
+
+            Debug.Log("enemy damaged");
+
+        }
     }
+    
+    
+    
 }
