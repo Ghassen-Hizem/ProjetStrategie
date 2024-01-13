@@ -28,11 +28,11 @@ public class ControlledSoldat : ControlledUnit
         Debug.Log("soldat attack");
         // ghassen work //
 
-        
+        // if l'ennemi est dans le collider ?
         enemyUnit.TakeDamage(degatAttack);
         Debug.Log("degat attack " + degatAttack);
 
-
+        
 
         //end ghassen work//
 
