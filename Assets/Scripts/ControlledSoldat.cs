@@ -25,16 +25,19 @@ public class ControlledSoldat : ControlledUnit
 
     public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
-        Debug.Log("soldat attack");
+       
         // ghassen work //
 
-        // if l'ennemi est dans le collider ?
-        enemyUnit.TakeDamage(degatAttack);
-        Debug.Log("degat attack " + degatAttack);
-
         
+        enemyUnit.TakeDamage(degatAttack);
+        Debug.Log("soldat attack");
+
+        //the player should face the enemy: (rotation.lookAt)
+        //attack animation
 
         //end ghassen work//
+
+
 
         unit.attackElapsedtime = 0;
     }
@@ -42,8 +45,8 @@ public class ControlledSoldat : ControlledUnit
 
     public override void UseCapacity(SelectableUnit unit)
     {
-
-        
+        // ghassen work //
+        //end ghassen work//
     }
 
     public override void TakeDamage(SelectableUnit unit, int degats)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ public class scriptTestEnemy : MonoBehaviour
     private float attackElapsedtime = 0;
 
     private int nbArmors;
+    private int speed = 3;
 
     void Start()
     {
@@ -39,6 +41,7 @@ public class scriptTestEnemy : MonoBehaviour
         healthAmount = 50;
 
         Agent = gameObject.GetComponent<NavMeshAgent>();
+        Agent.speed = speed;
         //EnemyRadius = transform.GetChild(0).gameObject.GetComponent<EnemyRadius>();
     }
 
@@ -88,6 +91,7 @@ public class scriptTestEnemy : MonoBehaviour
         {
             if (enemyReached == false)
             {
+                Agent.speed = speed;
                 Agent.SetDestination(UnitPosition.position);
             }
 
@@ -96,7 +100,7 @@ public class scriptTestEnemy : MonoBehaviour
                 Agent.ResetPath();
                 enemyReached = true;
                 Agent.speed = 0f;
-                Debug.Log("enemy attacking");
+                //Debug.Log("enemy attacking");
                 attackElapsedtime = 0;
                 anim.SetBool(Attack_Animation, true);
                 StartCoroutine("giveDamage");
@@ -111,7 +115,7 @@ public class scriptTestEnemy : MonoBehaviour
             else
             {
                 enemyReached = false;
-                Agent.speed = 5f;
+                Agent.speed = speed;
                 anim.SetBool(Attack_Animation, false);
                 StopCoroutine("giveDamage");
             }

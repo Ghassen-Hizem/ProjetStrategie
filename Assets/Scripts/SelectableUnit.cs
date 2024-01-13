@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
+//using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
@@ -38,12 +39,16 @@ public class SelectableUnit : MonoBehaviour
     public GameObject KingParticles;
 
     [HideInInspector] public Vector3 unitPosition;
-    [HideInInspector] public Vector3 enemyPosition = new Vector3(0,0,0);
+    [HideInInspector] public Vector3 enemyPosition;
+    //
+    //[HideInInspector] public scriptTestEnemy enemyToAttack = null;
+    //
+
     [HideInInspector] public int unitDistance;
     [HideInInspector] public bool attack;
     private int attackPossibleRadius = 10;
 
-    public Camera mainCam;
+    private Camera mainCam;
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
@@ -68,23 +73,29 @@ public class SelectableUnit : MonoBehaviour
         attackElapsedtime += Time.deltaTime;
         capacityElapsedtime += Time.deltaTime;
         unitPosition = Agent.transform.position;
-        if (enemyPosition != new Vector3(0,0,0))
+        
+        /*
+        if (enemyToAttack)
         {
+            enemyPosition = enemyToAttack.transform.position;
             unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
             attack = unitDistance <= attackPossibleRadius;
-        }
+            //print("enemy position " + enemyPosition);
 
+        }*/
         /*
         if (gameObject == null)
         {
-            StopCoroutine("HandleAttack");
+            StopAllCoroutines();
         }*/
     }
     
 
     public void MoveTo(Vector3 Position)
     {
-        //on peut pas utiliser le nom car chaque instance a un nom different donc j'utilise le tag
+        print("moveTo");
+        StopAllCoroutines();
+        
         if (Agent.CompareTag("Magicien"))
         {
             controlledMagicien.MoveTo(this, Position);
@@ -111,105 +122,121 @@ public class SelectableUnit : MonoBehaviour
         }
     }
 
-
+    
     public IEnumerator HandleAttack(scriptTestEnemy enemyUnit)
     {
-        print("attack coroutine");
-        unitDistance = (int)Vector3.Distance(enemyUnit.transform.position, unitPosition);
-        attack = unitDistance <= attackPossibleRadius;
-        if (!attack)
+  
+        while (enemyUnit != null)
         {
-            //il faut que la position du moveToAttack soit dynamique car l'ennemi bouge
-            //le probleme n'existe pas pour le magicien ?
-            MoveToAttack(enemyUnit.transform.position);
+            enemyPosition = enemyUnit.transform.position;
             
-            yield return new WaitUntil(() => attack == true);
+            unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
+            attack = unitDistance <= attackPossibleRadius;
 
-            while (enemyUnit != null && attack)
+            if (!attack)
             {
-                
-                    Attack(enemyUnit);
-                    yield return null;
 
-                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                    List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
-                    foreach (Collider collider in colliders)
+                StartCoroutine(MoveToAttack(enemyUnit));
+                
+                yield return new WaitUntil(() => attack == true);
+
+                Attack(enemyUnit);
+                yield return null;
+
+                List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
                     {
-                        if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
-                        {
-                            enemies.Add(otherEnemy);
-                        }
+                        enemies.Add(otherEnemy);
                     }
-                    var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
-                    if (sortedEnemies.Count() != 0)
-                    {
-                        enemyUnit = sortedEnemies.FirstOrDefault();
-                    }
-                
-                
-                
+                }
+                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                if (sortedEnemies.Count() != 0)
+                {
+                    enemyUnit = sortedEnemies.FirstOrDefault();
+                }
+                else
+                {
+                    StopCoroutine(MoveToAttack(enemyUnit));
+                }
+
             }
-            yield break;
-        }
-        else
-        {
-            while (enemyUnit != null && attack)
+            else
             {
-                
-                    Attack(enemyUnit);
-                    yield return null;
+                Attack(enemyUnit);
+                yield return null;
 
-                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                    List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
-                    foreach (Collider collider in colliders)
+                List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
                     {
-                        if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
-                        {
-                            enemies.Add(otherEnemy);
-                        }
+                        enemies.Add(otherEnemy);
                     }
-                    var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
-                    if (sortedEnemies.Count() != 0)
-                    {
-                        enemyUnit = sortedEnemies.FirstOrDefault();
-                    }
-                
-                
+                }
+                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                if (sortedEnemies.Count() != 0)
+                {
+                    enemyUnit = sortedEnemies.FirstOrDefault(); 
+                }
+                else
+                {
+                    StopCoroutine(MoveToAttack(enemyUnit));
+                }
             }
-            yield break;
+
         }
+        yield break;
+
     }
-                
 
-    public void MoveToAttack(Vector3 Position)
+    
+
+    public IEnumerator MoveToAttack(scriptTestEnemy enemyToAttack)
     {
-        enemyPosition = Position;
-        
-        if (Agent.CompareTag("Magicien"))
+        if (enemyToAttack)
         {
-            controlledMagicien.MoveToAttack(this, Position);
+            while (true)
+            {
+                enemyPosition = enemyToAttack.transform.position;
+
+                unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
+                attack = unitDistance <= attackPossibleRadius;
+                print("move to attack");
+                if (Agent.CompareTag("Magicien"))
+                {
+                    controlledMagicien.MoveToAttack(this, enemyPosition);
+                }
+                else if (Agent.CompareTag("Cavalier"))
+                {
+                    controlledCavalier.MoveToAttack(this, enemyPosition);
+                }
+                else if (Agent.CompareTag("Soldat"))
+                {
+                    controlledSoldat.MoveToAttack(this, enemyPosition);
+
+                }
+                else if (Agent.CompareTag("Tirailleur"))
+                {
+                    controlledTirailleur.MoveToAttack(this, enemyPosition);
+                }
+                else if (Agent.CompareTag("Bouclier"))
+                {
+                    controlledBouclier.MoveToAttack(this, enemyPosition);
+                }
+                else if (Agent.CompareTag("Soignant"))
+                {
+                    controlledSoignant.MoveToAttack(this, enemyPosition);
+                }
+                yield return null;
+            }
         }
-        else if (Agent.CompareTag("Cavalier"))
-        {
-            controlledCavalier.MoveTo(this, Position);
-        }
-        else if (Agent.CompareTag("Soldat"))
-        {
-            controlledSoldat.MoveTo(this, Position);
-        }
-        else if (Agent.CompareTag("Tirailleur"))
-        {
-            controlledTirailleur.MoveTo(this, Position);
-        }
-        else if (Agent.CompareTag("Bouclier"))
-        {
-            controlledBouclier.MoveTo(this, Position);
-        }
-        else if (Agent.CompareTag("Soignant"))
-        {
-            controlledSoignant.MoveTo(this, Position);
-        }
+       
     }
+
 
     public void Attack(scriptTestEnemy enemyUnit)
     {

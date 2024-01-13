@@ -20,7 +20,7 @@ public class ControlledCavalier : ControlledUnit
     }
     public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
     {
-        
+        unit.attackElapsedtime = 0;
         //repousse les unit à 1 uu de speed/2
         degatAttack = 4 + speed;
         Debug.Log("cavalier attack");
