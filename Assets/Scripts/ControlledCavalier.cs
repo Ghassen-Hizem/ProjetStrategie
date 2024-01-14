@@ -18,7 +18,7 @@ public class ControlledCavalier : ControlledUnit
     {
         MoveTo(unit, position);
     }
-    public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
+    public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         unit.attackElapsedtime = 0;
         //repousse les unit à 1 uu de speed/2

@@ -47,7 +47,7 @@ public class PlayerInput : MonoBehaviour
 
             if (Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy enemyUnit))
+                if (hit.collider.TryGetComponent<scriptEnemy>(out scriptEnemy enemyUnit))
                 {
                     
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)

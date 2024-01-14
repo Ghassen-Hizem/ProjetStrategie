@@ -123,7 +123,7 @@ public class SelectableUnit : MonoBehaviour
     }
 
     
-    public IEnumerator HandleAttack(scriptTestEnemy enemyUnit)
+    public IEnumerator HandleAttack(scriptEnemy enemyUnit)
     {
   
         while (enemyUnit != null)
@@ -144,10 +144,10 @@ public class SelectableUnit : MonoBehaviour
                 yield return null;
 
                 List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                List<scriptEnemy> enemies = new List<scriptEnemy>();
                 foreach (Collider collider in colliders)
                 {
-                    if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+                    if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
                     {
                         enemies.Add(otherEnemy);
                     }
@@ -169,10 +169,10 @@ public class SelectableUnit : MonoBehaviour
                 yield return null;
 
                 List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                List<scriptTestEnemy> enemies = new List<scriptTestEnemy>();
+                List<scriptEnemy> enemies = new List<scriptEnemy>();
                 foreach (Collider collider in colliders)
                 {
-                    if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+                    if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
                     {
                         enemies.Add(otherEnemy);
                     }
@@ -195,7 +195,7 @@ public class SelectableUnit : MonoBehaviour
 
     
 
-    public IEnumerator MoveToAttack(scriptTestEnemy enemyToAttack)
+    public IEnumerator MoveToAttack(scriptEnemy enemyToAttack)
     {
         if (enemyToAttack)
         {
@@ -238,7 +238,7 @@ public class SelectableUnit : MonoBehaviour
     }
 
 
-    public void Attack(scriptTestEnemy enemyUnit)
+    public void Attack(scriptEnemy enemyUnit)
     {
 
         if (KingModeActive == false)

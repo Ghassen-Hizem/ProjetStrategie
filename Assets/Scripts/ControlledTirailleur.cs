@@ -25,15 +25,16 @@ public class ControlledTirailleur : ControlledUnit
         MoveTo(unit, position);
     }
 
-    public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
+    public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
-        Debug.Log("Tirailleur attack");
         // ghassen work //
-
-
-
+        
+        
+        Debug.Log("Tirailleur attack");
 
         //end ghassen work//
+
+
 
         unit.attackElapsedtime = 0;
     }
@@ -41,8 +42,8 @@ public class ControlledTirailleur : ControlledUnit
 
     public override void UseCapacity(SelectableUnit unit)
     {
+        // ghassen work //
 
-        
     }
 
     public override void TakeDamage(SelectableUnit unit, int degats)

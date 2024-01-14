@@ -33,14 +33,14 @@ public class ControlledMagicien : ControlledUnit
         unit.Agent.SetDestination(position);
     }
 
-    public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
+    public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         
             Collider[] colliders = Physics.OverlapSphere(enemyUnit.transform.position, attackRadius);
             foreach (Collider collider in colliders)
             {
                 //ou alors voir si il a un script TestEnemy
-                if (collider.TryGetComponent<scriptTestEnemy>(out scriptTestEnemy otherEnemy))
+                if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
                 {
                     otherEnemy.TakeDamage(degatAttack);
                 }

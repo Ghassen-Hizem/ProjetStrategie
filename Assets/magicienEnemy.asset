@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ceadb3b728bb7946aa74ec9c984fbfe, type: 3}
+  m_Name: magicienEnemy
+  m_EditorClassIdentifier: 
+  speed: 4
+  lifePoints: 40
+  nbArmors: 1
+  attackPeriod: 3
+  degatAttack: 3
+  LaserParticules: {fileID: 1552098304413248141, guid: dda9e345f36774546bc2156e3bf59d82, type: 3}

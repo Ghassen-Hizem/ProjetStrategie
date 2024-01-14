@@ -25,7 +25,7 @@ public class ControlledSoignant : ControlledUnit
         MoveTo(unit, position);
     }
 
-    public override void Attack(SelectableUnit unit, scriptTestEnemy enemyUnit)
+    public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         Debug.Log("Soignant attack");
         
