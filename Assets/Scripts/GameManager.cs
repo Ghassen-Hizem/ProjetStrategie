@@ -58,4 +58,5 @@ public class GameManager : MonoBehaviour
         canvaOptions.SetActive(false);
         canvaArenaChoice.SetActive(false);
     }
+
 }
