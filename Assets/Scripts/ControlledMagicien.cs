@@ -32,7 +32,7 @@ public class ControlledMagicien : ControlledUnit
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
-
+    
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         

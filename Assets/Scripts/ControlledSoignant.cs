@@ -10,8 +10,8 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Soignant")]
 public class ControlledSoignant : ControlledUnit
 {
-    
 
+    
 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
@@ -24,7 +24,8 @@ public class ControlledSoignant : ControlledUnit
     {
         MoveTo(unit, position);
     }
-
+    
+    
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         Debug.Log("Soignant attack");

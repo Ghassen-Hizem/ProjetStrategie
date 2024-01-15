@@ -10,9 +10,9 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Tirailleur")]
 public class ControlledTirailleur : ControlledUnit
 {
+
+
     
-
-
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -24,7 +24,7 @@ public class ControlledTirailleur : ControlledUnit
     {
         MoveTo(unit, position);
     }
-
+    
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         // ghassen work //

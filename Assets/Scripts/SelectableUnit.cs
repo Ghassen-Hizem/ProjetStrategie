@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
+using Unity.VisualScripting;
 //using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -24,6 +25,7 @@ public class SelectableUnit : MonoBehaviour
 
     [HideInInspector] public float attackElapsedtime = 0;
     [HideInInspector] public float capacityElapsedtime = 0;
+    [HideInInspector] public float moveToAttackElapsedTime = 0;
 
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
     [HideInInspector] public int MagicienlifePoints;
@@ -49,6 +51,7 @@ public class SelectableUnit : MonoBehaviour
     private int attackPossibleRadius = 10;
 
     private Camera mainCam;
+    public pushRadiusCavalier pushRadius;
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
@@ -72,6 +75,7 @@ public class SelectableUnit : MonoBehaviour
         canvaHealthBar.transform.rotation = Quaternion.LookRotation(healthBar.transform.position - mainCam.transform.position);
         attackElapsedtime += Time.deltaTime;
         capacityElapsedtime += Time.deltaTime;
+        moveToAttackElapsedTime += Time.deltaTime;
         unitPosition = Agent.transform.position;
         
         /*
@@ -197,22 +201,27 @@ public class SelectableUnit : MonoBehaviour
 
     public IEnumerator MoveToAttack(scriptEnemy enemyToAttack)
     {
-        if (enemyToAttack)
+        Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
+
+        while (true)
         {
-            while (true)
+            if (enemyToAttack)
             {
                 enemyPosition = enemyToAttack.transform.position;
 
                 unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
                 attack = unitDistance <= attackPossibleRadius;
-                print("move to attack");
+
                 if (Agent.CompareTag("Magicien"))
                 {
                     controlledMagicien.MoveToAttack(this, enemyPosition);
                 }
                 else if (Agent.CompareTag("Cavalier"))
                 {
-                    controlledCavalier.MoveToAttack(this, enemyPosition);
+                    if (moveToAttackElapsedTime >= 3)
+                    {
+                        controlledCavalier.MoveToAttack(this, enemyPosition);
+                    }
                 }
                 else if (Agent.CompareTag("Soldat"))
                 {
@@ -231,9 +240,16 @@ public class SelectableUnit : MonoBehaviour
                 {
                     controlledSoignant.MoveToAttack(this, enemyPosition);
                 }
-                yield return null;
+                    yield return null;
+                
             }
+            else
+            {
+                yield break;
+            }
+
         }
+       
        
     }
 

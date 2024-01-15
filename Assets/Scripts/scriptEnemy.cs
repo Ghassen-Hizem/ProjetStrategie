@@ -91,8 +91,19 @@ public class scriptEnemy : MonoBehaviour
         {
             if (enemyReached == false)
             {
-                Agent.speed = speed;
-                Agent.SetDestination(UnitPosition.position);
+                if (gameObject.CompareTag("Magicien"))
+                {
+                    //should be 5 at least
+                    Agent.stoppingDistance = 1;
+                    Agent.speed = speed;
+                    Agent.SetDestination(UnitPosition.position);
+                }
+                else
+                {
+                    Agent.speed = speed;
+                    Agent.SetDestination(UnitPosition.position);
+                }
+                
             }
 
             if (distance < 1)

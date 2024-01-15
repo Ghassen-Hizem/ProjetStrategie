@@ -97,6 +97,7 @@ MonoBehaviour:
   enemyPosition: {x: 0, y: 0, z: 0}
   unitDistance: 0
   attack: 0
+  pushRadius: {fileID: 0}
 --- !u!136 &1790536567304216024
 CapsuleCollider:
   m_ObjectHideFlags: 0
