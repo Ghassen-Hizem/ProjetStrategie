@@ -17,7 +17,7 @@ public class ControlledCavalier : ControlledUnit
     //private Vector3 decalage;
     
     private pushRadiusCavalier pushRadius;
-    private float attackPossibleRadius = 0.2f;
+    private float attackPossibleRadius = 5f;
     private int distance;
     
     //private float pushForce = 30f;
@@ -43,10 +43,11 @@ public class ControlledCavalier : ControlledUnit
     {
   
         distance = (int)Vector3.Distance(position, unit.transform.position);
+        //Debug.Log("distance " + distance);
 
         if (distance <= attackPossibleRadius)
         {
-            MoveTo(unit, unit.transform.position + unit.transform.forward * 15);
+            MoveTo(unit, unit.transform.position + unit.transform.forward * 15); //why not enemyPosition + transform.forward, this obliges it to pass through the enemy and attack it
             Debug.Log("move forward");
             //dont wait 
         }
@@ -63,21 +64,25 @@ public class ControlledCavalier : ControlledUnit
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
- 
+        
+        //when attack is possible (distance< range), we should move to enemy + forward then elapsedTime = 0 
+        //Also, if we are too close to enemy, we should move forward then  re do first point
+
         unit.Agent.speed = speed;
         degats = 4 + (int)unit.Agent.speed;
-        Debug.Log("cavalier attack");
+        //Debug.Log("cavalier attack");
         pushRadius = unit.pushRadius;
         pushRadius.gameObject.SetActive(true);
         pushRadius.speed = (int)unit.Agent.speed;
 
         unit.attackElapsedtime = 0;
+        //the attack happens when we enter the attackPossibleRadius of selectableUnit. the attack should happen, the cavalier should not run away from the enemy
 
         if (!enemyUnit)
         {
             pushRadius.gameObject.SetActive(false);
         }
-
+        //go to enemy position + transform.forward (but this is already done in MoveToAttack)
     }
 
     public override void UseCapacity(SelectableUnit unit)
