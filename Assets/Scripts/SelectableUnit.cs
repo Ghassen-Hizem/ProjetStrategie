@@ -6,11 +6,15 @@ using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
 using Unity.VisualScripting;
+using static UnityEngine.UI.CanvasScaler;
 //using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
 {
+
+    public gameManagerA3 gameManager;
+
     [HideInInspector] public NavMeshAgent Agent;
     [SerializeField] private SpriteRenderer SelectionSprite;
     [SerializeField] public Image healthBar;
@@ -59,6 +63,10 @@ public class SelectableUnit : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
+       
+        
+
         SelectionManager.Instance.AvailableUnits.Add(this);
         Agent = GetComponent<NavMeshAgent>();
         MagicienlifePoints = controlledMagicien.lifePoints;
@@ -91,6 +99,11 @@ public class SelectableUnit : MonoBehaviour
         if (gameObject == null)
         {
             StopAllCoroutines();
+        }*/
+        /*
+        if (KingModeActive && !this)
+        {
+            gameManager.GameOver();
         }*/
     }
     
@@ -144,52 +157,70 @@ public class SelectableUnit : MonoBehaviour
                 
                 yield return new WaitUntil(() => attack == true);
 
-                Attack(enemyUnit);
-                yield return null;
-
-                List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                List<scriptEnemy> enemies = new List<scriptEnemy>();
-                foreach (Collider collider in colliders)
+                if (this)
                 {
-                    if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
+                    Attack(enemyUnit);
+                    yield return null;
+
+                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    List<scriptEnemy> enemies = new List<scriptEnemy>();
+                    foreach (Collider collider in colliders)
                     {
-                        enemies.Add(otherEnemy);
+                        if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
+                        {
+                            enemies.Add(otherEnemy);
+                        }
+                    }
+                    var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                    if (sortedEnemies.Count() != 0)
+                    {
+                        enemyUnit = sortedEnemies.FirstOrDefault();
+                    }
+                    else
+                    {
+                        StopCoroutine(MoveToAttack(enemyUnit));
                     }
                 }
-                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
-                if (sortedEnemies.Count() != 0)
-                {
-                    enemyUnit = sortedEnemies.FirstOrDefault();
-                }
-                else
-                {
-                    StopCoroutine(MoveToAttack(enemyUnit));
-                }
-
+                
             }
             else
             {
-                Attack(enemyUnit);
-                yield return null;
-
-                List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
-                List<scriptEnemy> enemies = new List<scriptEnemy>();
-                foreach (Collider collider in colliders)
+                if (this)
                 {
-                    if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
+                    if (CompareTag("Cavalier"))
                     {
-                        enemies.Add(otherEnemy);
+                        StartCoroutine(MoveToAttack(enemyUnit));
+
+                        yield return new WaitUntil(() => attack == true);
+                    }
+
+
+
+                    Attack(enemyUnit);
+
+
+                    yield return null;
+
+                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    List<scriptEnemy> enemies = new List<scriptEnemy>();
+                    foreach (Collider collider in colliders)
+                    {
+                        if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
+                        {
+                            enemies.Add(otherEnemy);
+                        }
+                    }
+                    var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
+                    if (sortedEnemies.Count() != 0)
+                    {
+                        enemyUnit = sortedEnemies.FirstOrDefault();
+                    }
+                    else
+                    {
+                        StopCoroutine(MoveToAttack(enemyUnit));
                     }
                 }
-                var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unitPosition));
-                if (sortedEnemies.Count() != 0)
-                {
-                    enemyUnit = sortedEnemies.FirstOrDefault(); 
-                }
-                else
-                {
-                    StopCoroutine(MoveToAttack(enemyUnit));
-                }
+                
             }
 
         }
@@ -201,11 +232,11 @@ public class SelectableUnit : MonoBehaviour
 
     public IEnumerator MoveToAttack(scriptEnemy enemyToAttack)
     {
-        Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
+        //Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
 
         while (true)
         {
-            if (enemyToAttack)
+            if (enemyToAttack && this)
             {
                 enemyPosition = enemyToAttack.transform.position;
 
@@ -218,7 +249,10 @@ public class SelectableUnit : MonoBehaviour
                 }
                 else if (Agent.CompareTag("Cavalier"))
                 {
-                    if (moveToAttackElapsedTime >= 3)
+                    //if we wait too long, the enemies will reach us and we need to do move forward again and again
+                    //if we dont wait enough, it will execute the move to enemy as soon as they are not in the range
+                    //it should be low because the cavalier should move forward as soon as he moves to enemy and attacks
+                    if (moveToAttackElapsedTime >= 8)
                     {
                         controlledCavalier.MoveToAttack(this, enemyPosition);
                     }
@@ -366,7 +400,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void TakeDamage(int degats)
     {
-        if(gameObject)
+        if(this)
         {
             if (Agent.CompareTag("Magicien"))
             {
@@ -377,6 +411,20 @@ public class SelectableUnit : MonoBehaviour
             {
                 controlledCavalier.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)CavalierlifePoints / controlledCavalier.lifePoints;
+                if (CavalierlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {
+                        Debug.Log("gameOver");
+                        gameManager.GameOver();
+                        Destroy(this);   
+                    }
+                    else
+                    {
+                        //why it dont destroy the object
+                        Destroy(this);
+                    }
+                }
             }
             else if (Agent.CompareTag("Soldat"))
             {
@@ -404,6 +452,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void KingMode()
     {
+        gameManager.KingMode = true;
         KingModeActive = true;
         print("KingMode");
 

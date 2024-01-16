@@ -398,6 +398,7 @@ MonoBehaviour:
   controlledSoignant: {fileID: 11400000, guid: 3d679d17e7468c94b81e4854b701f3a6, type: 2}
   attackElapsedtime: 0
   capacityElapsedtime: 0
+  moveToAttackElapsedTime: 0
   MagicienlifePoints: 0
   CavalierlifePoints: 0
   SoldatlifePoints: 0
@@ -411,6 +412,7 @@ MonoBehaviour:
   enemyPosition: {x: 0, y: 0, z: 0}
   unitDistance: 0
   attack: 0
+  pushRadius: {fileID: 0}
 --- !u!1 &2315795301087378289
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,46 +14,70 @@ public class gameManagerA3 : MonoBehaviour
 
     public GameObject GameDescriptionText;
 
+    //je vais utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true
+    [HideInInspector] public bool KingMode = false;
 
-    
 
-    private GameObject[] Units;
-    private GameObject[] Enemies;
-    // Start is called before the first frame update
+    private SelectableUnit[] Units;
+    private scriptEnemy[] Enemies;
+   
     void Start()
     {
        
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Units = GameObject.FindGameObjectsWithTag("Player");
-        Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        //c'est tres couteux d'utiliser find ou getComponent dans le Update. normalement on essaye de les utiliser seulement dans le start.
+        //dans notre cas, on peux créer deux listes qui ont tous les players et ennemies au debut. puis faire une fonction pour remove une unit quand elle meurt.
+        //donc, chaque fois qu'un player ou un enemy meurt, il appelle la fct du gameManager pour enlever cette unit de la liste
+        
+        //Units = GameObject.FindGameObjectsWithTag("Player");
+        //Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Units = FindObjectsOfType(typeof(SelectableUnit)) as SelectableUnit[];
+        Enemies = FindObjectsOfType(typeof(scriptEnemy)) as scriptEnemy[];
 
-        if(Units.Length == 0) {
-            gameOverPanel.SetActive(true);
-            GameDescriptionText.GetComponent<TextMeshProUGUI>().text  = "Temps du jeu : Timer_variable\n" + "Nombre d'unités perdu : " + Convert.ToString(20-Units.Length) +"\n" + "Nombre d'enemies restants: "+ Convert.ToString(Enemies.Length) +"\n";
+        if (Units.Length == 0) {
+            GameOver();
+            
         }
-
-        //implemntation de defaite en cas de mort du roi 
 
 
      if(Enemies.Length == 0) {
-            youWinPanel.SetActive(true);
+            Victory();
+            
         }
 
-        //implementation de victoire en cas de capture et de deposition du drapeau en zone de depart
+     
+        //implementation de victoire en cas de capture et de deposition du drapeau en zone de depart:
+        //ajouter un script à la zone de depart pour appeler la fonction victory de ce script:
+        //OnTriggerEnter
+        // collider = tryGetComponent<SelectableUnit>(out SelectableUnit)
+        //if (SelectableUnit.kingModeActive) {gameManager.Victory()}
+    }
 
-        
+    public void GameOver()
+    {
+        Time.timeScale = 0;
+        gameOverPanel.SetActive(true);
+        GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : Timer_variable\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
+    }
 
+    public void Victory()
+    {
+        youWinPanel.SetActive(true);
     }
 
     public void RestartGame() {
-        SceneManager.LoadScene("A3Scene");
+        //SceneManager.LoadScene("A3Scene");
+        gameOverPanel.SetActive(false);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ExitGame() {
+        gameOverPanel.SetActive(false);
+        Time.timeScale = 1;
         SceneManager.LoadScene("MenuScene");
     }
 }
