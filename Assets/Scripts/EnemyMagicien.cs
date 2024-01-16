@@ -19,18 +19,26 @@ public class EnemyMagicien : EnemyUnit
     public override void Attack(scriptEnemy enemyUnit, SelectableUnit unit)
     {
 
-        Collider[] colliders = Physics.OverlapSphere(unit.transform.position, attackRadius);
-        foreach (Collider collider in colliders)
+        if (unit & enemyUnit)
         {
-            //ou alors voir si il a un script TestEnemy
-            if (collider.TryGetComponent<SelectableUnit>(out SelectableUnit otherPlayer))
+            Collider[] colliders = Physics.OverlapSphere(unit.transform.position, attackRadius);
+            foreach (Collider collider in colliders)
             {
-                otherPlayer.TakeDamage(degatAttack);
-            }
-        }
+                //ou alors voir si il a un script TestEnemy
+                if (collider.TryGetComponent<SelectableUnit>(out SelectableUnit otherPlayer))
+                {
+                    if (collider)
+                    {
+                        otherPlayer.TakeDamage(degatAttack);
+                    }
 
-        var particules = Instantiate(LaserParticules, unit.transform.position, LaserParticules.transform.rotation);
-        particules.SetActive(true);
+                }
+            }
+
+            var particules = Instantiate(LaserParticules, unit.transform.position, LaserParticules.transform.rotation);
+            particules.SetActive(true);
+
+        }
 
     }
 

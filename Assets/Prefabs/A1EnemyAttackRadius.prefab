@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4375690217036500175}
   - component: {fileID: 592424550745302056}
   m_Layer: 0
-  m_Name: A1AttackRadius
+  m_Name: A1EnemyAttackRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

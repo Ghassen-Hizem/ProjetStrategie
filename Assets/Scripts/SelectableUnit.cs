@@ -6,11 +6,15 @@ using System.Linq;
 using UnityEngine.UI;
 using System.Threading;
 using Unity.VisualScripting;
+using static UnityEngine.UI.CanvasScaler;
 //using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
 {
+
+    public gameManagerA3 gameManager;
+
     [HideInInspector] public NavMeshAgent Agent;
     [SerializeField] private SpriteRenderer SelectionSprite;
     [SerializeField] public Image healthBar;
@@ -59,6 +63,10 @@ public class SelectableUnit : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
+        Debug.Log("game manager"+ gameManager);
+        
+
         SelectionManager.Instance.AvailableUnits.Add(this);
         Agent = GetComponent<NavMeshAgent>();
         MagicienlifePoints = controlledMagicien.lifePoints;
@@ -91,6 +99,11 @@ public class SelectableUnit : MonoBehaviour
         if (gameObject == null)
         {
             StopAllCoroutines();
+        }*/
+        /*
+        if (KingModeActive && !this)
+        {
+            gameManager.GameOver();
         }*/
     }
     
@@ -201,11 +214,11 @@ public class SelectableUnit : MonoBehaviour
 
     public IEnumerator MoveToAttack(scriptEnemy enemyToAttack)
     {
-        Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
+        //Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
 
         while (true)
         {
-            if (enemyToAttack)
+            if (enemyToAttack && this)
             {
                 enemyPosition = enemyToAttack.transform.position;
 
@@ -366,7 +379,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void TakeDamage(int degats)
     {
-        if(gameObject)
+        if(this)
         {
             if (Agent.CompareTag("Magicien"))
             {
@@ -377,6 +390,21 @@ public class SelectableUnit : MonoBehaviour
             {
                 controlledCavalier.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)CavalierlifePoints / controlledCavalier.lifePoints;
+                if (CavalierlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {
+                        Debug.Log("gameOver");
+                        gameManager.GameOver();
+                        Destroy(this);
+                        
+                    }
+                    else
+                    {
+
+                        Destroy(this);
+                    }
+                }
             }
             else if (Agent.CompareTag("Soldat"))
             {
@@ -404,6 +432,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void KingMode()
     {
+        gameManager.KingMode = true;
         KingModeActive = true;
         print("KingMode");
 

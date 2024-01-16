@@ -9,21 +9,25 @@ using static UnityEngine.ParticleSystem;
 public class ControlledCavalier : ControlledUnit
 {
 
-    
+    //public gameManagerA3 gameManager;
+
     public int attackRadius = 3;
     public int degats;
     //private Vector3 decalage = new Vector3(0,0,-1);
-    private Vector3 decalage;
+    //private Vector3 decalage;
     
-    public pushRadiusCavalier pushRadius;
+    private pushRadiusCavalier pushRadius;
     private float attackPossibleRadius = 0.2f;
     private int distance;
     
     //private float pushForce = 30f;
 
-    void Awake ()
+    
+    void Start ()
     {
-        degats = 4 + speed;
+        //gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
+        //Debug.Log("game manager"+ gameManager);
+        
         
     }
     public override void MoveTo(SelectableUnit unit, Vector3 position)
@@ -80,7 +84,7 @@ public class ControlledCavalier : ControlledUnit
     {
         //faire du MoveToAttack
         unit.Agent.speed = 10;
-        //degats = 4 + (int)unit.Agent.speed;
+        degats = 4 + (int)unit.Agent.speed;
         pushRadius.speed = (int)unit.Agent.speed;
         Debug.Log("cavalier capacity");
 
@@ -94,19 +98,28 @@ public class ControlledCavalier : ControlledUnit
 
     public override void TakeDamage(SelectableUnit unit, int degats)
     {
-        unit.CavalierlifePoints = unit.CavalierlifePoints - degats + nbArmors;
-
-        if (unit.CavalierlifePoints <= 0)
+        if (unit)
         {
-            if (unit.KingModeActive)
+            unit.CavalierlifePoints = unit.CavalierlifePoints - degats + nbArmors;
+
+            /*
+            if (unit.CavalierlifePoints <= 0)
             {
-                //GameManager.GameOver
-                Debug.Log("gameOver");
-            }
-            else
-            {
-                Destroy(unit.gameObject);
-            }
+                if (unit.KingModeActive)
+                {
+                    //GameManager.GameOver
+                    Debug.Log("gameOver");
+                    gameManager.GameOver();
+                    Destroy(unit.gameObject);
+                    //gameManager.GameOver();
+                }
+                else
+                {
+
+                    Destroy(unit.gameObject);
+                }
+            }*/
         }
+        
     }
 }

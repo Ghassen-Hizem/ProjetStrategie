@@ -156,7 +156,11 @@ public class scriptEnemy : MonoBehaviour
         {
             yield return new WaitForSeconds(2f);
             
-            Unit.TakeDamage(2);
+            if (Unit)
+            {
+                Unit.TakeDamage(2);
+            }
+            
         }
 
     }
