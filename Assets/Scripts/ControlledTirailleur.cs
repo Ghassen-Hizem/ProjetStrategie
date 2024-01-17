@@ -11,8 +11,6 @@ using UnityEngine.UIElements;
 public class ControlledTirailleur : ControlledUnit
 {
 
-
-    
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -27,12 +25,12 @@ public class ControlledTirailleur : ControlledUnit
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
-        // ghassen work //
+        
         
         
         Debug.Log("Tirailleur attack");
 
-        //end ghassen work//
+        
 
 
 
@@ -42,7 +40,7 @@ public class ControlledTirailleur : ControlledUnit
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        // ghassen work //
+       
 
     }
 

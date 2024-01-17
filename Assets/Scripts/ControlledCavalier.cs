@@ -13,7 +13,7 @@ public class ControlledCavalier : ControlledUnit
     public int degats;
 
     private pushRadiusCavalier pushRadius;
-    private float attackPossibleRadius = 15f;
+    private float attackPossibleRadius = 10f;
     private int distance;
     
     
@@ -22,7 +22,12 @@ public class ControlledCavalier : ControlledUnit
         unit.Agent.stoppingDistance = 1;
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
-        //pushCollider.gameObject.SetActive(false);
+        if(pushRadius)
+        {
+            pushRadius.gameObject.SetActive(false);
+        }
+        
+        
     }
 
     
@@ -32,16 +37,11 @@ public class ControlledCavalier : ControlledUnit
         //unit.Agent.speed = speed;
         //i maybe will need this line if i add capacity
 
-
-        //when attack is possible (distance< range), we should move to enemy + forward then elapsedTime = 0 
-        //Also, if we are too close to enemy, we should move forward then  re do first point
-
         distance = (int)Vector3.Distance(position, unit.transform.position);
-        //Debug.Log("distance " + distance);
 
         if (distance <= attackPossibleRadius)
         {
-            MoveTo(unit, unit.transform.position + unit.transform.forward * 15); //why not enemyPosition + transform.forward, this obliges it to pass through the enemy and attack it
+            MoveTo(unit, unit.transform.position + unit.transform.forward * 10); 
             //Debug.Log("move forward");
         }
         else
@@ -92,23 +92,6 @@ public class ControlledCavalier : ControlledUnit
         {
             unit.CavalierlifePoints = unit.CavalierlifePoints - degats + nbArmors;
 
-            /*
-            if (unit.CavalierlifePoints <= 0)
-            {
-                if (unit.KingModeActive)
-                {
-                    //GameManager.GameOver
-                    Debug.Log("gameOver");
-                    gameManager.GameOver();
-                    Destroy(unit.gameObject);
-                    //gameManager.GameOver();
-                }
-                else
-                {
-
-                    Destroy(unit.gameObject);
-                }
-            }*/
         }
         
     }

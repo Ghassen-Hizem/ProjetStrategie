@@ -88,11 +88,12 @@ public class SelectableUnit : MonoBehaviour
         
         unitPosition = Agent.transform.position;
 
+        
         if (CompareTag("Cavalier"))
         {
             //we should desactivate it more often (activate only for 3 seconds)
             //Debug.Log("unit magnitude" + Agent.velocity.magnitude);
-            if (Agent.velocity.magnitude < 10)
+            if (Agent.velocity.magnitude < 3)
             {
                 pushRadius.gameObject.SetActive(false);
             }
@@ -107,11 +108,11 @@ public class SelectableUnit : MonoBehaviour
             //print("enemy position " + enemyPosition);
 
         }*/
-        /*
-        if (gameObject == null)
+        
+        if (!gameObject)
         {
             StopAllCoroutines();
-        }*/
+        }
         /*
         if (KingModeActive && !this)
         {
@@ -414,6 +415,18 @@ public class SelectableUnit : MonoBehaviour
             {
                 controlledMagicien.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)MagicienlifePoints / controlledMagicien.lifePoints;
+                if (MagicienlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {  
+                        gameManager.GameOver();
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
             else if (Agent.CompareTag("Cavalier"))
             {
@@ -423,14 +436,14 @@ public class SelectableUnit : MonoBehaviour
                 {
                     if (KingModeActive)
                     {
-                        Debug.Log("gameOver");
+                        
                         gameManager.GameOver();
-                        Destroy(this);   
+                        Destroy(gameObject);   
                     }
                     else
                     {
                         //why it dont destroy the object
-                        Destroy(this);
+                        Destroy(gameObject);
                     }
                 }
             }

@@ -15,18 +15,11 @@ public class PlayerInput : MonoBehaviour
     private float MouseDownTime;
     private Vector2 startMousePosition;
 
-    //private int attackPossibleRadius = 15;
-    //private int unitDistance;
-    
-
-    //private bool attack = false;
-
     private void Update()
     {
         HandleSelectionInputs();
         HandleOrderInputs();
 
-        //les enemy doivent etre des navmesh agents de type "player"  ??
     }
 
     private void HandleOrderInputs()
@@ -39,7 +32,11 @@ public class PlayerInput : MonoBehaviour
         {
             foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
             {
-                unit.UseCapacity();
+                if (unit)
+                {
+                    unit.UseCapacity();
+                }
+                
             }
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1) && SelectionManager.Instance.SelectedUnits.Count > 0)
@@ -52,16 +49,24 @@ public class PlayerInput : MonoBehaviour
                     
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                     {
-                        StartCoroutine(unit.HandleAttack(enemyUnit));
-                        //if there is no enemy around, we should stop the attack coroutine
+                        if (unit)
+                        {
+                            StartCoroutine(unit.HandleAttack(enemyUnit));
+                        }
+                        
+                        
                     }
                 }
                 else
                 {
                     foreach (SelectableUnit unit in SelectionManager.Instance.SelectedUnits)
                     {
-                        unit.MoveTo(hit.point);
-                        //print("moving");
+                        if (unit)
+                        {
+                            unit.MoveTo(hit.point);
+                            //print("moving");
+                        }
+
                     }
                 }
             }

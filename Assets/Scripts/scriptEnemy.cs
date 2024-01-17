@@ -115,6 +115,7 @@ public class scriptEnemy : MonoBehaviour
 
                 if (gameObject.CompareTag("Magicien"))
                 {
+                    //il doit attaque depuis une longue distance
                     enemyMagicien.Attack(this, Unit);
                 }
                 else if (gameObject.CompareTag("Soldat"))

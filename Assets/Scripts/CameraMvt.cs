@@ -27,33 +27,12 @@ public class CameraMvt : MonoBehaviour
             maxPositionUpX = 14f;
             maxPositionDownX = -60f;
         }
-        else if (Arenaindex == 2)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
         else if (Arenaindex == 3)
         {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
-        else if (Arenaindex == 4)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
-        else if (Arenaindex == 5)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
+            maxPositionLeft = 30f;
+            maxPositionRight = 12f;
+            maxPositionUpX = -34f;
+            maxPositionDownX = -68.5f;
         }
 
     }
