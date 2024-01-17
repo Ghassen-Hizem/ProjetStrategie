@@ -29,7 +29,7 @@ public class SelectableUnit : MonoBehaviour
 
     [HideInInspector] public float attackElapsedtime = 0;
     [HideInInspector] public float capacityElapsedtime = 0;
-    [HideInInspector] public float moveToAttackElapsedTime = 0;
+    
 
     //jai defini des lifepoints dans ce script car la valeur des lifepoints depend de chaque instance d'unité
     [HideInInspector] public int MagicienlifePoints;
@@ -57,6 +57,8 @@ public class SelectableUnit : MonoBehaviour
     private Camera mainCam;
     public pushRadiusCavalier pushRadius;
 
+    
+
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
     //attackElapsedtime = controlledMagicien.attackPeriod;
@@ -83,8 +85,18 @@ public class SelectableUnit : MonoBehaviour
         canvaHealthBar.transform.rotation = Quaternion.LookRotation(healthBar.transform.position - mainCam.transform.position);
         attackElapsedtime += Time.deltaTime;
         capacityElapsedtime += Time.deltaTime;
-        moveToAttackElapsedTime += Time.deltaTime;
+        
         unitPosition = Agent.transform.position;
+
+        if (CompareTag("Cavalier"))
+        {
+            //we should desactivate it more often (activate only for 3 seconds)
+            //Debug.Log("unit magnitude" + Agent.velocity.magnitude);
+            if (Agent.velocity.magnitude < 10)
+            {
+                pushRadius.gameObject.SetActive(false);
+            }
+        }
         
         /*
         if (enemyToAttack)
@@ -194,8 +206,6 @@ public class SelectableUnit : MonoBehaviour
                         yield return new WaitUntil(() => attack == true);
                     }
 
-
-
                     Attack(enemyUnit);
 
 
@@ -219,6 +229,7 @@ public class SelectableUnit : MonoBehaviour
                     {
                         StopCoroutine(MoveToAttack(enemyUnit));
                     }
+
                 }
                 
             }
@@ -252,7 +263,7 @@ public class SelectableUnit : MonoBehaviour
                     //if we wait too long, the enemies will reach us and we need to do move forward again and again
                     //if we dont wait enough, it will execute the move to enemy as soon as they are not in the range
                     //it should be low because the cavalier should move forward as soon as he moves to enemy and attacks
-                    if (moveToAttackElapsedTime >= 8)
+                    if (attackElapsedtime >= controlledCavalier.attackPeriod)
                     {
                         controlledCavalier.MoveToAttack(this, enemyPosition);
                     }
@@ -302,10 +313,7 @@ public class SelectableUnit : MonoBehaviour
             }
             else if (Agent.CompareTag("Cavalier"))
             {
-                if (attackElapsedtime >= controlledCavalier.attackPeriod)
-                {
-                    controlledCavalier.Attack(this, enemyUnit);
-                }
+                controlledCavalier.Attack(this, enemyUnit);
             }
             else if (Agent.CompareTag("Soldat"))
             {

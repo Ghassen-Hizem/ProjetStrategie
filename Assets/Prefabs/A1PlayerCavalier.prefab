@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae2c35fbf830b64fb7dc08e8cd4fe54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   Agent: {fileID: 0}
   SelectionSprite: {fileID: 5393598774606881119}
   healthBar: {fileID: 51496570658829809}
@@ -99,6 +100,7 @@ MonoBehaviour:
   unitDistance: 0
   attack: 0
   pushRadius: {fileID: 7322009494376645100}
+  rb: {fileID: 6295165279440740611}
 --- !u!54 &6295165279440740611
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -248,7 +250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1696455014281845802
 Transform:
   m_ObjectHideFlags: 0

@@ -9,27 +9,14 @@ using static UnityEngine.ParticleSystem;
 public class ControlledCavalier : ControlledUnit
 {
 
-    //public gameManagerA3 gameManager;
-
     public int attackRadius = 3;
     public int degats;
-    //private Vector3 decalage = new Vector3(0,0,-1);
-    //private Vector3 decalage;
-    
+
     private pushRadiusCavalier pushRadius;
-    private float attackPossibleRadius = 5f;
+    private float attackPossibleRadius = 15f;
     private int distance;
     
-    //private float pushForce = 30f;
-
     
-    void Start ()
-    {
-        //gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
-        //Debug.Log("game manager"+ gameManager);
-        
-        
-    }
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -41,22 +28,28 @@ public class ControlledCavalier : ControlledUnit
     
     public override void MoveToAttack(SelectableUnit unit, Vector3 position)
     {
-  
+
+        //unit.Agent.speed = speed;
+        //i maybe will need this line if i add capacity
+
+
+        //when attack is possible (distance< range), we should move to enemy + forward then elapsedTime = 0 
+        //Also, if we are too close to enemy, we should move forward then  re do first point
+
         distance = (int)Vector3.Distance(position, unit.transform.position);
         //Debug.Log("distance " + distance);
 
         if (distance <= attackPossibleRadius)
         {
             MoveTo(unit, unit.transform.position + unit.transform.forward * 15); //why not enemyPosition + transform.forward, this obliges it to pass through the enemy and attack it
-            Debug.Log("move forward");
-            //dont wait 
+            //Debug.Log("move forward");
         }
         else
         {
+            //je peux ajouter du forward + position mais pas obligé
             MoveTo(unit, position );
-            Debug.Log("move to enemy");
-            unit.moveToAttackElapsedTime = 0;
-            //wait until the enemy is reached
+            //Debug.Log("move to enemy");
+            unit.attackElapsedtime = 0;
         }
 
     }
@@ -64,32 +57,24 @@ public class ControlledCavalier : ControlledUnit
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
+        //this attack happens every frame (when enemies collide with pushRadius)
         
-        //when attack is possible (distance< range), we should move to enemy + forward then elapsedTime = 0 
-        //Also, if we are too close to enemy, we should move forward then  re do first point
-
         unit.Agent.speed = speed;
-        degats = 4 + (int)unit.Agent.speed;
-        //Debug.Log("cavalier attack");
         pushRadius = unit.pushRadius;
         pushRadius.gameObject.SetActive(true);
         pushRadius.speed = (int)unit.Agent.speed;
-
-        unit.attackElapsedtime = 0;
-        //the attack happens when we enter the attackPossibleRadius of selectableUnit. the attack should happen, the cavalier should not run away from the enemy
 
         if (!enemyUnit)
         {
             pushRadius.gameObject.SetActive(false);
         }
-        //go to enemy position + transform.forward (but this is already done in MoveToAttack)
+        
     }
 
     public override void UseCapacity(SelectableUnit unit)
     {
         //faire du MoveToAttack
         unit.Agent.speed = 10;
-        degats = 4 + (int)unit.Agent.speed;
         pushRadius.speed = (int)unit.Agent.speed;
         Debug.Log("cavalier capacity");
 

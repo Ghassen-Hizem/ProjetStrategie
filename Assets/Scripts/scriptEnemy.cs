@@ -173,6 +173,7 @@ public class scriptEnemy : MonoBehaviour
        
         if (healthAmount <= 0)
         {
+            //stop the moveToAttack
             if (gameObject.CompareTag("Soldat"))
             {
                 anim.SetBool("IsDead", true);

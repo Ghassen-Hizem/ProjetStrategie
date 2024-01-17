@@ -16,10 +16,8 @@ MonoBehaviour:
   speed: 7
   lifePoints: 50
   nbArmors: 1
-  attackPeriod: 10
+  attackPeriod: 3
   capacityPeriod: 10
   degatAttack: 0
   attackRadius: 1
   degats: 11
-  attackParticules: {fileID: 4067259966044306052, guid: dd343b0660461dd4da2d526002a91fd9, type: 3}
-  pushRadius: {fileID: 0}
