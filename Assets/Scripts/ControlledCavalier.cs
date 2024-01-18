@@ -60,7 +60,7 @@ public class ControlledCavalier : ControlledUnit
         //this attack happens every frame (when enemies collide with pushRadius)
         
         unit.Agent.speed = speed;
-        pushRadius = unit.pushRadius;
+        pushRadius = unit.pushRadiusCavalier;
         pushRadius.gameObject.SetActive(true);
         pushRadius.speed = (int)unit.Agent.speed;
 
@@ -76,6 +76,7 @@ public class ControlledCavalier : ControlledUnit
         //faire du MoveToAttack
         unit.Agent.speed = 10;
         pushRadius.speed = (int)unit.Agent.speed;
+        pushRadius.gameObject.SetActive(true);
         Debug.Log("cavalier capacity");
 
         //s'arrete que lorsqu'on attaque

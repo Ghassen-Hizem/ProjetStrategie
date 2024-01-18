@@ -99,7 +99,8 @@ MonoBehaviour:
   enemyPosition: {x: 0, y: 0, z: 0}
   unitDistance: 0
   attack: 0
-  pushRadius: {fileID: 7322009494376645100}
+  pushRadiusCavalier: {fileID: 7322009494376645100}
+  pushRadiusBouclier: {fileID: 0}
 --- !u!54 &6295165279440740611
 Rigidbody:
   m_ObjectHideFlags: 0

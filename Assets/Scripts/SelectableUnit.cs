@@ -4,10 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
-using System.Threading;
-using Unity.VisualScripting;
-using static UnityEngine.UI.CanvasScaler;
-//using UnityEngine.UIElements;
+
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class SelectableUnit : MonoBehaviour
@@ -46,18 +43,17 @@ public class SelectableUnit : MonoBehaviour
 
     [HideInInspector] public Vector3 unitPosition;
     [HideInInspector] public Vector3 enemyPosition;
-    //
-    //[HideInInspector] public scriptTestEnemy enemyToAttack = null;
-    //
+    
 
     [HideInInspector] public int unitDistance;
     [HideInInspector] public bool attack;
     private int attackPossibleRadius = 10;
 
     private Camera mainCam;
-    public pushRadiusCavalier pushRadius;
+    public pushRadiusCavalier pushRadiusCavalier;
+    public pushRadiusBouclier pushRadiusBouclier;
 
-    
+
 
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
@@ -66,8 +62,6 @@ public class SelectableUnit : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
-       
-        
 
         SelectionManager.Instance.AvailableUnits.Add(this);
         Agent = GetComponent<NavMeshAgent>();
@@ -88,27 +82,7 @@ public class SelectableUnit : MonoBehaviour
         
         unitPosition = Agent.transform.position;
 
-        
-        if (CompareTag("Cavalier"))
-        {
-            //we should desactivate it more often (activate only for 3 seconds)
-            //Debug.Log("unit magnitude" + Agent.velocity.magnitude);
-            if (Agent.velocity.magnitude < 3)
-            {
-                pushRadius.gameObject.SetActive(false);
-            }
-        }
-        
-        /*
-        if (enemyToAttack)
-        {
-            enemyPosition = enemyToAttack.transform.position;
-            unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
-            attack = unitDistance <= attackPossibleRadius;
-            //print("enemy position " + enemyPosition);
 
-        }*/
-        
         if (!gameObject)
         {
             StopAllCoroutines();
@@ -123,7 +97,7 @@ public class SelectableUnit : MonoBehaviour
 
     public void MoveTo(Vector3 Position)
     {
-        print("moveTo");
+        
         StopAllCoroutines();
         
         if (Agent.CompareTag("Magicien"))
@@ -192,6 +166,11 @@ public class SelectableUnit : MonoBehaviour
                     else
                     {
                         StopCoroutine(MoveToAttack(enemyUnit));
+                        /*
+                        if (pushRadiusBouclier)
+                        {
+                            pushRadiusBouclier.gameObject.SetActive(false);
+                        }*/
                     }
                 }
                 
@@ -272,7 +251,6 @@ public class SelectableUnit : MonoBehaviour
                 else if (Agent.CompareTag("Soldat"))
                 {
                     controlledSoldat.MoveToAttack(this, enemyPosition);
-
                 }
                 else if (Agent.CompareTag("Tirailleur"))
                 {
@@ -287,16 +265,12 @@ public class SelectableUnit : MonoBehaviour
                     controlledSoignant.MoveToAttack(this, enemyPosition);
                 }
                     yield return null;
-                
             }
             else
             {
                 yield break;
             }
-
-        }
-       
-       
+        } 
     }
 
 
@@ -436,13 +410,11 @@ public class SelectableUnit : MonoBehaviour
                 {
                     if (KingModeActive)
                     {
-                        
                         gameManager.GameOver();
                         Destroy(gameObject);   
                     }
                     else
                     {
-                        //why it dont destroy the object
                         Destroy(gameObject);
                     }
                 }
@@ -451,16 +423,52 @@ public class SelectableUnit : MonoBehaviour
             {
                 controlledSoldat.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)SoldatlifePoints / controlledSoldat.lifePoints;
+                if (SoldatlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {
+                        gameManager.GameOver();
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
             else if (Agent.CompareTag("Tirailleur"))
             {
                 controlledTirailleur.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)TirailleurlifePoints / controlledTirailleur.lifePoints;
+                if (TirailleurlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {
+                        gameManager.GameOver();
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
             else if (Agent.CompareTag("Bouclier"))
             {
                 controlledBouclier.TakeDamage(this, degats);
                 healthBar.fillAmount = (float)BouclierlifePoints / controlledBouclier.lifePoints;
+                if (BouclierlifePoints <= 0)
+                {
+                    if (KingModeActive)
+                    {
+                        gameManager.GameOver();
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
             else if (Agent.CompareTag("Soignant"))
             {

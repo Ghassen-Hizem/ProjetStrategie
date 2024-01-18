@@ -25,27 +25,21 @@ public class ControlledSoldat : ControlledUnit
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
-        // ghassen work //
-
-
-
+        
         enemyUnit.TakeDamage(degatAttack);
         Debug.Log("soldat attack");
 
-        //the player should face the enemy: (rotation.lookAt)
+        //the player should face the enemy: (rotation.lookAt)  ?
         //add attack animation
 
-        
-
-
-
+  
         unit.attackElapsedtime = 0;
     }
 
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        // ghassen work //
+       
        
     }
 
@@ -53,20 +47,6 @@ public class ControlledSoldat : ControlledUnit
     {   
         unit.SoldatlifePoints = unit.SoldatlifePoints - degats + nbArmors;
 
-        if (unit.SoldatlifePoints <= 0)
-        {
-            if (unit.KingModeActive)
-            {
-                //GameManager.GameOver
-                Debug.Log("gameOver");
-            }
-            else
-            {
-                //add dead animation if possible
-                
-                Destroy(unit.gameObject);
-                //or just deactivate the object
-            }
-        }
+        
     }
 }
