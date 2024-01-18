@@ -21,7 +21,7 @@ public class SableScript : MonoBehaviour
        
         if(other.CompareTag("Player")) {
             
-             other.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().speed = 2f;
+             other.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().speed -= 2f;
             
         }
     }
@@ -29,7 +29,7 @@ public class SableScript : MonoBehaviour
        
         if(other.CompareTag("Player")) {
             
-             other.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().speed = 10f;
+             other.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().speed += 2f;
             
         }
     }
