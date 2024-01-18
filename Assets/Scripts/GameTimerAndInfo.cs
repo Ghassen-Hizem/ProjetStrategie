@@ -10,6 +10,7 @@ public class GameTimer : MonoBehaviour
     private float Seconds;
     private int Minutes;
     public GameObject Timer;
+    public string CurrentTimer;
     
     void Start()
     {
@@ -25,6 +26,7 @@ public class GameTimer : MonoBehaviour
         Minutes +=1;
         Seconds = 0;
         }
+        CurrentTimer = Minutes.ToString() + ":" + Math.Floor(Seconds).ToString();
         Timer.GetComponent<TextMeshProUGUI>().text = "Timer : " + Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
         
     }
