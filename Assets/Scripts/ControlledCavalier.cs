@@ -10,9 +10,9 @@ public class ControlledCavalier : ControlledUnit
 {
 
     public int attackRadius = 3;
-    public int degats;
+    
 
-    private pushRadiusCavalier pushRadius;
+    private pushRadiusCavalierPlayer pushRadius;
     private float attackPossibleRadius = 10f;
     private int distance;
     

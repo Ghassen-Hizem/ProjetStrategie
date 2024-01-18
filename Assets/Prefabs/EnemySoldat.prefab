@@ -386,12 +386,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710367ad2da7def40bebd48ad71b0b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMagicien: {fileID: 0}
+  enemyMagicien: {fileID: 11400000, guid: ec452d5f10ff2e24bb5f40e58483a1dc, type: 2}
+  enemyCavalier: {fileID: 11400000, guid: f942fcd31476cbc41b2be3d6ca0c0089, type: 2}
+  enemyBouclier: {fileID: 11400000, guid: dcb213aeba45e6542ac4316da86008e8, type: 2}
   healthBar: {fileID: 3671089411149063711}
+  healthAmountSoldat: 50
   healthAmount: 100
+  maxHealth: 0
   canvaHealthBar: {fileID: 8491236609222025429}
+  Agent: {fileID: 7080319477345152178}
   anim: {fileID: 8803068573085444398}
-  EnemyRadius: {fileID: 3573677841831606210}
+  EnemyRadius: {fileID: 642083117842808600}
+  attackElapsedtime: 0
+  pushRadiusCavalier: {fileID: 0}
 --- !u!136 &8466164676939314948
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2647,14 +2654,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8a99d944041803478a01fefe53dffdb, type: 3}
---- !u!4 &1924131407093996038 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2527386616430381548, guid: c8a99d944041803478a01fefe53dffdb, type: 3}
-  m_PrefabInstance: {fileID: 4152591455181493226}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3573677841831606210 stripped
+--- !u!114 &642083117842808600 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 592424550745302056, guid: c8a99d944041803478a01fefe53dffdb, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3551603825941015794, guid: c8a99d944041803478a01fefe53dffdb, type: 3}
   m_PrefabInstance: {fileID: 4152591455181493226}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -2663,3 +2665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d9e7a2308166c498877109038edbd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1924131407093996038 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2527386616430381548, guid: c8a99d944041803478a01fefe53dffdb, type: 3}
+  m_PrefabInstance: {fileID: 4152591455181493226}
+  m_PrefabAsset: {fileID: 0}

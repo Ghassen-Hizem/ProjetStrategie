@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2527386616430381548}
   - component: {fileID: 7935073942549953971}
   - component: {fileID: 4375690217036500175}
-  - component: {fileID: 592424550745302056}
+  - component: {fileID: 3551603825941015794}
   m_Layer: 0
   m_Name: AttackRadiusEnemy
   m_TagString: Untagged
@@ -107,7 +107,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.7150004, y: 1.7150009, z: 0.20000005}
   m_Center: {x: 0.00000047683716, y: 0, z: 0.000000059604645}
---- !u!114 &592424550745302056
+--- !u!114 &3551603825941015794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

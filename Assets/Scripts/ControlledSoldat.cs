@@ -29,9 +29,11 @@ public class ControlledSoldat : ControlledUnit
         enemyUnit.TakeDamage(degatAttack);
         Debug.Log("soldat attack");
 
+        unit.transform.LookAt(enemyUnit.transform);
+
         //the player should face the enemy: (rotation.lookAt)  ?
         //add attack animation
-
+        //IMPORTANT
   
         unit.attackElapsedtime = 0;
     }

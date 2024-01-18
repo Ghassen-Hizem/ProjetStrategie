@@ -50,7 +50,7 @@ public class SelectableUnit : MonoBehaviour
     private int attackPossibleRadius = 10;
 
     private Camera mainCam;
-    public pushRadiusCavalier pushRadiusCavalier;
+    public pushRadiusCavalierPlayer pushRadiusCavalier;
     public pushRadiusBouclier pushRadiusBouclier;
 
 
@@ -485,12 +485,14 @@ public class SelectableUnit : MonoBehaviour
         KingModeActive = true;
         print("KingMode");
 
-        Vector3 positionFlag = transform.position;
+        var positionFlag = transform.position;
         positionFlag.y = 4;
         var flag = Instantiate(Flag, positionFlag, Flag.transform.rotation, gameObject.transform);
         flag.SetActive(true);
 
         var kingParticles = Instantiate(KingParticles, transform.position, KingParticles.transform.rotation, gameObject.transform);
         kingParticles.SetActive(true);
+
+        //le flag il apparait bizarrement avec le soldatPlayer. il est tres haut dans l'axe y. il ne faut pas montrer ça dans la demo.
     }
 }
