@@ -39,7 +39,7 @@ public class ControlledMagicien : ControlledUnit
             Collider[] colliders = Physics.OverlapSphere(enemyUnit.transform.position, attackRadius);
             foreach (Collider collider in colliders)
             {
-                //ou alors voir si il a un script TestEnemy
+                
                 if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
                 {
                     otherEnemy.TakeDamage(degatAttack);
@@ -75,20 +75,11 @@ public class ControlledMagicien : ControlledUnit
 
     public override void TakeDamage(SelectableUnit unit, int degats)
     {   
-        unit.MagicienlifePoints = unit.MagicienlifePoints - degats + nbArmors;
-
-        if (unit.MagicienlifePoints <= 0)
+        
+        if (unit)
         {
-            if (unit.KingModeActive)
-            {
-                //GameManager.GameOver
-                Debug.Log("gameOver");
-            }
-            else
-            {
-                Destroy(unit.gameObject);
-                //or just deactivate the object
-            }
+            unit.MagicienlifePoints = unit.MagicienlifePoints - degats + nbArmors;
         }
+   
     }
 }

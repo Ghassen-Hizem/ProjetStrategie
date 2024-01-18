@@ -15,6 +15,7 @@ public class CameraMvt : MonoBehaviour
     private float maxPositionUpX;
     private float maxPositionDownX;
     private int Arenaindex;
+    [SerializeField] private Camera cam;
 
     private void Start()
     {
@@ -27,33 +28,12 @@ public class CameraMvt : MonoBehaviour
             maxPositionUpX = 14f;
             maxPositionDownX = -60f;
         }
-        else if (Arenaindex == 2)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
         else if (Arenaindex == 3)
         {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
-        else if (Arenaindex == 4)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
-        }
-        else if (Arenaindex == 5)
-        {
-            maxPositionLeft = -135f;
-            maxPositionRight = -153f;
-            maxPositionUpX = 14f;
-            maxPositionDownX = -60f;
+            maxPositionLeft = 30f;
+            maxPositionRight = 12f;
+            maxPositionUpX = -34f;
+            maxPositionDownX = -68.5f;
         }
 
     }
@@ -62,9 +42,10 @@ public class CameraMvt : MonoBehaviour
     {
 
         mousePos = Input.mousePosition;
+        var pos = new Vector3(mousePos.x / Screen.width, mousePos.y / Screen.height, mousePos.z);
         
-     
-        if (Input.GetKey(KeyCode.A) || mousePos.x < 20)
+
+        if (Input.GetKey(KeyCode.A) || pos.x < 0.06)
         {
             if (transform.position.z < maxPositionLeft)
             {
@@ -72,7 +53,7 @@ public class CameraMvt : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.D) || mousePos.x > 820)
+        if (Input.GetKey(KeyCode.D) || pos.x > 0.95)
         {
             if (transform.position.z > maxPositionRight)
             {
@@ -80,7 +61,7 @@ public class CameraMvt : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.W) || mousePos.y > 420)
+        if (Input.GetKey(KeyCode.W) || pos.y > 0.95)
         {
             if (transform.position.x < maxPositionUpX)
             {
@@ -88,7 +69,7 @@ public class CameraMvt : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.S) || mousePos.y < 20)
+        if (Input.GetKey(KeyCode.S) || pos.y < 0.15)
         {
             if (transform.position.x > maxPositionDownX)
             {

@@ -50,10 +50,11 @@ public class gameManagerA3 : MonoBehaviour
 
      
         //implementation de victoire en cas de capture et de deposition du drapeau en zone de depart:
-        //ajouter un script à la zone de depart pour appeler la fonction victory de ce script:
+        //ajouter gameObject vide avec un box collider de la taille de la zone de depart
+        //ajouter un script à cet objet pour appeler la fonction victory de ce script:
         //OnTriggerEnter
         // collider = tryGetComponent<SelectableUnit>(out SelectableUnit)
-        //if (SelectableUnit.kingModeActive) {gameManager.Victory()}
+        //if (SelectableUnit.kingModeActive == true) {gameManagerA3.Victory()}
     }
 
     public void GameOver()

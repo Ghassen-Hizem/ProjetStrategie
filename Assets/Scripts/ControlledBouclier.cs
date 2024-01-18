@@ -10,38 +10,43 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Bouclier")]
 public class ControlledBouclier : ControlledUnit
 {
-
-
-   
+    private pushRadiusBouclier pushRadius;
     public override void MoveTo(SelectableUnit unit, Vector3 position)
+    {
+        unit.Agent.stoppingDistance = 1;
+        unit.Agent.speed = speed;
+        unit.Agent.SetDestination(position);
+        if (pushRadius)
+        {
+            pushRadius.gameObject.SetActive(false);
+        }
+    }
+
+    public override void MoveToAttack(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
     }
 
-    public override void MoveToAttack(SelectableUnit unit, Vector3 position)
-    {
-        MoveTo(unit, position);
-    }
-
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
 
-        // ghassen work //
+        MoveToAttack(unit, enemyUnit.transform.position);
+        pushRadius = unit.pushRadiusBouclier;
+        pushRadius.gameObject.SetActive(true);
+
         Debug.Log("Bouclier attack");
-
-
-        //end ghassen work//
 
 
         unit.attackElapsedtime = 0;
     }
 
+   
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        // ghassen work //
+        
 
     }
 
@@ -49,18 +54,6 @@ public class ControlledBouclier : ControlledUnit
     {   
         unit.BouclierlifePoints = unit.BouclierlifePoints - degats + nbArmors;
 
-        if (unit.BouclierlifePoints <= 0)
-        {
-            if (unit.KingModeActive)
-            {
-                //GameManager.GameOver
-                Debug.Log("gameOver");
-            }
-            else
-            {
-                Destroy(unit.gameObject);
-                //or just deactivate the object
-            }
-        }
+        
     }
 }

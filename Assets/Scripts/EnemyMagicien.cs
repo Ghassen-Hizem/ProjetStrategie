@@ -39,7 +39,7 @@ public class EnemyMagicien : EnemyUnit
             particules.SetActive(true);
 
         }
-
+        enemyUnit.attackElapsedtime = 0;
     }
 
 

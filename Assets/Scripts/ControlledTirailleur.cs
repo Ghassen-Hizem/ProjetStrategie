@@ -10,9 +10,7 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Tirailleur")]
 public class ControlledTirailleur : ControlledUnit
 {
-
-
-    
+    //public GameObject javelot;
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -22,17 +20,19 @@ public class ControlledTirailleur : ControlledUnit
 
     public override void MoveToAttack(SelectableUnit unit, Vector3 position)
     {
-        MoveTo(unit, position);
+        unit.Agent.stoppingDistance = 10;
+        unit.Agent.speed = speed;
+        unit.Agent.SetDestination(position);
     }
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
-        // ghassen work //
+        
         
         
         Debug.Log("Tirailleur attack");
 
-        //end ghassen work//
+        enemyUnit.TakeDamage(degatAttack);
 
 
 
@@ -42,7 +42,7 @@ public class ControlledTirailleur : ControlledUnit
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        // ghassen work //
+       
 
     }
 
@@ -50,18 +50,5 @@ public class ControlledTirailleur : ControlledUnit
     {   
         unit.TirailleurlifePoints = unit.TirailleurlifePoints - degats + nbArmors;
 
-        if (unit.TirailleurlifePoints <= 0)
-        {
-            if (unit.KingModeActive)
-            {
-                //GameManager.GameOver
-                Debug.Log("gameOver");
-            }
-            else
-            {
-                Destroy(unit.gameObject);
-                //or just deactivate the object
-            }
-        }
     }
 }
