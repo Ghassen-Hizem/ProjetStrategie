@@ -13,6 +13,7 @@ public class gameManagerA3 : MonoBehaviour
     private GameObject youWinPanel;
 
     public GameObject GameDescriptionText;
+    private string CurrentTimer;
 
     //je vais utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true
     [HideInInspector] public bool KingMode = false;
@@ -59,9 +60,10 @@ public class gameManagerA3 : MonoBehaviour
 
     public void GameOver()
     {
+	CurrentTimer = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().text;
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
-        GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : Timer_variable\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
+        GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : " + CurrentTimer + "\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
     }
 
     public void Victory()

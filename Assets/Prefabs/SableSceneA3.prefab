@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3534397948450414640}
   - component: {fileID: 2411725716580450682}
   - component: {fileID: 2519785281453721068}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SableSceneA3
   m_TagString: sable
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -118,3 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f22042597347ff88202261d576df06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledMagicien: {fileID: 11400000, guid: 73aea5a1ab7a9774780d94bb10e9db67, type: 2}
+  controlledCavalier: {fileID: 11400000, guid: 03badd413c0139c48a89b7b06c415909, type: 2}
+  controlledSoldat: {fileID: 11400000, guid: 52ca154462a2300478fbe7b71c97b7b7, type: 2}
+  controlledBouclier: {fileID: 11400000, guid: 224e92e389711e84d8feccc961417b99, type: 2}
+  controlledTirailleur: {fileID: 11400000, guid: 2320a65bcaa75a4478cd4f71e157f504, type: 2}
