@@ -74,9 +74,9 @@ public class ControlledCavalier : ControlledUnit
     public override void UseCapacity(SelectableUnit unit)
     {
         //faire du MoveToAttack
-        unit.Agent.speed = 10;
-        pushRadius.speed = (int)unit.Agent.speed;
-        pushRadius.gameObject.SetActive(true);
+        //unit.Agent.speed = 10;
+        //pushRadius.speed = (int)unit.Agent.speed;
+        //pushRadius.gameObject.SetActive(true);
         Debug.Log("cavalier capacity");
 
         //s'arrete que lorsqu'on attaque
