@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   lifePoints: 80
-  nbArmors: 3
+  nbArmors: 2
   attackPeriod: 3
   degatAttack: 0

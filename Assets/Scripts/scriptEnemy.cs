@@ -35,7 +35,8 @@ public class scriptEnemy : MonoBehaviour
     private bool IsFighting = false;
 
     //attackPeriod should change for each unit
-    private int attackPeriod = 2;
+    private int attackPeriodSoldat = 2;
+    private int attackPeriod;
     public float attackElapsedtime = 0;
 
     private int nbArmors;
@@ -63,6 +64,7 @@ public class scriptEnemy : MonoBehaviour
             nbArmors = enemyMagicien.nbArmors;
             maxHealth = healthAmount;
             degatAttack = enemyMagicien.degatAttack;
+            attackPeriod = enemyMagicien.attackPeriod;
         }
         if (gameObject.CompareTag("Soldat"))
         {
@@ -70,6 +72,7 @@ public class scriptEnemy : MonoBehaviour
             nbArmors = nbArmorsSoldat;
             maxHealth = healthAmount;
             degatAttack = degatAttackSoldat;
+            attackPeriod = attackPeriodSoldat;
         }
         if (gameObject.CompareTag("Bouclier"))
         {
@@ -77,6 +80,8 @@ public class scriptEnemy : MonoBehaviour
             nbArmors = enemyBouclier.nbArmors;
             maxHealth = healthAmount;
             degatAttack = enemyBouclier.degatAttack;
+            degatAttack = degatAttackSoldat;
+            attackPeriod = enemyBouclier.attackPeriod;
         }
         if (gameObject.CompareTag("Cavalier"))
         {
@@ -84,6 +89,7 @@ public class scriptEnemy : MonoBehaviour
             nbArmors = enemyCavalier.nbArmors;
             maxHealth = healthAmount;
             degatAttack = enemyCavalier.degatAttack;
+            attackPeriod = enemyCavalier.attackPeriod;
         }
     }
 
@@ -105,7 +111,7 @@ public class scriptEnemy : MonoBehaviour
                 if (attackElapsedtime >= attackPeriod)
                 {
                     Attack();
-                    print("enemy attacking");
+                    
                     
                 }
             }
@@ -136,8 +142,6 @@ public class scriptEnemy : MonoBehaviour
             {
                 if (gameObject.CompareTag("Magicien"))
                 {
-                    //should be 5 at least
-                    //Agent.stoppingDistance = 1;
                     Agent.speed = enemyMagicien.speed;
                     Agent.SetDestination(UnitPosition.position);
                 }
@@ -145,6 +149,7 @@ public class scriptEnemy : MonoBehaviour
                 {
                     Agent.speed = enemyCavalier.speed;
                     Agent.SetDestination(UnitPosition.position);
+                    pushRadiusCavalier.gameObject.SetActive(false);
                 }
                 else if (gameObject.CompareTag("Soldat"))
                 {
@@ -161,10 +166,12 @@ public class scriptEnemy : MonoBehaviour
                     Agent.ResetPath();
                     enemyReached = true;
                     Agent.speed = 0f;
+                    transform.LookAt(Unit.transform);
                     //Debug.Log("enemy attacking");
 
                     anim.SetBool(Attack_Animation_Soldat, true);
                     
+                    // elapsedtime dans givedamage pour soldat ?
                     attackElapsedtime = 0;
                     StartCoroutine("giveDamage");
 
@@ -195,15 +202,19 @@ public class scriptEnemy : MonoBehaviour
 
                     if (gameObject.CompareTag("Magicien"))
                     {
-                        //il doit attaque depuis une longue distance
+                        transform.LookAt(Unit.transform);
+                        //var lookRotation = Unit.transform.position - transform.position;
+                        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookRotation), Time.deltaTime);
                         enemyMagicien.Attack(this, Unit);
+                        StartCoroutine("giveDamage");
                     }
                     else if (gameObject.CompareTag("Cavalier"))
                     {
+                        transform.LookAt(Unit.transform);
                         enemyCavalier.Attack(this, Unit);
                     }
                     //attackElapsedtime = 0;
-                    StartCoroutine("giveDamage");
+                    
 
                 }
                 else if (Unit == null)

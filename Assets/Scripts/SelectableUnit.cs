@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
+using Unity.VisualScripting.ReorderableList;
+using Unity.VisualScripting;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -53,8 +55,12 @@ public class SelectableUnit : MonoBehaviour
     public pushRadiusCavalierPlayer pushRadiusCavalier;
     public pushRadiusBouclier pushRadiusBouclier;
 
+    private List<Collider> colliders;
 
+    public Animator anim;
 
+    private bool moving = false;
+    private bool dead = false;
     //au debut du jeu, le chargement d'attaque et de capacité sont vides
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
     //attackElapsedtime = controlledMagicien.attackPeriod;
@@ -82,24 +88,21 @@ public class SelectableUnit : MonoBehaviour
         
         unitPosition = Agent.transform.position;
 
-
-        if (!gameObject)
+        
+        if (dead)
         {
-            StopAllCoroutines();
+            SelectionManager.Instance.Deselect(this);
+            Destroy(gameObject);
         }
-        /*
-        if (KingModeActive && !this)
-        {
-            gameManager.GameOver();
-        }*/
+        
     }
     
 
     public void MoveTo(Vector3 Position)
     {
-        
-        StopAllCoroutines();
-        
+
+        moving = true;
+
         if (Agent.CompareTag("Magicien"))
         {
             controlledMagicien.MoveTo(this, Position);
@@ -129,27 +132,33 @@ public class SelectableUnit : MonoBehaviour
     
     public IEnumerator HandleAttack(scriptEnemy enemyUnit)
     {
-  
-        while (enemyUnit != null)
-        {
-            enemyPosition = enemyUnit.transform.position;
-            
-            unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
-            attack = unitDistance <= attackPossibleRadius;
 
-            if (!attack)
+        moving = false;
+        while ((enemyUnit != null) && !moving && !dead)
+        {
+            if (gameObject)
             {
 
-                StartCoroutine(MoveToAttack(enemyUnit));
-                
-                yield return new WaitUntil(() => attack == true);
+                enemyPosition = enemyUnit.transform.position;
 
-                if (this)
+                unitDistance = (int)Vector3.Distance(enemyPosition, unitPosition);
+                attack = unitDistance <= attackPossibleRadius;
+
+                if (!attack)
                 {
+                    IEnumerator moveToAttackCoroutine = MoveToAttack(enemyUnit);
+                    StartCoroutine(moveToAttackCoroutine);
+                    //StartCoroutine(MoveToAttack(enemyUnit));
+
+                    yield return new WaitUntil(() => attack == true);
+
+                    //if (this)
+                    //{
                     Attack(enemyUnit);
                     yield return null;
 
-                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    //List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
                     List<scriptEnemy> enemies = new List<scriptEnemy>();
                     foreach (Collider collider in colliders)
                     {
@@ -165,20 +174,21 @@ public class SelectableUnit : MonoBehaviour
                     }
                     else
                     {
-                        StopCoroutine(MoveToAttack(enemyUnit));
+                        StopCoroutine(moveToAttackCoroutine);
+                        
                         /*
                         if (pushRadiusBouclier)
                         {
                             pushRadiusBouclier.gameObject.SetActive(false);
                         }*/
                     }
+                    //}
+
                 }
-                
-            }
-            else
-            {
-                if (this)
+                else
                 {
+                    //if (this)
+                    //{
                     if (CompareTag("Cavalier"))
                     {
                         StartCoroutine(MoveToAttack(enemyUnit));
@@ -191,7 +201,8 @@ public class SelectableUnit : MonoBehaviour
 
                     yield return null;
 
-                    List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
+                    //List<Collider> colliders = new List<Collider>(Physics.OverlapSphere(transform.position, attackPossibleRadius));
                     List<scriptEnemy> enemies = new List<scriptEnemy>();
                     foreach (Collider collider in colliders)
                     {
@@ -210,8 +221,13 @@ public class SelectableUnit : MonoBehaviour
                         StopCoroutine(MoveToAttack(enemyUnit));
                     }
 
+                    //}
+
                 }
-                
+            }
+            else
+            {
+                break;
             }
 
         }
@@ -225,9 +241,9 @@ public class SelectableUnit : MonoBehaviour
     {
         //Vector3 fixedEnemyPosition = enemyToAttack.transform.position;
 
-        while (true)
+        while (!moving && !dead)
         {
-            if (enemyToAttack && this)
+            if (enemyToAttack && gameObject)
             {
                 enemyPosition = enemyToAttack.transform.position;
 
@@ -270,7 +286,8 @@ public class SelectableUnit : MonoBehaviour
             {
                 yield break;
             }
-        } 
+        }
+        yield break;
     }
 
 
@@ -383,8 +400,10 @@ public class SelectableUnit : MonoBehaviour
 
     public void TakeDamage(int degats)
     {
-        if(this)
+        
+        if (gameObject)
         {
+            
             if (Agent.CompareTag("Magicien"))
             {
                 controlledMagicien.TakeDamage(this, degats);
@@ -394,11 +413,11 @@ public class SelectableUnit : MonoBehaviour
                     if (KingModeActive)
                     {  
                         gameManager.GameOver();
-                        Destroy(gameObject);
+                        dead = true;
                     }
                     else
                     {
-                        Destroy(gameObject);
+                        dead = true;
                     }
                 }
             }
@@ -411,11 +430,11 @@ public class SelectableUnit : MonoBehaviour
                     if (KingModeActive)
                     {
                         gameManager.GameOver();
-                        Destroy(gameObject);   
+                        dead = true;
                     }
                     else
                     {
-                        Destroy(gameObject);
+                        dead = true;
                     }
                 }
             }
@@ -426,13 +445,13 @@ public class SelectableUnit : MonoBehaviour
                 if (SoldatlifePoints <= 0)
                 {
                     if (KingModeActive)
-                    {
+                    {  
                         gameManager.GameOver();
-                        Destroy(gameObject);
+                        dead = true;
                     }
                     else
                     {
-                        Destroy(gameObject);
+                        dead = true; 
                     }
                 }
             }
@@ -445,28 +464,29 @@ public class SelectableUnit : MonoBehaviour
                     if (KingModeActive)
                     {
                         gameManager.GameOver();
-                        Destroy(gameObject);
+                        dead = true;
                     }
                     else
                     {
-                        Destroy(gameObject);
+                        dead = true;
                     }
                 }
             }
             else if (Agent.CompareTag("Bouclier"))
             {
                 controlledBouclier.TakeDamage(this, degats);
+                print("damage");
                 healthBar.fillAmount = (float)BouclierlifePoints / controlledBouclier.lifePoints;
                 if (BouclierlifePoints <= 0)
                 {
                     if (KingModeActive)
                     {
                         gameManager.GameOver();
-                        Destroy(gameObject);
+                        dead = true;
                     }
                     else
                     {
-                        Destroy(gameObject);
+                        dead = true;
                     }
                 }
             }

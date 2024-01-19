@@ -36,7 +36,7 @@ public class ControlledBouclier : ControlledUnit
         pushRadius = unit.pushRadiusBouclier;
         pushRadius.gameObject.SetActive(true);
 
-        Debug.Log("Bouclier attack");
+        
 
 
         unit.attackElapsedtime = 0;

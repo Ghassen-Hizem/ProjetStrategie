@@ -15,6 +15,6 @@ MonoBehaviour:
   speed: 7
   lifePoints: 50
   nbArmors: 1
-  attackPeriod: 3
+  attackPeriod: 1
   degatAttack: 0
   attackRadius: 1

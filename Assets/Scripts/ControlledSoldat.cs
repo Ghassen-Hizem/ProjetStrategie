@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
@@ -10,31 +11,53 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Soldat")]
 public class ControlledSoldat : ControlledUnit
 {
-   
+    private string Attack_Animation_Soldat = "IsAttacking";
+    private int distance;
+    
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
         unit.Agent.speed = speed;
         unit.Agent.SetDestination(position);
+        unit.anim.SetBool(Attack_Animation_Soldat, false);
     }
 
     public override void MoveToAttack(SelectableUnit unit, Vector3 position)
     {
-        MoveTo(unit, position);
+        unit.Agent.stoppingDistance = 1;
+        unit.Agent.speed = speed;
+        if (unit.gameObject)
+        {
+            unit.Agent.SetDestination(position);
+        }
+        
+
     }
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
+
+        distance = (int)Vector3.Distance(enemyUnit.transform.position, unit.transform.position);
         
-        enemyUnit.TakeDamage(degatAttack);
-        Debug.Log("soldat attack");
+        if(distance < 2)
+        {
+            unit.transform.LookAt(enemyUnit.transform);
+            unit.anim.SetBool(Attack_Animation_Soldat, true);
+            enemyUnit.TakeDamage(degatAttack);
+            
+        }
+        else
+        {
+            unit.anim.SetBool(Attack_Animation_Soldat, false);
+            MoveToAttack(unit, enemyUnit.transform.position);
+        }
 
-        unit.transform.LookAt(enemyUnit.transform);
 
-        //the player should face the enemy: (rotation.lookAt)  ?
-        //add attack animation
-        //IMPORTANT
-  
+        if (!enemyUnit)
+        {
+            unit.anim.SetBool(Attack_Animation_Soldat, false);
+        }
+
         unit.attackElapsedtime = 0;
     }
 

@@ -13,21 +13,17 @@ public class EnemyCavalier : EnemyUnit
 {
     public int attackRadius = 3;
     private pushRadiusCavalierEnemy pushRadius;
-    private float attackPossibleRadius = 10f;
+    private float attackPossibleRadius = 2f;
     private int distance;
 
 
-    public void MoveTo(scriptEnemy enemyUnit, Vector3 position)
+    
+    public void MoveToAttack(scriptEnemy enemyUnit, Vector3 position)
     {
         enemyUnit.Agent.stoppingDistance = 1;
         enemyUnit.Agent.speed = speed;
         enemyUnit.Agent.SetDestination(position);
-        if (pushRadius)
-        {
-            pushRadius.gameObject.SetActive(false);
-        }
-
-
+ 
     }
 
     public override void Attack(scriptEnemy enemyUnit, SelectableUnit unit)
@@ -41,17 +37,17 @@ public class EnemyCavalier : EnemyUnit
             pushRadius.speed = (int)enemyUnit.Agent.speed;
 
             distance = (int)Vector3.Distance(enemyUnit.transform.position, unit.transform.position);
-
+            
             if (distance <= attackPossibleRadius)
             {
-                MoveTo(enemyUnit, enemyUnit.transform.position + enemyUnit.transform.forward * 10);
+                MoveToAttack(enemyUnit, enemyUnit.transform.position + enemyUnit.transform.forward * 10);
                 //Debug.Log("move forward");
             }
             else
             {
                 //je peux ajouter du forward + position mais pas obligé
-                MoveTo(enemyUnit, unit.transform.position);
-                //Debug.Log("move to enemy");
+                MoveToAttack(enemyUnit, unit.transform.position);
+                //Debug.Log("move to player");
                 enemyUnit.attackElapsedtime = 0;
             }
 

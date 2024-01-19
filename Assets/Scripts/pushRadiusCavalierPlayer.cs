@@ -48,7 +48,7 @@ public class pushRadiusCavalierPlayer : MonoBehaviour
 
                 degats = 3 + speed;
                 enemy.TakeDamage(degats);
-
+                
                 pushForce = speed / 2;
                 //collider.transform.position += -collider.transform.forward * pushForce;
 

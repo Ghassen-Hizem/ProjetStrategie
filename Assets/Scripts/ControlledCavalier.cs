@@ -13,7 +13,7 @@ public class ControlledCavalier : ControlledUnit
     
 
     private pushRadiusCavalierPlayer pushRadius;
-    private float attackPossibleRadius = 10f;
+    private float attackPossibleRadius = 7f;
     private int distance;
     
     
@@ -41,7 +41,7 @@ public class ControlledCavalier : ControlledUnit
 
         if (distance <= attackPossibleRadius)
         {
-            MoveTo(unit, unit.transform.position + unit.transform.forward * 10); 
+            MoveTo(unit, unit.transform.position + unit.transform.forward * 7); 
             //Debug.Log("move forward");
         }
         else

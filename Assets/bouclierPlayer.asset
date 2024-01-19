@@ -15,7 +15,7 @@ MonoBehaviour:
   Unitname: Bouclier
   speed: 2
   lifePoints: 80
-  nbArmors: 3
+  nbArmors: 2
   attackPeriod: 3
   capacityPeriod: 15
   degatAttack: 0
