@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Players/Bouclier")]
 public class ControlledBouclier : ControlledUnit
 {
-    private pushRadiusBouclier pushRadius;
+    private pushRadiusBouclierPlayer pushRadius;
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;

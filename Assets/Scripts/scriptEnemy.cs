@@ -46,6 +46,7 @@ public class scriptEnemy : MonoBehaviour
     private int degatAttackSoldat = 2;
 
     public pushRadiusCavalierEnemy pushRadiusCavalier;
+    public pushRadiusBouclierEnemy pushRadiusBouclier;
 
     void Start()
     {
@@ -156,6 +157,12 @@ public class scriptEnemy : MonoBehaviour
                     Agent.speed = speedSoldat;
                     Agent.SetDestination(UnitPosition.position);
                 }
+                else if (gameObject.CompareTag("Bouclier"))
+                {
+                    Agent.speed = enemyBouclier.speed;
+                    Agent.SetDestination(UnitPosition.position);
+                    pushRadiusBouclier.gameObject.SetActive(false);
+                }
 
             }
 
@@ -210,11 +217,16 @@ public class scriptEnemy : MonoBehaviour
                     }
                     else if (gameObject.CompareTag("Cavalier"))
                     {
-                        transform.LookAt(Unit.transform);
+                        //transform.LookAt(Unit.transform);
                         enemyCavalier.Attack(this, Unit);
                     }
-                    //attackElapsedtime = 0;
-                    
+                    else if (gameObject.CompareTag("Bouclier"))
+                    {
+                        //transform.LookAt(Unit.transform);
+                        enemyBouclier.Attack(this, Unit);
+                    }
+
+
 
                 }
                 else if (Unit == null)
