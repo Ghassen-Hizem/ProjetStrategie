@@ -12,6 +12,7 @@ TagManager:
   - Soldat
   - Tirailleur
   - Bouclier
+  - StartZone
   layers:
   - Default
   - TransparentFX

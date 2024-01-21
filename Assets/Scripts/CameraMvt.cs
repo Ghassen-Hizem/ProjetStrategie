@@ -44,7 +44,7 @@ public class CameraMvt : MonoBehaviour
         mousePos = Input.mousePosition;
         var pos = new Vector3(mousePos.x / Screen.width, mousePos.y / Screen.height, mousePos.z);
         
-
+        //if mouse not over UI
         if (Input.GetKey(KeyCode.A) || pos.x < 0.06)
         {
             if (transform.position.z < maxPositionLeft)

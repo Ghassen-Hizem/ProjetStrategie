@@ -69,6 +69,7 @@ public class gameManagerA3 : MonoBehaviour
     public void Victory()
     {
         youWinPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void RestartGame() {
