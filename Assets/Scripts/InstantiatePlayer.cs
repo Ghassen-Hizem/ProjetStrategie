@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+
 
 
 public class InstantiatePlayer : MonoBehaviour
@@ -28,18 +28,16 @@ public class InstantiatePlayer : MonoBehaviour
     public dragHandlerUI slot4;
 
     public TMP_Text textNbUnits;
-    //public GameObject GamePanel;
+    public GameObject GamePanel;
 
     private Transform highlight;
 
     public GameObject textMaxPlayers;
     
     private RaycastHit raycastHit;
-    private GameObject DraggedObj;
-
-    private Vector3 offset;
-    private float mZcoord;
-    private Vector3 mouseWorldPos;
+ 
+    public bool dragging = false;
+    public GameTimerAndInfo GameTimer;
 
     private void Start()
     {
@@ -94,55 +92,24 @@ public class InstantiatePlayer : MonoBehaviour
             }
 
 
-
-            if (!slot1.onDragActive && !slot2.onDragActive && !slot3.onDragActive && !slot4.onDragActive)
-            {
-                if (raycastHit.collider.TryGetComponent<SelectableUnit>(out SelectableUnit unit))
-                {
-                    if (Input.GetMouseButton(0))
-                    {
-
-                        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCam.transform.position.z - unit.transform.position.z);
-                        playerPosition = mainCam.ScreenToWorldPoint(mousePosition);
-                        //playerPosition = mainCam.ScreenToWorldPoint(Input.mousePosition);
-                         
-                        //playerPosition = raycastHit.point;
-                        playerPosition.y = 2;
-                        print(playerPosition);
-                        unit.transform.position = playerPosition;
-                    }
-                    
-
-
-                    /*   
-                        Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCam.transform.position.z - unit.transform.position.z);
-                        playerPosition = mainCam.ScreenToWorldPoint(mousePosition);
-                        //print(playerPosition);
-                        playerPosition.y = 2;                
-                        unit.transform.position = playerPosition;
-                   */
-                }
-            }
-            //drop only if highlight
-
-
-            
         }
-        
-        
-        
-               
-    }
 
-    //a small panel on the left with images of units
-    //Start button on top
-    //nbr units selected / 20
+        if (!slot1.onDragActive && !slot2.onDragActive && !slot3.onDragActive && !slot4.onDragActive)
+        {
+            dragging = true;
+        }
+        else
+        {
+            dragging = false;
+        }
 
-    //at start enemyscripts and InputPlayer are desabled
-    //we drag and drop from UI in the start zone and we update nbr units selected (we cant do that if selectedUnits ==20). and desable selectableUnit
+
+        }
+
+
+
     //we can remove a player (destroy it and remove it from the number of selected) (maybe put a trash can if the player is dragged)
-    //we can change its position by dragging it
-    //if we click on start, the InstantiatePanel disappears, the gamePanel appears and the scripts are enabled 
+
 
     public void InstantiateAPlayer ()
     {
@@ -216,17 +183,15 @@ public class InstantiatePlayer : MonoBehaviour
 
     public void StartGame()
     {
+        //initializate timer
+        GameTimer.Seconds = 0;
+        GameTimer.Minutes = 0;
+
         if (Units.Length != 0)
         {
             StartPanel.SetActive(false);
-            //GamePanel.SetActive(true);
+            GamePanel.SetActive(true);
             playerInput.enabled = true;
-
-            //Units = FindObjectsOfType(typeof(SelectableUnit)) as SelectableUnit[];
-            /*foreach (SelectableUnit player in Units)
-            {
-                player.enabled = true;
-            }*/
 
             foreach (scriptEnemy enemy in Enemies)
             {

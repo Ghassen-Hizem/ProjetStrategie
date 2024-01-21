@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
-using Unity.VisualScripting.ReorderableList;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -65,9 +64,37 @@ public class SelectableUnit : MonoBehaviour
     //si on veut qu'ils soient "rechargés" dès le debut, il faut initialiser le attackElaspsedTime avec la attackPeriod, mais chaque unité a une valeur differente, il faut donc 6 variables
     //attackElapsedtime = controlledMagicien.attackPeriod;
 
+    private InstantiatePlayer scriptInstantiate;
+    private float mZcoord;
+    private Vector3 mouseWorldPos;
+  
+    private int Arenaindex;
+    private float minX = -52.7f;
+    private float maxX = -43.5f;
+    private float minZ = -144f;
+    private float maxZ = -122.3f;
+
+
     private void Awake()
     {
         gameManager = FindObjectOfType(typeof(gameManagerA3)) as gameManagerA3;
+        scriptInstantiate = FindObjectOfType(typeof(InstantiatePlayer)) as InstantiatePlayer;
+        Arenaindex = SceneManager.GetActiveScene().buildIndex;
+        if (Arenaindex == 1)
+        {
+            minX = -52.7f;
+            maxX = -43.5f;
+            minZ = -144f;
+            maxZ = -122.3f;
+        }
+        else if (Arenaindex == 3)
+        {
+            //voir ca
+            minX = -65f;
+            maxX = -53f;
+            minZ = -6f;
+            maxZ = 50f;
+        }
 
         SelectionManager.Instance.AvailableUnits.Add(this);
         Agent = GetComponent<NavMeshAgent>();
@@ -514,5 +541,33 @@ public class SelectableUnit : MonoBehaviour
         kingParticles.SetActive(true);
 
         //le flag il apparait bizarrement avec le soldatPlayer. il est tres haut dans l'axe y. il ne faut pas montrer ça dans la demo.
+    }
+
+
+    private void OnMouseDrag()
+    {
+        if (scriptInstantiate.enabled == true)
+        {     
+            if (scriptInstantiate.dragging == true )
+            {
+                mZcoord = mainCam.WorldToScreenPoint(transform.position).z;
+                Vector3 mousePoint = Input.mousePosition;
+                mousePoint.z = mZcoord;
+
+                mouseWorldPos = mainCam.ScreenToWorldPoint(mousePoint);
+                mouseWorldPos.y = 2;
+
+                print(mouseWorldPos);
+                mouseWorldPos.x = Mathf.Clamp(mouseWorldPos.x, minX, maxX);
+                mouseWorldPos.z = Mathf.Clamp(mouseWorldPos.z, minZ, maxZ);
+
+                transform.position = mouseWorldPos;
+            }
+            
+            //onMouseUp 
+            //on peut delete un perso (OnMouseUp, if on est sur la zone delete, on destroy le perso)
+
+
+        }
     }
 }

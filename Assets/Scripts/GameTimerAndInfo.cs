@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using System;
 using TMPro;
 
-public class GameTimer : MonoBehaviour
+public class GameTimerAndInfo : MonoBehaviour
 {
 // 
-    private float Seconds;
-    private int Minutes;
-    public GameObject Timer;
+    public float Seconds;
+    public int Minutes;
+    public TMP_Text Timertext;
     public string CurrentTimer;
     
     void Start()
@@ -27,7 +26,7 @@ public class GameTimer : MonoBehaviour
         Seconds = 0;
         }
         CurrentTimer = Minutes.ToString() + ":" + Math.Floor(Seconds).ToString();
-        Timer.GetComponent<TextMeshProUGUI>().text = "Timer : " + Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
+        Timertext.text = "Timer " + Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
         
     }
 }

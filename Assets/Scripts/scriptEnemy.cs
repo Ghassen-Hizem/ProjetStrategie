@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -34,7 +32,7 @@ public class scriptEnemy : MonoBehaviour
 
     private bool IsFighting = false;
 
-    //attackPeriod should change for each unit
+   
     private int attackPeriodSoldat = 2;
     private int attackPeriod;
     public float attackElapsedtime = 0;
@@ -51,13 +49,8 @@ public class scriptEnemy : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        
-        //healthAmount = 50;
-        
-        //anim = GetComponent<Animator>();
-        //Agent = gameObject.GetComponent<NavMeshAgent>();
+
         //Agent.speed = speed;
-        //EnemyRadius = transform.GetChild(0).gameObject.GetComponent<EnemyRadius>();
 
         if (gameObject.CompareTag("Magicien"))
         {
@@ -178,7 +171,6 @@ public class scriptEnemy : MonoBehaviour
 
                     anim.SetBool(Attack_Animation_Soldat, true);
                     
-                    // elapsedtime dans givedamage pour soldat ?
                     attackElapsedtime = 0;
                     StartCoroutine("giveDamage");
 
@@ -254,7 +246,6 @@ public class scriptEnemy : MonoBehaviour
             
             if (Unit)
             {
-                //the damage changes for each unit
                 Unit.TakeDamage(degatAttack);
             }
             

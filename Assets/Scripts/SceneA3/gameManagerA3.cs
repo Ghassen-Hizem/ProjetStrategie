@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+
 
 public class gameManagerA3 : MonoBehaviour
 {
@@ -14,18 +14,18 @@ public class gameManagerA3 : MonoBehaviour
 
     public GameObject GameDescriptionText;
     private string CurrentTimer;
+    public TMP_Text Timertext;
 
-    //je vais utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true
-    [HideInInspector] public bool KingMode = false;
+   // utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true
+   [HideInInspector] public bool KingMode = false;
 
 
     private SelectableUnit[] Units;
     private scriptEnemy[] Enemies;
+
+    public InstantiatePlayer scriptInstantiate;
    
-    void Start()
-    {
-       
-    }
+   
 
     void Update()
     {
@@ -33,8 +33,6 @@ public class gameManagerA3 : MonoBehaviour
         //dans notre cas, on peux créer deux listes qui ont tous les players et ennemies au debut. puis faire une fonction pour remove une unit quand elle meurt.
         //donc, chaque fois qu'un player ou un enemy meurt, il appelle la fct du gameManager pour enlever cette unit de la liste
         
-        //Units = GameObject.FindGameObjectsWithTag("Player");
-        //Enemies = GameObject.FindGameObjectsWithTag("Enemy");
         Units = FindObjectsOfType(typeof(SelectableUnit)) as SelectableUnit[];
         Enemies = FindObjectsOfType(typeof(scriptEnemy)) as scriptEnemy[];
 
@@ -60,10 +58,15 @@ public class gameManagerA3 : MonoBehaviour
 
     public void GameOver()
     {
-	CurrentTimer = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>().text;
-        Time.timeScale = 0;
-        gameOverPanel.SetActive(true);
-        GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : " + CurrentTimer + "\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
+        if (scriptInstantiate.enabled == false)
+        {
+            CurrentTimer = Timertext.text;
+            
+            Time.timeScale = 0;
+            gameOverPanel.SetActive(true);
+            GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : " + CurrentTimer + "\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
+        }
+        
     }
 
     public void Victory()
@@ -73,7 +76,7 @@ public class gameManagerA3 : MonoBehaviour
     }
 
     public void RestartGame() {
-        //SceneManager.LoadScene("A3Scene");
+        
         gameOverPanel.SetActive(false);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

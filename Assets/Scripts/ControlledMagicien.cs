@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [CreateAssetMenu(menuName = "Players/Magicien")]
 public class ControlledMagicien : ControlledUnit
