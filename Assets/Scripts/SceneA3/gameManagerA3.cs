@@ -16,22 +16,19 @@ public class gameManagerA3 : MonoBehaviour
     private string CurrentTimer;
     public TMP_Text Timertext;
 
-   // utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true
-   [HideInInspector] public bool KingMode = false;
+    //(sarra) utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true 
+    [HideInInspector] public bool KingMode = false;
 
 
     private SelectableUnit[] Units;
     private scriptEnemy[] Enemies;
 
     public InstantiatePlayer scriptInstantiate;
-   
-   
+    public GameObject VictoryZoneDepart;   //assigner ca dans l'inspecteur avec l'objet de la zone de depart
+
 
     void Update()
     {
-        //c'est tres couteux d'utiliser find ou getComponent dans le Update. normalement on essaye de les utiliser seulement dans le start.
-        //dans notre cas, on peux créer deux listes qui ont tous les players et ennemies au debut. puis faire une fonction pour remove une unit quand elle meurt.
-        //donc, chaque fois qu'un player ou un enemy meurt, il appelle la fct du gameManager pour enlever cette unit de la liste
         
         Units = FindObjectsOfType(typeof(SelectableUnit)) as SelectableUnit[];
         Enemies = FindObjectsOfType(typeof(scriptEnemy)) as scriptEnemy[];
@@ -46,14 +43,30 @@ public class gameManagerA3 : MonoBehaviour
             Victory();
             
         }
+     /*
+        if (scriptInstantiate.enabled == false)
+        {
+            VictoryZoneDepart.SetActive(true);
+        }*/
+        
 
-     
+
+
+
+
+        //ghassen work //
+
         //implementation de victoire en cas de capture et de deposition du drapeau en zone de depart:
         //ajouter gameObject vide avec un box collider de la taille de la zone de depart
-        //ajouter un script à cet objet pour appeler la fonction victory de ce script:
-        //OnTriggerEnter
+        //ajouter un script à cet objet pour appeler la fonction victory de ce script:  
+        //OnTriggerEnter()
         // collider = tryGetComponent<SelectableUnit>(out SelectableUnit)
         //if (SelectableUnit.kingModeActive == true) {gameManagerA3.Victory()}
+
+        //l'object doit etre desactivé dans la scene.
+
+
+
     }
 
     public void GameOver()
