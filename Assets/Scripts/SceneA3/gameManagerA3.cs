@@ -12,6 +12,9 @@ public class gameManagerA3 : MonoBehaviour
     [SerializeField]
     private GameObject youWinPanel;
 
+    [SerializeField]
+    private GameObject GamePanel;
+
     public GameObject GameDescriptionText;
     private string CurrentTimer;
     public TMP_Text Timertext;
@@ -22,6 +25,7 @@ public class gameManagerA3 : MonoBehaviour
 
     private SelectableUnit[] Units;
     private scriptEnemy[] Enemies;
+   
 
     public InstantiatePlayer scriptInstantiate;
     public GameObject VictoryZoneDepart;   //assigner ca dans l'inspecteur avec l'objet de la zone de depart
@@ -75,9 +79,11 @@ public class gameManagerA3 : MonoBehaviour
         {
             CurrentTimer = Timertext.text;
             
-            Time.timeScale = 0;
+            
             gameOverPanel.SetActive(true);
-            GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Temps du jeu : " + CurrentTimer + "\n" + "Nombre d'unités perdu : " + Convert.ToString(20 - Units.Length) + "\n" + "Nombre d'enemies restants: " + Convert.ToString(Enemies.Length) + "\n";
+            GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Game Time: " + CurrentTimer + "\n" + "Units Lost: " + Convert.ToString(scriptInstantiate.UnitsNbr - Units.Length) + "\n" + "Remaining enemies: " + Convert.ToString(Enemies.Length) + "\n";
+            GamePanel.SetActive(false);
+            Time.timeScale = 0;
         }
         
     }
@@ -85,6 +91,7 @@ public class gameManagerA3 : MonoBehaviour
     public void Victory()
     {
         youWinPanel.SetActive(true);
+        GamePanel.SetActive(false);
         Time.timeScale = 0;
     }
 

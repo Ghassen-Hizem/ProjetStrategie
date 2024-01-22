@@ -41,7 +41,7 @@ public class scriptEnemy : MonoBehaviour
     private int nbArmorsSoldat = 1;
     private int speedSoldat = 3;
     private int degatAttack;
-    private int degatAttackSoldat = 2;
+    private int degatAttackSoldat = 3;
 
     public pushRadiusCavalierEnemy pushRadiusCavalier;
     public pushRadiusBouclierEnemy pushRadiusBouclier;
@@ -242,13 +242,12 @@ public class scriptEnemy : MonoBehaviour
     {
         if (Unit != null)
         {
-            yield return new WaitForSeconds(2f);
-            
             if (Unit)
             {
                 Unit.TakeDamage(degatAttack);
             }
-            
+            yield return new WaitForSecondsRealtime(attackPeriod);
+            //yield return new WaitForSeconds(2f);
         }
 
     }
@@ -257,7 +256,7 @@ public class scriptEnemy : MonoBehaviour
     {
 
         
-        healthAmount -= damage + nbArmors;
+        healthAmount = healthAmount - damage + nbArmors;
         healthBar.fillAmount = healthAmount / maxHealth;
        
         if (healthAmount <= 0)

@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.CanvasScaler;
 
 public class pushRadiusBouclierPlayer : MonoBehaviour
 {
     //private float timeElapsed = 0;
     private float pushForce = 2;
-    //private SelectableUnit unit;
+    private SelectableUnit unit;
     //private int attackRadius = 5;
     private void Start()
     {
         //timeElapsed = 0;
-        //unit = GetComponentInParent<SelectableUnit>();
+        unit = GetComponentInParent<SelectableUnit>();
     }
     private void Update()
     {
@@ -32,9 +33,11 @@ public class pushRadiusBouclierPlayer : MonoBehaviour
         {
             if (enemy)
             {
-                
+                //unit.Agent.SetDestination(enemy.transform.position);
                 collider.transform.position += -collider.transform.forward * pushForce;
-
+                
+                StartCoroutine(pushOnce());
+                
                 //var initialPosition = collider.transform.position;
                 //var newPosition = collider.transform.position - collider.transform.right * pushForce;
                 //smoothedPosition = Vector3.Lerp(initialPosition, newPosition, tLerp);
@@ -45,7 +48,12 @@ public class pushRadiusBouclierPlayer : MonoBehaviour
 
     }
 
-    
+    private IEnumerator pushOnce()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+        yield break;
+    }
 
 
 }

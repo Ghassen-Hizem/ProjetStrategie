@@ -38,6 +38,7 @@ public class InstantiatePlayer : MonoBehaviour
  
     public bool dragging = false;
     public GameTimerAndInfo GameTimer;
+    public int UnitsNbr;
 
     private void Start()
     {
@@ -183,12 +184,12 @@ public class InstantiatePlayer : MonoBehaviour
 
     public void StartGame()
     {
-        //initializate timer
-        GameTimer.Seconds = 0;
-        GameTimer.Minutes = 0;
-
+ 
         if (Units.Length != 0)
         {
+            UnitsNbr = Units.Length;
+            GameTimer.Seconds = 0;
+            GameTimer.Minutes = 0;
             StartPanel.SetActive(false);
             GamePanel.SetActive(true);
             playerInput.enabled = true;

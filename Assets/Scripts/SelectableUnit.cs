@@ -354,6 +354,7 @@ public class SelectableUnit : MonoBehaviour
                 {
                     controlledBouclier.Attack(this, enemyUnit);
                 }
+                
             }
             else if (Agent.CompareTag("Soignant"))
             {
@@ -502,7 +503,7 @@ public class SelectableUnit : MonoBehaviour
             else if (Agent.CompareTag("Bouclier"))
             {
                 controlledBouclier.TakeDamage(this, degats);
-                print("damage");
+
                 healthBar.fillAmount = (float)BouclierlifePoints / controlledBouclier.lifePoints;
                 if (BouclierlifePoints <= 0)
                 {

@@ -32,7 +32,7 @@ public class ControlledBouclier : ControlledUnit
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
 
-        MoveToAttack(unit, enemyUnit.transform.position);
+        MoveToAttack(unit, enemyUnit.transform.position - enemyUnit.transform.forward * 2);
         pushRadius = unit.pushRadiusBouclier;
         pushRadius.gameObject.SetActive(true);
 

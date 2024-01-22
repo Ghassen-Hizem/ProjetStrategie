@@ -26,7 +26,7 @@ public class GameTimerAndInfo : MonoBehaviour
         Seconds = 0;
         }
         CurrentTimer = Minutes.ToString() + ":" + Math.Floor(Seconds).ToString();
-        Timertext.text = "Timer " + Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
+        Timertext.text =  Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
         
     }
 }
