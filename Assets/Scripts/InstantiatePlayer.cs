@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 
@@ -40,8 +41,12 @@ public class InstantiatePlayer : MonoBehaviour
     public GameTimerAndInfo GameTimer;
     public int UnitsNbr;
 
+    private int Arenaindex;
+
     private void Start()
     {
+        Arenaindex = SceneManager.GetActiveScene().buildIndex;
+
         playerInput.enabled = false;
         Enemies = FindObjectsOfType(typeof(scriptEnemy)) as scriptEnemy[];
         foreach (scriptEnemy enemy in Enemies)
@@ -119,7 +124,15 @@ public class InstantiatePlayer : MonoBehaviour
             if (Units.Length < 20)
             {
                 playerPosition = raycastHit.point;
-                playerPosition.y = 2;
+                if(Arenaindex == 1)
+                {
+                    playerPosition.y = 2;
+                }
+                else if (Arenaindex == 2)
+                {
+                    playerPosition.y = 0.5f;
+                }
+                
 
                 if (NumPlayer == 1)
                 {

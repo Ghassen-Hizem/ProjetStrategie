@@ -381,7 +381,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952894759157053398}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 710367ad2da7def40bebd48ad71b0b3a, type: 3}
   m_Name: 
@@ -399,6 +399,7 @@ MonoBehaviour:
   EnemyRadius: {fileID: 642083117842808600}
   attackElapsedtime: 0
   pushRadiusCavalier: {fileID: 0}
+  pushRadiusBouclier: {fileID: 0}
 --- !u!136 &8466164676939314948
 CapsuleCollider:
   m_ObjectHideFlags: 0
