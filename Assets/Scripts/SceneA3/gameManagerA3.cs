@@ -83,6 +83,7 @@ public class gameManagerA3 : MonoBehaviour
         gameOverPanel.SetActive(false);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
     }
 
     public void ExitGame() {
