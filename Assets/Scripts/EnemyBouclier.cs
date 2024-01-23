@@ -1,12 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 [CreateAssetMenu(menuName = "Enemy/Bouclier")]
 public class EnemyBouclier : EnemyUnit
@@ -23,11 +17,11 @@ public class EnemyBouclier : EnemyUnit
 
     public override void Attack(scriptEnemy enemyUnit, SelectableUnit unit)
     {
-
+        //MoveToAttack(enemyUnit, unit.transform.position - unit.transform.forward * 1.3f);
         MoveToAttack(enemyUnit, unit.transform.position);
         pushRadius = enemyUnit.pushRadiusBouclier;
         pushRadius.gameObject.SetActive(true);
-
+        
 
     }
 

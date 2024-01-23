@@ -5,15 +5,13 @@ using UnityEngine;
 public class scriptPiege : MonoBehaviour
 {
 
-    //private int degatCapacity = 5;
+    private int degatCapacity = 5;
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Enemy"))
+        if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy enemyUnit))
         {
-            //AIController = collider.GetComponent<AIController>();
-            //AIController.TakeDamage(degatCapacity)
-
-            print("Enemy damaged by piege");
+            
+            enemyUnit.TakeDamage(degatCapacity);
 
             Destroy(gameObject);
         }

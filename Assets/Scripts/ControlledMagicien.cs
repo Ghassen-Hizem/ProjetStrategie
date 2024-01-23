@@ -2,6 +2,7 @@
 using UnityEngine;
 
 
+
 [CreateAssetMenu(menuName = "Players/Magicien")]
 public class ControlledMagicien : ControlledUnit
 {
@@ -11,7 +12,7 @@ public class ControlledMagicien : ControlledUnit
     private int unitDistance;
     public GameObject LaserParticules;
     public GameObject Piege;
-
+    public LayerMask layerMaskFloor;
     
 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
@@ -30,7 +31,8 @@ public class ControlledMagicien : ControlledUnit
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
-        
+
+            unit.transform.LookAt(enemyUnit.transform);
             Collider[] colliders = Physics.OverlapSphere(enemyUnit.transform.position, attackRadius);
             foreach (Collider collider in colliders)
             {
@@ -44,7 +46,7 @@ public class ControlledMagicien : ControlledUnit
             var particules = Instantiate(LaserParticules, enemyUnit.transform.position, LaserParticules.transform.rotation);
             particules.SetActive(true);
 
-            //animation d'attaque
+            
 
             unit.attackElapsedtime = 0;
     }
@@ -54,14 +56,21 @@ public class ControlledMagicien : ControlledUnit
     {
 
         //si on appuie loin, on peut pas utiliser la capacité
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit Hit, layerMaskFloor))
         {
             unitDistance = (int)Vector3.Distance(Hit.point, unit.transform.position);
             if (unitDistance <= attackPossibleRadius)
             {
-                Vector3 positionPiege = Hit.transform.position;
+                float mZcoord = Camera.main.WorldToScreenPoint(Hit.transform.position).z;
+                Vector3 mousePoint = Input.mousePosition;
+                mousePoint.z = mZcoord;
+
+                Vector3 positionPiege = Camera.main.ScreenToWorldPoint(mousePoint);
+                
+               
                 positionPiege.y = 2.5f;
-                var piege = Instantiate(Piege, positionPiege, Hit.transform.rotation);
+                var piege = Instantiate(Piege, positionPiege, Piege.transform.rotation);
+                Debug.Log("piege");
                 piege.SetActive(true);
                 unit.capacityElapsedtime = 0;
             }

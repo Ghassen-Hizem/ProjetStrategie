@@ -1,22 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.ParticleSystem;
+
 
 [CreateAssetMenu(menuName = "Players/Cavalier")]
 public class ControlledCavalier : ControlledUnit
 {
 
     public int attackRadius = 3;
-    
+    //private int capacityRadius = 10;
 
     private pushRadiusCavalierPlayer pushRadius;
-    private float attackPossibleRadius = 7f;
+    private float attackPossibleRadius = 5f;
     private int distance;
-    
-    
+    //private scriptEnemy enemyUnit;
+
+ 
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -26,7 +24,7 @@ public class ControlledCavalier : ControlledUnit
         {
             pushRadius.gameObject.SetActive(false);
         }
-        
+
         
     }
 
@@ -35,7 +33,7 @@ public class ControlledCavalier : ControlledUnit
     {
 
         //unit.Agent.speed = speed;
-        //i maybe will need this line if i add capacity
+        
 
         distance = (int)Vector3.Distance(position, unit.transform.position);
 
@@ -51,14 +49,17 @@ public class ControlledCavalier : ControlledUnit
             //Debug.Log("move to enemy");
             unit.attackElapsedtime = 0;
         }
-
+        
     }
 
     
     public override void Attack(SelectableUnit unit, scriptEnemy enemyUnit)
     {
         //this attack happens every frame (when enemies collide with pushRadius)
+
         
+        unit.capacityElapsedtime = 0;
+
         unit.Agent.speed = speed;
         pushRadius = unit.pushRadiusCavalier;
         pushRadius.gameObject.SetActive(true);
@@ -73,17 +74,53 @@ public class ControlledCavalier : ControlledUnit
 
     public override void UseCapacity(SelectableUnit unit)
     {
-        //faire du MoveToAttack
-        //unit.Agent.speed = 10;
-        //pushRadius.speed = (int)unit.Agent.speed;
-        //pushRadius.gameObject.SetActive(true);
-        Debug.Log("cavalier capacity");
-
-        //s'arrete que lorsqu'on attaque
-        if (unit.Agent.speed == speed)
+         /*
+        while (true)
         {
-            unit.capacityElapsedtime = 0;
-        }
+            Collider[] colliders = Physics.OverlapSphere(unit.transform.position, capacityRadius);
+            List<scriptEnemy> enemies = new List<scriptEnemy>();
+
+            foreach (Collider collider in colliders)
+            {
+                if (collider.TryGetComponent<scriptEnemy>(out scriptEnemy otherEnemy))
+                {
+                    enemies.Add(otherEnemy);
+                }
+            }
+            var sortedEnemies = enemies.OrderBy(otherEnemy => Vector3.Distance(otherEnemy.transform.position, unit.transform.position));
+            if (sortedEnemies.Count() != 0)
+            {
+                enemyUnit = sortedEnemies.FirstOrDefault();
+            }
+            Debug.Log(enemyUnit);
+
+            if (enemyUnit)
+            {
+                unit.Agent.speed = 10;
+                MoveToAttack(unit, enemyUnit.transform.position);
+                Debug.Log("cavalier capacity");
+                if (pushRadius)
+                {
+                    pushRadius.speed = (int)unit.Agent.speed;
+                }
+                else
+                {
+                    pushRadius.gameObject.SetActive(true);
+                    pushRadius.speed = (int)unit.Agent.speed;
+                }
+            }
+            else
+            {
+                break;
+            }
+
+           if(Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                break;
+            }
+
+
+        }*/        
         
     }
 

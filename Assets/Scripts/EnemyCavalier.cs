@@ -13,7 +13,7 @@ public class EnemyCavalier : EnemyUnit
 {
     public int attackRadius = 3;
     private pushRadiusCavalierEnemy pushRadius;
-    private float attackPossibleRadius = 2f;
+    private float attackPossibleRadius = 5f;
     private int distance;
 
 
@@ -42,14 +42,16 @@ public class EnemyCavalier : EnemyUnit
             {
                 MoveToAttack(enemyUnit, enemyUnit.transform.position + enemyUnit.transform.forward * 10);
                 //Debug.Log("move forward");
+                
             }
             else
             {
                 //je peux ajouter du forward + position mais pas obligé
                 MoveToAttack(enemyUnit, unit.transform.position);
                 //Debug.Log("move to player");
-                enemyUnit.attackElapsedtime = 0;
+                //enemyUnit.attackElapsedtime = 0;
             }
+            enemyUnit.attackElapsedtime = 0;
 
         }
         

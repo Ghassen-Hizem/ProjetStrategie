@@ -21,3 +21,6 @@ MonoBehaviour:
   degatAttack: 3
   LaserParticules: {fileID: 1552098304413248141, guid: dda9e345f36774546bc2156e3bf59d82, type: 3}
   Piege: {fileID: 1293275205429646663, guid: f9601da5c907edb428061c0760d529d4, type: 3}
+  layerMaskFloor:
+    serializedVersion: 2
+    m_Bits: 256

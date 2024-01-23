@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
+
 
 public class pushRadiusCavalierEnemy : MonoBehaviour
 {
@@ -48,21 +47,17 @@ public class pushRadiusCavalierEnemy : MonoBehaviour
 
     private IEnumerator triggerOne(Collider collider)
     {
-
         
         if (collider.TryGetComponent<SelectableUnit>(out SelectableUnit player))
         {
             if (player)
             {
-
                 var particules = Instantiate(attackParticules, enemyUnit.transform.position, enemyUnit.transform.rotation, enemyUnit.transform);
                 particules.SetActive(true);
 
                 degats = 3 + 7;
-
-
-                
-                player.TakeDamage(degats);
+  
+                player.TakeDamage(degats);              
 
                 pushForce = 7 / 2;
                 //collider.transform.position += -collider.transform.forward * pushForce;

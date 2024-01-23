@@ -5,6 +5,8 @@ using UnityEngine.AI;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using static UnityEngine.UI.CanvasScaler;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -336,10 +338,21 @@ public class SelectableUnit : MonoBehaviour
             }
             else if (Agent.CompareTag("Soldat"))
             {
-                if (attackElapsedtime >= controlledSoldat.attackPeriod)
+
+                var distance = (int)Vector3.Distance(enemyUnit.transform.position, transform.position);
+
+                if (distance < 2)
                 {
-                    controlledSoldat.Attack(this, enemyUnit);
+                    if (attackElapsedtime >= controlledSoldat.attackPeriod)
+                    {
+                        controlledSoldat.Attack(this, enemyUnit);
+                    }
                 }
+                else
+                {
+                    controlledSoldat.MoveToAttack(this, enemyUnit.transform.position);
+                }
+                    
             }
             else if (Agent.CompareTag("Tirailleur"))
             {
@@ -541,7 +554,7 @@ public class SelectableUnit : MonoBehaviour
         var kingParticles = Instantiate(KingParticles, transform.position, KingParticles.transform.rotation, gameObject.transform);
         kingParticles.SetActive(true);
 
-        //le flag il apparait bizarrement avec le soldatPlayer. il est tres haut dans l'axe y. il ne faut pas montrer ça dans la demo.
+        //le flag il apparait bizarrement avec le soldatPlayer. il est tres haut dans l'axe y. 
     }
 
 
@@ -558,7 +571,7 @@ public class SelectableUnit : MonoBehaviour
                 mouseWorldPos = mainCam.ScreenToWorldPoint(mousePoint);
                 mouseWorldPos.y = 2;
 
-                print(mouseWorldPos);
+                
                 mouseWorldPos.x = Mathf.Clamp(mouseWorldPos.x, minX, maxX);
                 mouseWorldPos.z = Mathf.Clamp(mouseWorldPos.z, minZ, maxZ);
 
