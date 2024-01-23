@@ -9,7 +9,7 @@ public class GameTimerAndInfo : MonoBehaviour
     public float Seconds;
     public int Minutes;
     public TMP_Text Timertext;
-    public string CurrentTimer;
+    //public string CurrentTimer;
     
     void Start()
     {
@@ -25,7 +25,7 @@ public class GameTimerAndInfo : MonoBehaviour
         Minutes +=1;
         Seconds = 0;
         }
-        CurrentTimer = Minutes.ToString() + ":" + Math.Floor(Seconds).ToString();
+        //CurrentTimer = Minutes.ToString() + ":" + Math.Floor(Seconds).ToString();
         Timertext.text =  Minutes.ToString() + ":" + Math.Floor(Seconds).ToString(); 
         
     }

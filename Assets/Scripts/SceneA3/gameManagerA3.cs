@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using System.Collections;
 
 
 public class gameManagerA3 : MonoBehaviour
@@ -19,7 +20,7 @@ public class gameManagerA3 : MonoBehaviour
     private string CurrentTimer;
     public TMP_Text Timertext;
 
-    //(sarra) utiliser cette variable dans le scriptEnemy pour qu'ils changent de comportement lorsque KingMode == true 
+    
     [HideInInspector] public bool KingMode = false;
 
 
@@ -28,8 +29,8 @@ public class gameManagerA3 : MonoBehaviour
    
 
     public InstantiatePlayer scriptInstantiate;
-    public GameObject VictoryZoneDepart;   //assigner ca dans l'inspecteur avec l'objet de la zone de depart
-
+    public GameObject VictoryZoneDepart;
+    private int count = 0;
 
     void Update()
     {
@@ -60,9 +61,14 @@ public class gameManagerA3 : MonoBehaviour
     {
         if (scriptInstantiate.enabled == false)
         {
-            CurrentTimer = Timertext.text;
-            
-            
+            //print("gameOver");
+            //CurrentTimer = Timertext.text;
+            if (count == 0)
+            {
+                StartCoroutine(TimerCoroutine());
+            }
+            count += 1;
+
             gameOverPanel.SetActive(true);
             GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Game Time: " + CurrentTimer + "\n" + "Units Lost: " + Convert.ToString(scriptInstantiate.UnitsNbr - Units.Length) + "\n" + "Remaining enemies: " + Convert.ToString(Enemies.Length) + "\n";
             GamePanel.SetActive(false);
@@ -70,6 +76,21 @@ public class gameManagerA3 : MonoBehaviour
         }
         
     }
+
+    private IEnumerator TimerCoroutine()
+    {
+        //count = 0;
+
+        CurrentTimer = Timertext.text;
+        print("gameOver");
+            
+        
+        
+        //yield return null;
+
+        yield break;
+    }
+
 
     public void Victory()
     {

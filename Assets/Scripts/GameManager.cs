@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-    Button button;
+    
     private int idArena;
     [SerializeField] private GameObject canvaArenaChoice;
     [SerializeField] private GameObject canvaMainMenu;
@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
         canvaMainMenu.SetActive(true);
         canvaOptions.SetActive(false);
         canvaArenaChoice.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
 }
