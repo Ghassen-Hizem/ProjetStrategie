@@ -47,29 +47,12 @@ public class gameManagerA3 : MonoBehaviour
             Victory();
             
         }
-     /*
+     
         if (scriptInstantiate.enabled == false)
         {
             VictoryZoneDepart.SetActive(true);
-        }*/
-        
-
-
-
-
-
-        //ghassen work //
-
-        //implementation de victoire en cas de capture et de deposition du drapeau en zone de depart:
-        //ajouter gameObject vide avec un box collider de la taille de la zone de depart
-        //ajouter un script à cet objet pour appeler la fonction victory de ce script:  
-        //OnTriggerEnter()
-        // collider = tryGetComponent<SelectableUnit>(out SelectableUnit)
-        //if (SelectableUnit.kingModeActive == true) {gameManagerA3.Victory()}
-
-        //l'object doit etre desactivé dans la scene.
-
-
+        }
+  
 
     }
 
