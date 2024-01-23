@@ -66,7 +66,7 @@ public class gameManagerA3 : MonoBehaviour
             gameOverPanel.SetActive(true);
             GameDescriptionText.GetComponent<TextMeshProUGUI>().text = "Game Time: " + CurrentTimer + "\n" + "Units Lost: " + Convert.ToString(scriptInstantiate.UnitsNbr - Units.Length) + "\n" + "Remaining enemies: " + Convert.ToString(Enemies.Length) + "\n";
             GamePanel.SetActive(false);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
         
     }
@@ -75,20 +75,20 @@ public class gameManagerA3 : MonoBehaviour
     {
         youWinPanel.SetActive(true);
         GamePanel.SetActive(false);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void RestartGame() {
         
         gameOverPanel.SetActive(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         
     }
 
     public void ExitGame() {
         gameOverPanel.SetActive(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         SceneManager.LoadScene("MenuScene");
     }
 }

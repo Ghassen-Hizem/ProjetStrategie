@@ -37,7 +37,7 @@ public class SableScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
 
-        Debug.Log("trigger enter");
+        
 
         if(other.gameObject.GetComponent<SelectableUnit>() != null) {
             if(other.gameObject.CompareTag("Soldat")) {
@@ -84,7 +84,7 @@ public class SableScript : MonoBehaviour
     }
      private void OnTriggerStay(Collider other) {
 
-      Debug.Log("trigger enter");
+     
 
         if(other.gameObject.GetComponent<SelectableUnit>() != null) {
             if(other.CompareTag("Soldat")) {
@@ -129,7 +129,7 @@ public class SableScript : MonoBehaviour
     }
     private void OnTriggerExit(Collider other) {
 
-       Debug.Log("trigger exit");
+       
 
         if(other.gameObject.GetComponent<SelectableUnit>() != null) {
             if(other.CompareTag("Soldat")) {

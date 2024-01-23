@@ -120,7 +120,8 @@ public class SelectableUnit : MonoBehaviour
         
         if (dead)
         {
-            SelectionManager.Instance.Deselect(this);
+            //SelectionManager.Instance.Deselect(this);
+            SelectionManager.Instance.Remove(this);
             Destroy(gameObject);
         }
         

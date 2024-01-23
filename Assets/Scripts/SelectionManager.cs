@@ -39,6 +39,13 @@ public class SelectionManager
         SelectedUnits.Remove(unit);
         unit.OnDeselected();
     }
+    
+    public void Remove(SelectableUnit unit)
+    {
+        SelectedUnits.Remove(unit);
+        AvailableUnits.Remove(unit);
+    }
+    
 
     public void DeselectAll()
     {
