@@ -27,7 +27,7 @@ public class CameraMvt : MonoBehaviour
             maxPositionUpX = 14f;
             maxPositionDownX = -60f;
         }
-        else if (Arenaindex == 3)
+        else if (Arenaindex == 2)
         {
             maxPositionLeft = 30f;
             maxPositionRight = 12f;

@@ -89,9 +89,9 @@ public class SelectableUnit : MonoBehaviour
             minZ = -144f;
             maxZ = -122.3f;
         }
-        else if (Arenaindex == 3)
+        else if (Arenaindex == 2)
         {
-            //voir ca
+            
             minX = -65f;
             maxX = -53f;
             minZ = -6f;

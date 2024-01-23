@@ -18,22 +18,12 @@ public class GameManager : MonoBehaviour
         {
             idArena = 1;
         }
+        
         if (button.name == "Arena2")
         {
             idArena = 2;
         }
-        if (button.name == "Arena3")
-        {
-            idArena = 3;
-        }
-        if (button.name == "Arena4")
-        {
-            idArena = 4;
-        }
-        if (button.name == "Arena5")
-        {
-            idArena = 5;
-        }
+        
     }
     
     public void playButton()
