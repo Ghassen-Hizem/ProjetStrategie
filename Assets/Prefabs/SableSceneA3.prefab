@@ -123,3 +123,6 @@ MonoBehaviour:
   controlledSoldat: {fileID: 11400000, guid: 52ca154462a2300478fbe7b71c97b7b7, type: 2}
   controlledBouclier: {fileID: 11400000, guid: 224e92e389711e84d8feccc961417b99, type: 2}
   controlledTirailleur: {fileID: 11400000, guid: 2320a65bcaa75a4478cd4f71e157f504, type: 2}
+  controlledEnemyMagicien: {fileID: 11400000, guid: ec452d5f10ff2e24bb5f40e58483a1dc, type: 2}
+  controlledEnemyCavalier: {fileID: 11400000, guid: f942fcd31476cbc41b2be3d6ca0c0089, type: 2}
+  controlledEnemyBouclier: {fileID: 11400000, guid: dcb213aeba45e6542ac4316da86008e8, type: 2}

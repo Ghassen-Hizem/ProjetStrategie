@@ -19,7 +19,7 @@ public class gameManagerA3 : MonoBehaviour
     public GameObject GameDescriptionText;
     private string CurrentTimer;
     public TMP_Text Timertext;
-
+    public TMP_Text VictoryTimer;
     
     [HideInInspector] public bool KingMode = false;
 
@@ -53,7 +53,20 @@ public class gameManagerA3 : MonoBehaviour
         {
             VictoryZoneDepart.SetActive(true);
         }
-  
+        
+        //codeForDemo
+        //kill all Soldat enemies
+        if (Input.GetKey(KeyCode.K))
+        {
+            foreach (scriptEnemy enemy in Enemies)
+            {
+                if(enemy.gameObject.CompareTag("Soldat") || enemy.gameObject.CompareTag("Bouclier"))
+                {
+                    Destroy(enemy.gameObject);
+                }
+                
+            }
+        }
 
     }
 
@@ -79,14 +92,8 @@ public class gameManagerA3 : MonoBehaviour
 
     private IEnumerator TimerCoroutine()
     {
-        //count = 0;
 
         CurrentTimer = Timertext.text;
-        print("gameOver");
-            
-        
-        
-        //yield return null;
 
         yield break;
     }
@@ -94,6 +101,15 @@ public class gameManagerA3 : MonoBehaviour
 
     public void Victory()
     {
+        if (count == 0)
+        {
+            StartCoroutine(TimerCoroutine());
+        }
+        count += 1;
+
+        VictoryTimer.text = "Game Time: " + CurrentTimer;
+        
+
         youWinPanel.SetActive(true);
         GamePanel.SetActive(false);
         //Time.timeScale = 0;

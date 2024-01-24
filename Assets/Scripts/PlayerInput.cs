@@ -51,9 +51,7 @@ public class PlayerInput : MonoBehaviour
                         if (unit)
                         {
                             StartCoroutine(unit.HandleAttack(enemyUnit));
-                        }
-                        
-                        
+                        }    
                     }
                 }
                 else

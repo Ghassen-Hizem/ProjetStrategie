@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -13,8 +14,8 @@ public class ControlledMagicien : ControlledUnit
     public GameObject LaserParticules;
     public GameObject Piege;
     public LayerMask layerMaskFloor;
-    
 
+    private int Arenaindex;
     public override void MoveTo(SelectableUnit unit, Vector3 position)
     {
         unit.Agent.stoppingDistance = 1;
@@ -67,10 +68,18 @@ public class ControlledMagicien : ControlledUnit
 
                 Vector3 positionPiege = Camera.main.ScreenToWorldPoint(mousePoint);
                 
-               
-                positionPiege.y = 2.5f;
+                Arenaindex = SceneManager.GetActiveScene().buildIndex;
+                if (Arenaindex == 1)
+                {
+                    positionPiege.y = 2.5f;
+                }
+                else if (Arenaindex == 2)
+                {
+                    positionPiege.y = 1f;
+                }
+                
                 var piege = Instantiate(Piege, positionPiege, Piege.transform.rotation);
-                Debug.Log("piege");
+                
                 piege.SetActive(true);
                 unit.capacityElapsedtime = 0;
             }

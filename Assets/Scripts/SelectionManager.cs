@@ -43,6 +43,7 @@ public class SelectionManager
     public void Remove(SelectableUnit unit)
     {
         SelectedUnits.Remove(unit);
+        unit.OnDeselected();
         AvailableUnits.Remove(unit);
     }
     

@@ -23,6 +23,5 @@ public abstract class ControlledUnit : ScriptableObject
     public abstract void TakeDamage(SelectableUnit unit, int degats);
 
 
-    
- 
+
  }
